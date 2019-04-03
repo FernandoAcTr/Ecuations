@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import org.kordamp.bootstrapfx.scene.layout.Panel?>
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="419.0"
+      prefWidth="621.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="PrincipalController"
+      styleClass="pane-default">
+
+    <MenuBar styleClass="menu-item">
+
+        <Menu text="Archivo">
+            <items>
+                <MenuItem fx:id="mnuClose" text="Cerrar"/>
+            </items>
+        </Menu>
+
+        <Menu text="Ayuda">
+            <items>
+                <MenuItem fx:id="mnuHelp" text="Documentación"/>
+                <MenuItem fx:id="mnuAbout" text="Acerca de..."/>
+            </items>
+        </Menu>
+
+    </MenuBar>
+
+    <VBox spacing="10">
+
+        <Label text="Solución de Ecuaciones" styleClass="text-info"/>
+
+        <GridPane VBox.vgrow="ALWAYS" hgap="10" vgap="10" styleClass="pane-default">
+
+            <Panel styleClass="panel-primary" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS"
+                   GridPane.rowIndex="0">
+
+                <heading>
+                    <Label fx:id="closeMethods" text="Métodos Cerrados"/>
+                </heading>
+
+                <body>
+                    <Text fx:id="descCloseMethods" styleClass="text-info"/>
+                </body>
+
+            </Panel>
+
+            <Panel styleClass="panel-primary" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+                   GridPane.rowIndex="0">
+
+                <heading>
+                    <Label fx:id="openMethods" text="Métodos Abiertos"/>
+                </heading>
+
+                <body>
+                    <Text fx:id="descOpenMethods" styleClass="text-info"/>
+                </body>
+
+            </Panel>
+
+            <VBox.margin>
+                <Insets bottom="20"/>
+            </VBox.margin>
+        </GridPane>
+
+        <Label text="Sistemas de Ecuaciones" styleClass="text-info"/>
+
+        <GridPane VBox.vgrow="ALWAYS" hgap="10" vgap="10" styleClass="pane-default">
+
+            <Panel styleClass="panel-primary" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS"
+                   GridPane.rowIndex="0">
+
+                <heading>
+                    <Label fx:id="lblinearEcuations" text="Ecuaciones Lineales"/>
+                </heading>
+
+                <body>
+                    <Text fx:id="descLinearSystem" styleClass="text-info"/>
+                </body>
+
+            </Panel>
+
+            <Panel styleClass="panel-primary" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+                   GridPane.rowIndex="0">
+
+                <heading>
+                    <Label fx:id="lblNoLinearEcuations" text="Ecuaciones No Lineales"/>
+                </heading>
+
+                <body>
+                    <Text fx:id="descNoLinearSystem" styleClass="text-info"/>
+                </body>
+
+            </Panel>
+
+        </GridPane>
+
+        <padding>
+            <Insets top="10" left="10" right="10"/>
+        </padding>
+
+    </VBox>
+
+
+</VBox>
