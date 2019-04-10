@@ -14,12 +14,6 @@
 
     <MenuBar styleClass="menu-item">
         <Menu text="Archivo">
-            <MenuItem fx:id="mnuNew" text="Nuevo"/>
-            <MenuItem fx:id="mnuOpen" text="Abrir"/>
-            <SeparatorMenuItem/>
-            <MenuItem fx:id="mnuSave" text="Guardar"/>
-            <MenuItem fx:id="mnuSaveAs" text="Guardar como..."/>
-            <SeparatorMenuItem/>
             <MenuItem fx:id="mnuClose" text="Regresar"/>
         </Menu>
 

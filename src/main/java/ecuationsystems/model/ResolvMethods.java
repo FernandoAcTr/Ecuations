@@ -208,6 +208,19 @@ public class ResolvMethods {
 
         int iteration = 1;
 
+        //recorre los pivotes buscando que no sean 0 haciendo los intercambios de fila pertinentes, antes de hacer los despejes
+        for (int indexPivot = 0; indexPivot < numVariables; indexPivot++) {
+            if(matrix[indexPivot][indexPivot] == 0){
+                int rowToChange = findChangeRowForGauss(indexPivot);
+                if(rowToChange != -1)
+                    changeRows(indexPivot, rowToChange);
+                else {
+                    procedure = "Este sistema de ecuaciones no tiene solución por este metodo";
+                    return null;
+                }
+            }
+        }
+
         for (int i = 0; i < functions.length; i++) {
             tempExpresion = getExpressionCleared(matrix[i], i);
             functions[i] = new MultiVariableFuntion(tempExpresion, numVariables);
@@ -333,6 +346,19 @@ public class ResolvMethods {
 
         int iteration = 1;
 
+        //recorre los pivotes buscando que no sean 0 haciendo los intercambios de fila pertinentes, antes de hacer los despejes
+        for (int indexPivot = 0; indexPivot < numVariables; indexPivot++) {
+            if(matrix[indexPivot][indexPivot] == 0){
+                int rowToChange = findChangeRowForGauss(indexPivot);
+                if(rowToChange != -1)
+                    changeRows(indexPivot, rowToChange);
+                else {
+                    procedure = "Este sistema de ecuaciones no tiene solución por este metodo";
+                    return null;
+                }
+            }
+        }
+
         for (int i = 0; i < functions.length; i++) {
             tempExpresion = getExpressionCleared(matrix[i], i);
             functions[i] = new MultiVariableFuntion(tempExpresion, numVariables);
@@ -372,6 +398,16 @@ public class ResolvMethods {
 
         return results;
 
+    }
+
+    private int findChangeRowForGauss(int indexPivot){
+        for (int i = 0; i < numVariables; i++) {
+            if(matrix[i][indexPivot] != 0)
+                if(matrix[indexPivot][i] != 0)
+                    return i;
+        }
+
+        return -1;
     }
 
     //--------------------------------------------------------------------------------------------------------------------

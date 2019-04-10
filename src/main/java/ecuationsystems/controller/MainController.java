@@ -96,6 +96,7 @@ public class MainController implements Initializable {
                 btnResolve.setDisable(false);
                 btnFillViwtZero.setDisable(false);
                 textAreaSolution.clear();
+                tabPane.getTabs().get(1).setDisable(true);
             }
         });
 
@@ -349,17 +350,19 @@ public class MainController implements Initializable {
     private void resolvGaussJordanAction() {
         double results[];
 
-        solver.resolvByGauss_Jordan();
+        boolean status = solver.resolvByGauss_Jordan();
         results = solver.getGaussJordanResults();
 
         textAreaSolution.clear();
         textAreaSolution.setText(solver.getProcedure());
         solver.reestartProcedure();
 
-        textAreaSolution.appendText("\nCon esto obtenemos la solución de todas las incógnitas donde el valor de cada una" +
-                "viene representado por el último valor de su respectiva fila en la matriz\n");
+        if(status) {
+            textAreaSolution.appendText("\nCon esto obtenemos la solución de todas las incógnitas donde el valor de cada una" +
+                    "viene representado por el último valor de su respectiva fila en la matriz\n");
 
-        printResults(results);
+            printResults(results);
+        }
 
     }
 
@@ -382,7 +385,7 @@ public class MainController implements Initializable {
 
         textAreaSolution.clear();
         textAreaSolution.setText(solver.getProcedure());
-        printResults(results);
+        if(results != null) printResults(results);
         solver.reestartProcedure();
     }
 
