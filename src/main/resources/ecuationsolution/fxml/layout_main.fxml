@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXTabPane?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.LineChart?>
@@ -19,7 +20,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<?import com.jfoenix.controls.JFXTabPane?>
 <VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="556.0" prefWidth="706.0" stylesheets="@../css/bootstrapfx.css"
       xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
@@ -29,22 +29,25 @@
         <MenuBar styleClass="menu-item">
 
             <Menu text="Archivo">
-                <items>
-                    <MenuItem fx:id="mnuNew" mnemonicParsing="false" text="Nuevo"/>
-                    <MenuItem fx:id="mnuOpen" mnemonicParsing="false" text="Abrir"/>
-                    <SeparatorMenuItem mnemonicParsing="false"/>
-                    <MenuItem fx:id="mnuSave" mnemonicParsing="false" text="Guardar"/>
-                    <MenuItem fx:id="mnuSaveAs" mnemonicParsing="false" text="Guardar como..."/>
-                    <SeparatorMenuItem mnemonicParsing="false"/>
-                    <MenuItem fx:id="mnuClose" mnemonicParsing="false" text="Regresar"/>
-                </items>
+                <MenuItem fx:id="mnuNew" text="Nuevo"/>
+                <MenuItem fx:id="mnuOpen" text="Abrir"/>
+                <SeparatorMenuItem/>
+                <MenuItem fx:id="mnuSave" text="Guardar"/>
+                <MenuItem fx:id="mnuSaveAs" text="Guardar como..."/>
+                <SeparatorMenuItem/>
+                <MenuItem fx:id="mnuClose" text="Regresar"/>
             </Menu>
 
             <Menu text="Ayuda">
-                <items>
-                    <MenuItem fx:id="mnuHelp" mnemonicParsing="false" text="Ayuda"/>
-                    <MenuItem fx:id="mnuAbout" mnemonicParsing="false" text="Acerca de..."/>
-                </items>
+
+                <Menu text="Ayuda">
+                    <MenuItem fx:id="mnuHowGraphic" text="¿Cómo graficar?"/>
+                    <MenuItem fx:id="mnuHowResolv" text="¿Cómo Resolver la ecuación?"/>
+
+                </Menu>
+
+                <MenuItem fx:id="mnuAbout" text="Acerca de..."/>
+
             </Menu>
 
         </MenuBar>
@@ -68,8 +71,7 @@
                                 <String fx:value="panel-body"/>
                             </styleClass>
 
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info"
-                                  text="y(x) =">
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info" text="y(x) =">
                                 <HBox.margin>
                                     <Insets right="10.0"/>
                                 </HBox.margin>
@@ -82,23 +84,19 @@
                                 </HBox.margin>
                             </TextField>
 
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info"
-                                  text="Desde:"/>
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info" text="Desde:"/>
 
-                            <TextField fx:id="txtFrom" prefHeight="22.0" prefWidth="84.0"
-                                       promptText="Ej. 5">
+                            <TextField fx:id="txtFrom" prefHeight="22.0" prefWidth="84.0" promptText="Ej. 5">
                                 <HBox.margin>
                                     <Insets right="5.0"/>
                                 </HBox.margin>
                             </TextField>
 
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info"
-                                  text="Hasta:"/>
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info" text="Hasta:"/>
 
-                            <TextField fx:id="txtTo" prefHeight="22.0" prefWidth="87.0"
-                                       promptText="Ej. 10"/>
+                            <TextField fx:id="txtTo" prefHeight="22.0" prefWidth="87.0" promptText="Ej. 10"/>
 
-                            <Button fx:id="btnShowGraphic" mnemonicParsing="false" text="Graficar">
+                            <Button fx:id="btnShowGraphic" text="Graficar">
                                 <HBox.margin>
                                     <Insets left="15.0" right="10.0"/>
                                 </HBox.margin>
@@ -111,9 +109,8 @@
 
                         </HBox>
 
-                        <LineChart fx:id="lineChart" prefWidth="692.0"
-                                   style="-fx-background-color: #FFF;" title="Función"
-                                   VBox.vgrow="ALWAYS">
+                        <LineChart fx:id="lineChart" prefWidth="692.0" style="-fx-background-color: #FFF;"
+                                   title="Función" VBox.vgrow="ALWAYS">
                             <xAxis>
                                 <NumberAxis label="X" side="BOTTOM" fx:id="xAxis"/>
                             </xAxis>
@@ -126,17 +123,16 @@
                 </AnchorPane>
             </Tab>
 
-            <Tab text="Soluciones">
+            <Tab text="Métodos de Solución">
                 <AnchorPane prefHeight="434.0" prefWidth="692.0">
 
-                    <VBox fx:id="paneMethod" maxHeight="-Infinity" maxWidth="-Infinity"
-                          minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0"
-                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                          AnchorPane.topAnchor="0.0">
+                    <VBox fx:id="paneMethod" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                          minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
-                        <Label fx:id="lblMethod" text="Métodos Cerrados" alignment="CENTER_LEFT">
+                        <Label fx:id="lblMethod" alignment="CENTER_LEFT" text="Métodos Cerrados">
                             <VBox.margin>
-                                <Insets top="5.0" left="5"/>
+                                <Insets left="5" top="5.0"/>
                             </VBox.margin>
                             <styleClass>
                                 <String fx:value="h5"/>
@@ -145,8 +141,8 @@
                         </Label>
 
                         <HBox alignment="CENTER">
-                            <TextField fx:id="txtFunctionMain" prefHeight="23.0" prefWidth="209.0"
-                                       promptText="Ej. x^2+5x*sin(x)" styleClass="text" maxWidth="500"/>
+                            <TextField fx:id="txtFunctionMain" maxWidth="500" prefHeight="23.0" prefWidth="209.0"
+                                       promptText="Ej. x^2+5x*sin(x)" styleClass="text"/>
                             <padding>
                                 <Insets bottom="10"/>
                             </padding>
@@ -154,8 +150,7 @@
 
                         <HBox fx:id="paneOpenMethod" alignment="TOP_CENTER" scaleShape="false">
 
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info"
-                                  text="A: "/>
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info" text="A: "/>
 
                             <TextField prefHeight="26.0" prefWidth="113.0">
                                 <HBox.margin>
@@ -163,13 +158,11 @@
                                 </HBox.margin>
                             </TextField>
 
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info"
-                                  text="B:"/>
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info" text="B:"/>
 
                             <TextField prefHeight="26.0" prefWidth="114.0"/>
 
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info"
-                                  text="Error: ">
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info" text="Error: ">
                                 <HBox.margin>
                                     <Insets left="20.0"/>
                                 </HBox.margin>
@@ -181,8 +174,8 @@
                                 </HBox.margin>
                             </TextField>
 
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info"
-                                  text="\%" HBox.hgrow="ALWAYS">
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-info" text="\%"
+                                  HBox.hgrow="ALWAYS">
                                 <HBox.margin>
                                     <Insets top="5.0"/>
                                 </HBox.margin>
@@ -208,10 +201,9 @@
                                 <String fx:value="panel-body"/>
                             </styleClass>
 
-                            <ComboBox fx:id="cmbMethod" focusTraversable="false" prefHeight="26.0"
-                                      prefWidth="217.0"/>
+                            <ComboBox fx:id="cmbMethod" focusTraversable="false" prefHeight="26.0" prefWidth="217.0"/>
 
-                            <Button fx:id="btnResolve" mnemonicParsing="false" text="Resolver">
+                            <Button fx:id="btnResolve" text="Resolver">
                                 <styleClass>
                                     <String fx:value="btn"/>
                                     <String fx:value="btn-success"/>
@@ -220,8 +212,7 @@
 
                         </HBox>
 
-                        <TextArea fx:id="txtAreaProcedure" editable="false" prefWidth="686.0"
-                                  VBox.vgrow="ALWAYS"/>
+                        <TextArea fx:id="txtAreaProcedure" editable="false" prefWidth="686.0" VBox.vgrow="ALWAYS"/>
 
                     </VBox>
 

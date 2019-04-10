@@ -68,7 +68,7 @@
             </VBox.margin>
         </GridPane>
 
-        <Label text="Sistemas de Ecuaciones" styleClass="text-info"/>
+        <Label text="Solución de Sistemas de Ecuaciones" styleClass="text-info"/>
 
         <GridPane VBox.vgrow="ALWAYS" hgap="10" vgap="10" styleClass="pane-default">
 

@@ -32,7 +32,6 @@ import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 
-
 public class MainController implements Initializable {
 
     @FXML
@@ -57,9 +56,6 @@ public class MainController implements Initializable {
     private MenuItem mnuClose;
 
     @FXML
-    private MenuItem mnuHelp;
-
-    @FXML
     private MenuItem mnuAbout;
 
     @FXML
@@ -73,6 +69,9 @@ public class MainController implements Initializable {
 
     @FXML
     private MenuItem mnuSaveAs;
+
+    @FXML
+    private MenuItem mnuHowGraphic, mnuHowResolv;
 
     @FXML
     LineChart<Number, Number> lineChart;
@@ -111,10 +110,10 @@ public class MainController implements Initializable {
         fileChooser.setInitialFileName("*.func");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Function File", "*.func"));
 
-        if(typeMthods == 0) {
+        if (typeMthods == 0) {
             cmbMethod.getItems().add("Bisección");
             cmbMethod.getItems().add("Regla Falsa");
-        }else {
+        } else {
             cmbMethod.getItems().add("Punto Fijo");
             cmbMethod.getItems().add("Newton-Raphson");
             cmbMethod.getItems().add("Método de la secante");
@@ -134,7 +133,7 @@ public class MainController implements Initializable {
 
     }
 
-    private void initGUI(){
+    private void initGUI() {
 
         btnShowGraphic.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -153,17 +152,11 @@ public class MainController implements Initializable {
                     primaryStage.setScene(scene);
                     primaryStage.show();
 
-                    ((Stage)btnResolve.getParent().getScene().getWindow()).close();
+                    ((Stage) btnResolve.getParent().getScene().getWindow()).close();
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-        });
-
-        mnuHelp.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                showHelpMessage();
             }
         });
 
@@ -207,14 +200,50 @@ public class MainController implements Initializable {
             }
         });
 
+        mnuHowGraphic.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                String help = "Posicionados en la pestaña gáfica:" +
+                        "\nUsted debe de ingresar la función que desea graficar y el intervalo numérico en el cuál se graficará"
+                        + "\nposteriormente debe dar click en el botón graficar.";
+                String information = "Para las funcioes se aceptan los siguientes simbolos: "
+                        + "\n Potencias: ^"
+                        + "\n Seno: sin(), sinh()"
+                        + "\n Cosen: cos(), cosh()"
+                        + "\n Tangente: tan()"
+                        + "\n ArcTangente: atan()"
+                        + "\n ArcSeno: asin()"
+                        + "\n ArcCoseno: acos()"
+                        + "\n Absoluto: abs()"
+                        + "\n logaritmo base N: logn(x)"
+                        + "\n logaritmo natural: log(x)"
+                        + "\n Raiz: sqrt()"
+                        + "\n Los signos de agrupacion aceptados son: (), {}, []"
+                        + "\n Además se soporta la multiplicación implícita";
+                showHelpMessage(help + "\n" + information, 700, 300);
+            }
+        });
+
+        mnuHowResolv.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                String help = "Posicionado en la pestaña Métodos de Solución:"
+                        + "\nUsted debe ingresar la función de la cual desea encontrar su solución en la caja de texto superior. " +
+                        "\nNote que si usted graficó anteriormente, la caja de texto superior replicará la función que graficó" +
+                        "\npero puede modificarla libremente si así lo desea. " +
+                        "\nPosteriormente debe seleccionar el método de solución y agregar los datos que sean necesarios para " +
+                        "\ndicho método en específico en el panel inferior a la caja de texto de la función. " +
+                        "\nUna vez haya llenado correctamente la información deberá dar click en el botón resolver.";
+                showHelpMessage(help, 750, 200);
+            }
+        });
+
         btnResolve.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 btnResolveAction();
             }
         });
 
-        if(typeMthods == 0)
-             buildClosedPane();
+        if (typeMthods == 0)
+            buildClosedPane();
         else
             buildFixedPointPane();
 
@@ -227,7 +256,7 @@ public class MainController implements Initializable {
                     buildFixedPointPane();
                 else if (newValue.equalsIgnoreCase("Newton-Raphson"))
                     buildNewtonPane();
-                else if(newValue.equalsIgnoreCase("Método de la secante"))
+                else if (newValue.equalsIgnoreCase("Método de la secante"))
                     buildSecantPane();
 
                 txtAreaProcedure.clear();
@@ -241,8 +270,8 @@ public class MainController implements Initializable {
         });
     }
 
-    public static void changeTypeMethods(int type){
-       typeMthods = type;
+    public static void changeTypeMethods(int type) {
+        typeMthods = type;
     }
 
     private void showGraphic() {
@@ -368,7 +397,7 @@ public class MainController implements Initializable {
         }
     }
 
-    private void secantAction(){
+    private void secantAction() {
         try {
             String def = txtFunctionMain.getText().trim();
             double pointA = Double.parseDouble(txtPointA.getText());
@@ -388,24 +417,13 @@ public class MainController implements Initializable {
         }
     }
 
-    private void showHelpMessage() {
-        String information = "Usar los siguientes simbolos: "
-                + "\n Potencias: ^"
-                + "\n Seno: sin(), sinh()"
-                + "\n Cosen: cos(), cosh()"
-                + "\n Tangente: tan()"
-                + "\n Cotangente: cotan()"
-                + "\n Absoluto: abs()"
-                + "\n logaritmo base N: logn(x)"
-                + "\n Raiz: sqrt()"
-                + "\n Los signos de agrupacion aceptados son: (), {}, []";
-
+    private void showHelpMessage(String helpMessage, int width, int heigth) {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
         root.setSpacing(15);
         root.getStyleClass().setAll("alert", "alert-info");
 
-        Label lblInfo = new Label(information);
+        Label lblInfo = new Label(helpMessage);
         final Button btnAcept = new Button("Aceptar");
         btnAcept.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -414,7 +432,7 @@ public class MainController implements Initializable {
         });
 
         root.getChildren().addAll(lblInfo, btnAcept);
-        Scene scene = new Scene(root, 500, 300);
+        Scene scene = new Scene(root, width, heigth);
         scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
 
         Stage stage = new Stage();
@@ -424,16 +442,19 @@ public class MainController implements Initializable {
     }
 
     private void btnResolveAction() {
-        if (cmbMethod.getSelectionModel().getSelectedIndex() == 0)
-            biseccionAction();
-        else if (cmbMethod.getSelectionModel().getSelectedIndex() == 1)
-            falseRuleAction();
-        else if (cmbMethod.getSelectionModel().getSelectedIndex() == 2)
-            fixedPointAction();
-        else if(cmbMethod.getSelectionModel().getSelectedIndex() == 3)
-            newtonAction();
-        else if (cmbMethod.getSelectionModel().getSelectedIndex() == 4)
-            secantAction();
+        if (typeMthods == 0) {
+            if (cmbMethod.getSelectionModel().getSelectedIndex() == 0)
+                biseccionAction();
+            else if (cmbMethod.getSelectionModel().getSelectedIndex() == 1)
+                falseRuleAction();
+        } else {
+            if (cmbMethod.getSelectionModel().getSelectedIndex() == 0)
+                fixedPointAction();
+            else if (cmbMethod.getSelectionModel().getSelectedIndex() == 1)
+                newtonAction();
+            else if (cmbMethod.getSelectionModel().getSelectedIndex() == 2)
+                secantAction();
+        }
     }
 
     private void cleanAll() {
@@ -442,20 +463,21 @@ public class MainController implements Initializable {
         txtFrom.setText("");
         txtFunction.setText("");
         txtFunctionMain.setText("");
-        txtPointA.setText("");
-        txtPointB.setText("");
         txtTo.setText("");
+        if (txtPointA != null) txtPointA.setText("");
+        if (txtPointB != null) txtPointA.setText("");
         if (txtPointAOpen != null) txtPointAOpen.setText("");
         if (txtDerived != null) txtDerived.setText("");
         if (txtGFunction != null) txtGFunction.setText("");
         lineChart.getData().clear();
         tabPane.getSelectionModel().selectFirst();
         fileFunction.restartFile();
-        ((Stage)txtFunction.getParent().getScene().getWindow()).setTitle("Nuevo Documento");
+        ((Stage) txtFunctionMain.getParent().getScene().getWindow()).setTitle("Nuevo Documento");
     }
 
     /**
      * Guarda una funcion
+     *
      * @param stage
      * @param typeSave True para Guardar. False para Guardar como...
      */
@@ -464,6 +486,8 @@ public class MainController implements Initializable {
         byte typeMethod = (byte) cmbMethod.getSelectionModel().getSelectedIndex();
         FileFunction.BeanFunction beanFunction = null;
 
+        if (typeMthods != 0)
+            typeMethod += 2;
 
         if (typeMethod == FileFunction.BeanFunction.BISECCION || typeMethod == FileFunction.BeanFunction.FALSE_RULE
                 || typeMethod == FileFunction.BeanFunction.SECANT) {
@@ -516,7 +540,7 @@ public class MainController implements Initializable {
         if (save) {
             fileFunction.saveFunction(beanFunction);
             fileFunction.closeFile();
-            ((Stage)txtFunction.getParent().getScene().getWindow()).setTitle(fileFunction.getFunctionFile().getName());
+            ((Stage) txtFunction.getParent().getScene().getWindow()).setTitle(fileFunction.getFunctionFile().getName());
         }
     }
 
@@ -529,15 +553,15 @@ public class MainController implements Initializable {
             FileFunction.BeanFunction bean = fileFunction.readFunction();
             byte type = bean.getTypeMethod();
 
-            if(typeMthods == 0){
-                if(type != FileFunction.BeanFunction.BISECCION && type != FileFunction.BeanFunction.FALSE_RULE) {
+            if (typeMthods == 0) {
+                if (type != FileFunction.BeanFunction.BISECCION && type != FileFunction.BeanFunction.FALSE_RULE) {
                     showMessage("Estas en métodos cerrados e intentas abrir un archivo " +
-                            "de métodos abiertos","Error al abrir el archivo" , null, Alert.AlertType.WARNING);
+                            "de métodos abiertos", "Error al abrir el archivo", null, Alert.AlertType.WARNING);
                     return;
                 }
-            }else{
-                if(type != FileFunction.BeanFunction.PUNTO_FIJO && type != FileFunction.BeanFunction.NEWTON &&
-                        type != FileFunction.BeanFunction.SECANT ) {
+            } else {
+                if (type != FileFunction.BeanFunction.PUNTO_FIJO && type != FileFunction.BeanFunction.NEWTON &&
+                        type != FileFunction.BeanFunction.SECANT) {
                     showMessage("Estas en métodos abiertos e intentas abrir un archivo " +
                             "de métodos cerrados", "Error al abrir el archivo", null, Alert.AlertType.WARNING);
                     return;
@@ -570,7 +594,7 @@ public class MainController implements Initializable {
                 txtAreaProcedure.setText(bean.getProcedure());
                 txtDerived.setText(bean.getExtraFunction());
 
-            }else if (type == FileFunction.BeanFunction.SECANT){
+            } else if (type == FileFunction.BeanFunction.SECANT) {
                 buildSecantPane();
                 txtPointA.setText(bean.getPointA());
                 txtPointB.setText(bean.getPointB());
@@ -578,9 +602,12 @@ public class MainController implements Initializable {
                 txtAreaProcedure.setText(bean.getProcedure());
             }
 
+            if(typeMthods != 0)
+                type -= 2;
+
             cmbMethod.getSelectionModel().select(type);
             fileFunction.closeFile();
-            ((Stage)txtFunction.getParent().getScene().getWindow()).setTitle(file.getName());
+            ((Stage) txtFunction.getParent().getScene().getWindow()).setTitle(file.getName());
         }
     }
 

@@ -5,39 +5,49 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.octicons.OctIconView?>
+
+<?import com.jfoenix.controls.JFXHamburger?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300" minWidth="600" prefHeight="293.0"
       prefWidth="358.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ecuationsystems.controller.MainController">
 
     <MenuBar styleClass="menu-item">
-        <menus>
-            <Menu text="Archivo">
-                <items>
-                    <MenuItem fx:id="mnuNew" text="Nuevo"/>
-                    <MenuItem fx:id="mnuOpen" text="Abrir"/>
-                    <SeparatorMenuItem/>
-                    <MenuItem fx:id="mnuSave" text="Guardar"/>
-                    <MenuItem fx:id="mnuSaveAs"  text="Guardar como..."/>
-                    <SeparatorMenuItem />
-                    <MenuItem fx:id="mnuClose" text="Regresar"/>
-                </items>
-            </Menu>
+        <Menu text="Archivo">
+            <MenuItem fx:id="mnuNew" text="Nuevo"/>
+            <MenuItem fx:id="mnuOpen" text="Abrir"/>
+            <SeparatorMenuItem/>
+            <MenuItem fx:id="mnuSave" text="Guardar"/>
+            <MenuItem fx:id="mnuSaveAs" text="Guardar como..."/>
+            <SeparatorMenuItem/>
+            <MenuItem fx:id="mnuClose" text="Regresar"/>
+        </Menu>
 
+        <Menu text="Ayuda">
             <Menu text="Ayuda">
-                <items>
-                    <MenuItem fx:id="mnuHelp" mnemonicParsing="false" text="Ayuda"/>
-                </items>
+
+                <MenuItem fx:id="mnuHowSelectMethod" text="¿Cómo seleccionar el método?"/>
+                <MenuItem fx:id="mnuHowFillData" text="¿Cómo ingresar la matriz?"/>
+                <MenuItem fx:id="mnuHowResolv" text="¿Cómo resolver el sistema?"/>
+
             </Menu>
-        </menus>
+            <SeparatorMenuItem/>
+            <MenuItem fx:id="mnuAbout" text="Acerca de..."/>
+        </Menu>
+
     </MenuBar>
 
     <JFXTabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS" fx:id="tabPane">
 
-        <Tab text="Datos">
+        <Tab text="Matriz de Coeficientes">
             <content>
                 <VBox spacing="10" styleClass="panel-default">
 
-                    <GridPane fx:id="paneTable" VBox.vgrow="ALWAYS" hgap="3" vgap="1"/>
+                    <HBox alignment="CENTER" spacing="10">
+
+                        <ComboBox fx:id="cmbProcedure" promptText="Procedimiento..."/>
+
+                    </HBox>
 
                     <HBox spacing="10" alignment="CENTER">
 
@@ -49,6 +59,18 @@
                             </graphic>
                         </Button>
 
+                        <Button fx:id="btnResolve" text="Resolver" styleClass="btn, btn-success">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="CALCULATOR" size="25" fill="white"/>
+                            </graphic>
+                        </Button>
+
+                        <Button fx:id="btnFillViwtZero" text="Rellenar con 0" styleClass="btn, btn-info">
+                            <graphic>
+                                <OctIconView glyphName="PENCIL" size="25" fill="white"/>
+                            </graphic>
+                        </Button>
+
                     </HBox>
 
                     <HBox spacing="10" alignment="CENTER">
@@ -57,17 +79,7 @@
 
                     </HBox>
 
-                    <HBox alignment="CENTER" spacing="10">
-
-                        <ComboBox fx:id="cmbProcedure" promptText="Procedimiento..."/>
-
-                        <Button fx:id="btnResolve" text="Resolver" styleClass="btn, btn-success">
-                            <graphic>
-                                <FontAwesomeIconView glyphName="CALCULATOR" size="25" fill="white"/>
-                            </graphic>
-                        </Button>
-
-                    </HBox>
+                    <GridPane fx:id="paneTable" VBox.vgrow="ALWAYS" hgap="3" vgap="1"/>
 
                     <padding>
                         <Insets topRightBottomLeft="15"/>
@@ -76,7 +88,7 @@
             </content>
         </Tab>
 
-        <Tab text="Solución">
+        <Tab text="Solución" disable="true">
             <content>
                 <TextArea fx:id="textAreaSolution" styleClass="p" editable="false"/>
             </content>

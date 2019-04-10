@@ -1,6 +1,8 @@
 package ecuationsystems.controller;
 
 import com.jfoenix.controls.JFXTabPane;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -8,12 +10,17 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import ecuationsystems.model.ResolvMethods;
 
@@ -28,7 +35,7 @@ public class MainController implements Initializable {
     GridPane paneTable;
 
     @FXML
-    Button btnNumVariables, btnResolve;
+    Button btnNumVariables, btnResolve, btnFillViwtZero;
 
     @FXML
     Spinner<Integer> spinNumVariable;
@@ -48,19 +55,27 @@ public class MainController implements Initializable {
     @FXML
     TextField txtError;
 
+    @FXML
+    MenuItem mnuHowSelectMethod, mnuHowResolv, mnuHowFillData;
+
     int numVariables;
     ResolvMethods solver;
     DecimalFormat formatter;
 
     public void initialize(URL location, ResourceBundle resources) {
         initGUI();
+        initData();
         solver = new ResolvMethods();
         formatter = new DecimalFormat("0.00");
     }
 
     public void initGUI() {
-        numVariables = 3;
-        setNumVariables(numVariables);
+        paneTable.setVisible(false);
+        btnNumVariables.setDisable(true);
+        spinNumVariable.setDisable(true);
+        btnResolve.setDisable(true);
+        btnFillViwtZero.setDisable(true);
+        txtError.setVisible(false);
 
         btnNumVariables.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -77,6 +92,10 @@ public class MainController implements Initializable {
 
                 numVariables = spinNumVariable.getValue();
                 setNumVariables(numVariables);
+                paneTable.setVisible(true);
+                btnResolve.setDisable(false);
+                btnFillViwtZero.setDisable(false);
+                textAreaSolution.clear();
             }
         });
 
@@ -91,7 +110,7 @@ public class MainController implements Initializable {
                     primaryStage.setScene(scene);
                     primaryStage.show();
 
-                    ((Stage)btnResolve.getParent().getScene().getWindow()).close();
+                    ((Stage) btnResolve.getParent().getScene().getWindow()).close();
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -99,15 +118,54 @@ public class MainController implements Initializable {
             }
         });
 
+        mnuHowSelectMethod.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                String help = "Usted debe seleccionar el método por el cual desea resolver el sistema de ecuaciones" +
+                        "\nen el combo box. De lo contrario no podrá realizar ninguna acción";
+                showHelpMessage(help, 700, 150);
+            }
+        });
+
+        mnuHowFillData.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                String help = "Una vez se haya seleccionado el método, debe generar una matriz seleccionando" +
+                        "\nel número de variables que tiene el sistema (máximo 10) y dando click en el " +
+                        "\nbotón \"Generar Matriz\". El cuál generará una matriz de cajas de texto en donde" +
+                        "\ndebe ingresar los coeficientes de las variables del sistema a resolver." +
+                        "\nSi desea limpiar las cajas de texto totalmente basta con dar click nuevamente en" +
+                        "\nel boton Generar Matriz.";
+                showHelpMessage(help, 730, 150);
+
+            }
+        });
+
+        mnuHowResolv.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                String help = "Cuando la matriz este completamente llena (ninguna caja de texto debe estar vacía)" +
+                        "\nDebe dar click en el botón \"Resolver\" y la pantalla cambiará de pestaña en donde se " +
+                        "\nse mostrará la solución del sistema de ecuaciones.";
+                showHelpMessage(help, 730, 200);
+            }
+        });
+
         btnResolve.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                btnResolveAction(cmbProcedure.getSelectionModel().getSelectedIndex());
+                if (verifyData()) {
+                    btnResolveAction(cmbProcedure.getSelectionModel().getSelectedIndex());
+                    tabPane.getTabs().get(1).setDisable(false);
+                }
+            }
+        });
+
+        btnFillViwtZero.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                fillWithZeroAction();
             }
         });
 
         cmbProcedure.valueProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                switch (cmbProcedure.getSelectionModel().getSelectedIndex()){
+                switch (cmbProcedure.getSelectionModel().getSelectedIndex()) {
                     case 0:
                     case 1:
                         txtError.setVisible(false);
@@ -117,19 +175,28 @@ public class MainController implements Initializable {
                         txtError.setVisible(true);
                         break;
                 }
+                btnNumVariables.setDisable(false);
+                spinNumVariable.setDisable(false);
             }
         });
-
-        SpinnerValueFactory values = new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 10);
-        values.setValue(numVariables);
-        spinNumVariable.setValueFactory(values);
 
         cmbProcedure.getItems().add("Gauss");
         cmbProcedure.getItems().add("Gauss-Jordan");
         cmbProcedure.getItems().add("Jacobi");
         cmbProcedure.getItems().add("Gauss-Seidel");
 
-        txtError.setVisible(false);
+        spinNumVariable.setTooltip(new Tooltip("Seleccione el número de variables del Sistema"));
+        cmbProcedure.setTooltip(new Tooltip("Elija el método de solución"));
+
+    }
+
+    private void initData(){
+        numVariables = 3;
+        setNumVariables(numVariables);
+
+        SpinnerValueFactory values = new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 10);
+        values.setValue(numVariables);
+        spinNumVariable.setValueFactory(values);
     }
 
     /**
@@ -154,6 +221,7 @@ public class MainController implements Initializable {
             for (int col = 0; col < numVariables + 1; col++) {
                 TextField txt = new TextField();
                 txt.getStyleClass().add("text-primary");
+                txt.setOnKeyTyped(keyEventNumber);
                 paneTable.add(txt, col, row);
             }
 
@@ -165,6 +233,8 @@ public class MainController implements Initializable {
             constraint.setHgrow(Priority.ALWAYS);
             paneTable.getColumnConstraints().add(constraint);
         }
+
+
     }
 
     /**
@@ -185,6 +255,48 @@ public class MainController implements Initializable {
         return data;
     }
 
+    /**
+     * Revisa si todas las cajas de texto tienen algun valor
+     *
+     * @return false si falta alguna caja por llenarse
+     */
+    private boolean verifyData() {
+        int numTxt = numVariables;
+        boolean correct = true;
+        TextField currentTextField;
+
+        for (int row = 0; row < numVariables; row++)
+            for (int col = 0; col < numVariables + 1; col++, numTxt++) {
+                currentTextField = (TextField) paneTable.getChildren().get(numTxt);
+
+                if (currentTextField.getText().length() == 0) {
+                    correct = false;
+                    currentTextField.setStyle("-fx-border-color: red; -fx-background-color: rgba(255, 0, 0, 0.2)");
+                }
+            }
+
+        return correct;
+    }
+
+    /**
+     * Rellena las TextField vacias con un 0
+     */
+    private void fillWithZeroAction() {
+        int numTxt = numVariables;
+
+        TextField currentTextField;
+
+        for (int row = 0; row < numVariables; row++)
+            for (int col = 0; col < numVariables + 1; col++, numTxt++) {
+                currentTextField = (TextField) paneTable.getChildren().get(numTxt);
+
+                if (currentTextField.getText().length() == 0) {
+                    currentTextField.setStyle(null);
+                    currentTextField.setText(0 + "");
+                }
+            }
+    }
+
     private void btnResolveAction(int type) {
         double data[][];
 
@@ -198,21 +310,18 @@ public class MainController implements Initializable {
         else if (type == 1)
             resolvGaussJordanAction();
 
-
         else if (type == 2)
-            if(txtError.getText().length() == 0) {
+            if (txtError.getText().length() == 0) {
                 showAlert("Advertencia", "Asegurate de ingresar el error permitido");
                 return;
-            }
-            else
+            } else
                 resolvJacobiAction(Double.parseDouble(txtError.getText()));
 
         else if (type == 3)
             if (txtError.getText().length() == 0) {
                 showAlert("Advertencia", "Asegurate de ingresar el error permitido");
                 return;
-            }
-            else
+            } else
                 resolveGaussSeidelAction(Double.parseDouble(txtError.getText()));
 
 
@@ -280,10 +389,41 @@ public class MainController implements Initializable {
             textAreaSolution.appendText("X" + (i + 1) + " = " + formatter.format(results[i]) + "\n");
     }
 
-    private void showAlert(String title, String message){
+    private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setHeaderText(title);
         alert.setContentText(message);
         alert.show();
+    }
+
+    EventHandler<KeyEvent> keyEventNumber = new EventHandler<KeyEvent>() {
+        public void handle(KeyEvent event) {
+           if(Character.isLetter(event.getCharacter().charAt(0)))
+                   event.consume();
+        }
+    };
+
+    private void showHelpMessage(String helpMessage, int width, int heigth) {
+        VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+        root.setSpacing(15);
+        root.getStyleClass().setAll("alert", "alert-info");
+
+        Label lblInfo = new Label(helpMessage);
+        final Button btnAcept = new Button("Aceptar");
+        btnAcept.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                ((Stage) btnAcept.getScene().getWindow()).close();
+            }
+        });
+
+        root.getChildren().addAll(lblInfo, btnAcept);
+        Scene scene = new Scene(root, width, heigth);
+        scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
+
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
     }
 }
