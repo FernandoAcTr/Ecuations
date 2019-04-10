@@ -38,16 +38,31 @@ public class ResolvMethods {
 
     /**
      * ------------------------------------------------------------------------------------------------------------------------------------------
-     * METODO GAUSS
+     *                                                   METODO GAUSS
      * ------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    public void resolvByGauss() {
+    public boolean resolvByGauss() {
         int indexPivot, row, col;
         double pivot, factor;
 
         for (indexPivot = 0; indexPivot < numVariables; indexPivot++) { //recorre la diagonal de pivotes
+
             pivot = matrix[indexPivot][indexPivot];
+
+            if(pivot == 0){
+                int rowToChange = findChangeRow(indexPivot);
+                if(rowToChange != -1) {
+                    changeRows(indexPivot, rowToChange);
+                    pivot = matrix[indexPivot][indexPivot];
+                    procedure += "Cambiar la fila R" + (indexPivot+1) + " por la R" + (rowToChange+1);
+                    concatProcedure();
+                }
+                else {
+                    procedure = "Este sistemas de ecuaciones no tiene solucion por este método";
+                    return false;
+                }
+            }
 
             procedure += "Hacer 1 el pivote " + formatter.format(pivot) + " dividiendo la fila " + (indexPivot + 1) + " sobre si mismo";
             concatProcedure();
@@ -63,16 +78,19 @@ public class ResolvMethods {
             for (row = indexPivot + 1; row < numVariables; row++) {  //recorre la columna del pivote para hacer 0, los indices inferiores
                 factor = matrix[row][indexPivot];
 
-                procedure += "Hacer 0 el indice de la fila " + (row + 1) + " haciendo: R" + (row + 1) + " - " + formatter.format(factor) + "*R" + (indexPivot + 1);
+                if(factor != 0) {
+                    procedure += "Hacer 0 el indice de la fila " + (row + 1) + " haciendo: R" + (row + 1) + " - " + formatter.format(factor) + "*R" + (indexPivot + 1);
 
-                for (col = indexPivot; col < numVariables + 1; col++) {
-                    matrix[row][col] = matrix[row][col] - factor * matrix[indexPivot][col];
+                    for (col = indexPivot; col < numVariables + 1; col++) {
+                        matrix[row][col] = matrix[row][col] - factor * matrix[indexPivot][col];
+                    }
+
+                    concatProcedure();
                 }
-
-                concatProcedure();
             }
         }
 
+        return true;
     }
 
     public double[] getGaussResults() {
@@ -99,16 +117,30 @@ public class ResolvMethods {
 
     /**
      * ------------------------------------------------------------------------------------------------------------------------------------------
-     * METODO GAUSS - JORDAN
+     *                                                  METODO GAUSS - JORDAN
      * ------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    public void resolvByGauss_Jordan() {
+    public boolean resolvByGauss_Jordan() {
         int indexPivot, row, col;
         double pivot, factor;
 
         for (indexPivot = 0; indexPivot < numVariables; indexPivot++) { //recorre la diagonal de pivotes
             pivot = matrix[indexPivot][indexPivot];
+
+            if(pivot == 0){
+                int rowToChange = findChangeRow(indexPivot);
+                if(rowToChange != -1) {
+                    changeRows(indexPivot, rowToChange);
+                    pivot = matrix[indexPivot][indexPivot];
+                    procedure += "Cambiar la fila R" + (indexPivot+1) + " por la R" + (rowToChange+1);
+                    concatProcedure();
+                }
+                else {
+                    procedure = "Este sistemas de ecuaciones no tiene solucion por este método";
+                    return false;
+                }
+            }
 
             procedure += "Hacer 1 el pivote " + formatter.format(pivot) + " dividiendo la fila " + (indexPivot + 1) + " sobre si mismo";
             concatProcedure();
@@ -127,16 +159,20 @@ public class ResolvMethods {
 
                     factor = matrix[row][indexPivot];
 
-                    procedure += "Hacer 0 el indice de la fila " + (row + 1) + " haciendo: R" + (row + 1) + " - " + formatter.format(factor) + "*R" + (indexPivot + 1);
+                    if(factor != 0) {
+                        procedure += "Hacer 0 el indice de la fila " + (row + 1) + " haciendo: R" + (row + 1) + " - " + formatter.format(factor) + "*R" + (indexPivot + 1);
 
-                    for (col = indexPivot; col < numVariables + 1; col++) {
-                        matrix[row][col] = matrix[row][col] - factor * matrix[indexPivot][col];
+                        for (col = indexPivot; col < numVariables + 1; col++) {
+                            matrix[row][col] = matrix[row][col] - factor * matrix[indexPivot][col];
+                        }
+
+                        concatProcedure();
                     }
-
-                    concatProcedure();
                 }
             }
         }
+
+        return true;
     }
 
 
@@ -368,5 +404,39 @@ public class ResolvMethods {
     public void reestartProcedure() {
         formatter = new DecimalFormat("0.00");
         procedure = "";
+    }
+
+    /**
+     * Recorre las filas bajo el pivote en busca de alguno que no sea 0
+     * @param indexPivot el indice del pivote que es 0
+     * @return el indice de la primera fila encontrada bajo el pivote que no tiene 0
+     */
+    private int findChangeRow(int indexPivot){
+        for (int i = indexPivot; i < numVariables; i++) {
+            if(matrix[i][indexPivot] != 0)
+                return i;
+        }
+
+        return -1;
+    }
+
+    /**
+     * Cambia la fila del pivote en 0 por alguna otra fila abajo de el
+     * @param indexPivot el indice del pivote que se quiere cambia
+     * @param indexRowToChange el indice de la fira para intercambiar con la fila del pivote
+     */
+    private void changeRows(int indexPivot, int indexRowToChange){
+        double rowPivot[] = new double[numVariables+1];
+        double rowToChange[] = new double[numVariables+1];
+
+        for (int i = 0; i < numVariables + 1; i++) {
+            rowPivot[i] = matrix[indexPivot][i];
+            rowToChange[i] = matrix[indexRowToChange][i];
+        }
+
+        for (int i = 0; i < numVariables+1; i++) {
+            matrix[indexPivot][i] = rowToChange[i];
+            matrix[indexRowToChange][i] = rowPivot[i];
+        }
     }
 }

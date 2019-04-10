@@ -331,17 +331,19 @@ public class MainController implements Initializable {
     private void resolvGaussAction() {
         double results[];
 
-        solver.resolvByGauss();
+        boolean status = solver.resolvByGauss();
         results = solver.getGaussResults();
 
         textAreaSolution.clear();
         textAreaSolution.setText(solver.getProcedure());
         solver.reestartProcedure();
 
-        textAreaSolution.appendText("\nCon esto obtenemos la solución de la última incógnita. Usarla para formar expresiones con las " +
-                "filas anteriores, sustituir y resolver. Cada fila dará una solución para una incógnita\n");
+        if(status) {
+            textAreaSolution.appendText("\nCon esto obtenemos la solución de la última incógnita. Usarla para formar expresiones con las " +
+                    "filas anteriores, sustituir y resolver. Cada fila dará una solución para una incógnita\n");
 
-        printResults(results);
+            printResults(results);
+        }
     }
 
     private void resolvGaussJordanAction() {
