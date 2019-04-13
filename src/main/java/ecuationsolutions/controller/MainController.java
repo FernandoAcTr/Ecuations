@@ -120,10 +120,10 @@ public class MainController implements Initializable {
         }
 
         try {
-            paneCloseMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution/fxml/layout_closed_method.fxml"));
-            paneNewtonMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution/fxml/layout_newton_method.fxml"));
-            paneFixedPointMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution/fxml/layout_fixedpoint_method.fxml"));
-            paneSecantMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution/fxml/layout_secant_method.fxml"));
+            paneCloseMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution_res/fxml/layout_closed_method.fxml"));
+            paneNewtonMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution_res/fxml/layout_newton_method.fxml"));
+            paneFixedPointMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution_res/fxml/layout_fixedpoint_method.fxml"));
+            paneSecantMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution_res/fxml/layout_secant_method.fxml"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -231,7 +231,8 @@ public class MainController implements Initializable {
                         "\npero puede modificarla libremente si así lo desea. " +
                         "\nPosteriormente debe seleccionar el método de solución y agregar los datos que sean necesarios para " +
                         "\ndicho método en específico en el panel inferior a la caja de texto de la función. " +
-                        "\nUna vez haya llenado correctamente la información deberá dar click en el botón resolver.";
+                        "\nUna vez haya llenado correctamente la información deberá dar click en el botón resolver." +
+                        "\nNota: No es necesario graficar para resolver la ecuación";
                 showHelpMessage(help, 750, 200);
             }
         });
@@ -296,9 +297,10 @@ public class MainController implements Initializable {
             double xValues[] = function.generateRange(from, to, increment);
             double yValues[] = function.evaluateFrom(xValues);
             GraphicData graphicData = new GraphicData();
-            ObservableList ob = graphicData.getChartData(def, xValues, yValues);
+            XYChart.Series serie = graphicData.getSerie(def, xValues, yValues);
 
-            lineChart.setData(ob);
+            lineChart.getData().clear();
+            lineChart.getData().add(serie);
 
             final DecimalFormat formatter = new DecimalFormat("#.###");
 
@@ -615,7 +617,7 @@ public class MainController implements Initializable {
         File refactorFile = file;
         if (file != null)
             if (!file.getName().endsWith(".func"))
-                refactorFile = new File(file.getPath() + ".fucn");
+                refactorFile = new File(file.getPath() + ".func");
 
         return refactorFile;
     }

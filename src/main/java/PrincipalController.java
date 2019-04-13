@@ -89,17 +89,24 @@ public class PrincipalController implements Initializable {
                 showOpenMethods();
             }
         });
+
+        lblNoLinearEcuations.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                showNoLinearSystem();
+            }
+        });
     }
 
     private void showLinearWindow() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/ecuationsystem/fxml/main_layout.fxml"));
+            root = FXMLLoader.load(getClass().getResource("ecuationsystem_res/fxml/main_layout.fxml"));
             Scene scene = new Scene(root, 780, 340);
             scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
             scene.getStylesheets().add("/css/jfoenix-design.css");
             scene.getStylesheets().add("/css/jfoenix-fonts.css");
             Stage primaryStage = new Stage();
+            primaryStage.setTitle("Sistemas de ecuaciones lineales");
             primaryStage.setScene(scene);
             primaryStage.show();
 
@@ -113,12 +120,13 @@ public class PrincipalController implements Initializable {
         Parent root = null;
         try {
             MainController.changeTypeMethods(0);
-            root = FXMLLoader.load(getClass().getResource("./ecuationsolution/fxml/layout_main.fxml"));
+            root = FXMLLoader.load(getClass().getResource("ecuationsolution_res/fxml/layout_main.fxml"));
             Scene scene = new Scene(root, 780, 600);
             scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
             scene.getStylesheets().add("/css/jfoenix-design.css");
             scene.getStylesheets().add("/css/jfoenix-fonts.css");
             Stage primaryStage = new Stage();
+            primaryStage.setTitle("Solucion de Ecuaciones: Metodos Cerrados");
             primaryStage.setScene(scene);
             primaryStage.show();
 
@@ -132,12 +140,33 @@ public class PrincipalController implements Initializable {
         Parent root = null;
         try {
             MainController.changeTypeMethods(1);
-            root = FXMLLoader.load(getClass().getResource("./ecuationsolution/fxml/layout_main.fxml"));
+            root = FXMLLoader.load(getClass().getResource("ecuationsolution_res/fxml/layout_main.fxml"));
             Scene scene = new Scene(root, 780, 600);
             scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
             scene.getStylesheets().add("/css/jfoenix-design.css");
             scene.getStylesheets().add("/css/jfoenix-fonts.css");
             Stage primaryStage = new Stage();
+            primaryStage.setTitle("Solucion de Ecuaciones: Metodos abiertos");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+            ((Stage)lblinearEcuations.getParent().getScene().getWindow()).close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showNoLinearSystem(){
+        Parent root = null;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("nolinearsystem_res/layout_main.fxml"));
+        try {
+            root = loader.load();
+            Scene scene = new Scene(root, 780, 600);
+            scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
+            scene.getStylesheets().add("/css/jfoenix-design.css");
+            scene.getStylesheets().add("/css/jfoenix-fonts.css");
+            Stage primaryStage = new Stage();
+            primaryStage.setTitle("Sistemas de ecuaciones no lineales: Metodo Newton-Raphson Multivariable");
             primaryStage.setScene(scene);
             primaryStage.show();
 
