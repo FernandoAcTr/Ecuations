@@ -1,6 +1,6 @@
 package nolinearsystems.model;
 
-import java.text.DecimalFormat;
+import utils.MyUtils;
 
 public class NoLinearSolver {
     private Function F1;
@@ -8,7 +8,6 @@ public class NoLinearSolver {
     private Function F1x, F1y;
     private Function F2x, F2y;
     private double errorPermited;
-    private DecimalFormat formatter;
     private String procedure;
 
     public NoLinearSolver(String f1, String f2, String f1x, String f1y, String f2x, String f2y, double errorPermited) {
@@ -19,7 +18,6 @@ public class NoLinearSolver {
         F2x = new Function(f2x);
         F2y = new Function(f2y);
         this.errorPermited = errorPermited;
-        formatter = new DecimalFormat("0.000000");
         procedure = String.format("%-6s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t\t%-16s",
                 "No.", "x", "y", "f1", "f2", "f1x", "f1y", "f2x", "f2y", "Δx", "Δy", "Xi+1", "Yi+1", "ep1", "ep2");
     }
@@ -64,20 +62,20 @@ public class NoLinearSolver {
 
     private void concatProcedure(int iteration, double x, double y, double f1, double f2, double f1x, double f1y, double f2x, double f2y,
                                  double deltaX, double deltaY, double nextX, double nextY, double ep1, double ep2) {
-        String sX = formatter.format(x);
-        String sY = formatter.format(y);
-        String sF1 = formatter.format(f1);
-        String sF2 = formatter.format(f2);
-        String sF1x = formatter.format(f1x);
-        String sF1y = formatter.format(f1y);
-        String sF2x = formatter.format(f2x);
-        String sF2y = formatter.format(f2y);
-        String sDeltaX = formatter.format(deltaX);
-        String sDeltaY = formatter.format(deltaY);
-        String sNextX = formatter.format(nextX);
-        String sNextY = formatter.format(nextY);
-        String sEp1 = formatter.format(ep1);
-        String sEp2 = formatter.format(ep2);
+        String sX = MyUtils.format(x);
+        String sY = MyUtils.format(y);
+        String sF1 = MyUtils.format(f1);
+        String sF2 = MyUtils.format(f2);
+        String sF1x = MyUtils.format(f1x);
+        String sF1y = MyUtils.format(f1y);
+        String sF2x = MyUtils.format(f2x);
+        String sF2y = MyUtils.format(f2y);
+        String sDeltaX = MyUtils.format(deltaX);
+        String sDeltaY = MyUtils.format(deltaY);
+        String sNextX = MyUtils.format(nextX);
+        String sNextY = MyUtils.format(nextY);
+        String sEp1 = MyUtils.format(ep1);
+        String sEp2 = MyUtils.format(ep2);
 
         String line;
         if(iteration < 2)

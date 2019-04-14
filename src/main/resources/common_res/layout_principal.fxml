@@ -34,10 +34,9 @@
 
         <Label text="Solución de Ecuaciones" styleClass="h4, text-info"/>
 
-        <GridPane VBox.vgrow="ALWAYS" hgap="10" vgap="10" styleClass="pane-default">
+        <HBox VBox.vgrow="ALWAYS" spacing="10" styleClass="pane-default">
 
-            <Panel styleClass="panel-primary" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS"
-                   GridPane.rowIndex="0">
+            <Panel styleClass="panel-primary" HBox.hgrow="ALWAYS">
 
                 <heading>
                     <Label fx:id="closeMethods" text="Métodos Cerrados"/>
@@ -49,8 +48,7 @@
 
             </Panel>
 
-            <Panel styleClass="panel-primary" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
-                   GridPane.rowIndex="0">
+            <Panel styleClass="panel-primary" HBox.hgrow="ALWAYS">
 
                 <heading>
                     <Label fx:id="openMethods" text="Métodos Abiertos"/>
@@ -65,14 +63,13 @@
             <VBox.margin>
                 <Insets bottom="20"/>
             </VBox.margin>
-        </GridPane>
+        </HBox>
 
         <Label text="Solución de Sistemas de Ecuaciones" styleClass="h4, text-info"/>
 
-        <GridPane VBox.vgrow="ALWAYS" hgap="10" vgap="10" styleClass="pane-default">
+        <HBox VBox.vgrow="ALWAYS" spacing="10" styleClass="pane-default">
 
-            <Panel styleClass="panel-primary" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS"
-                   GridPane.rowIndex="0">
+            <Panel styleClass="panel-primary" HBox.hgrow="ALWAYS">
 
                 <heading>
                     <Label fx:id="lblinearEcuations" text="Ecuaciones Lineales"/>
@@ -84,8 +81,7 @@
 
             </Panel>
 
-            <Panel styleClass="panel-primary" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
-                   GridPane.rowIndex="0">
+            <Panel styleClass="panel-primary" HBox.hgrow="ALWAYS">
 
                 <heading>
                     <Label fx:id="lblNoLinearEcuations" text="Ecuaciones No Lineales"/>
@@ -97,7 +93,25 @@
 
             </Panel>
 
-        </GridPane>
+        </HBox>
+
+        <Label text="Modelos de Regresión" styleClass="h4, text-info"/>
+
+        <HBox VBox.vgrow="ALWAYS" spacing="10" styleClass="pane-default">
+
+            <Panel styleClass="panel-primary" HBox.hgrow="ALWAYS">
+
+                <heading>
+                    <Label fx:id="lbllinearRegresion" text="Regresión Lineal"/>
+                </heading>
+
+                <body>
+                    <Text fx:id="descLinearRegresion" styleClass="text-info"/>
+                </body>
+
+            </Panel>
+
+        </HBox>
 
         <padding>
             <Insets top="10" left="10" right="10"/>

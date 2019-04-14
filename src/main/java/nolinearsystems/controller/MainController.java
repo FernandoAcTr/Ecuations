@@ -8,7 +8,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -16,11 +15,11 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import nolinearsystems.model.FileFunction;
 import nolinearsystems.model.NoLinearSolver;
+import utils.MyUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -151,7 +150,7 @@ public class MainController implements Initializable {
                     function = txtFunction.getText();
                     showGraphic(function, from, to, true);
                 } catch (NumberFormatException ex) {
-                    showMessage("Ingresa correctamente el intervalo", "Error", null, Alert.AlertType.ERROR);
+                    MyUtils.showMessage("Ingresa correctamente el intervalo", "Error", null, Alert.AlertType.ERROR);
                 }
             }
         });
@@ -166,7 +165,7 @@ public class MainController implements Initializable {
                     function = txtFunction2.getText();
                     showGraphic(function, from, to, false);
                 } catch (NumberFormatException ex) {
-                    showMessage("Ingresa correctamente el intervalo", "Error", null, Alert.AlertType.ERROR);
+                    MyUtils.showMessage("Ingresa correctamente el intervalo", "Error", null, Alert.AlertType.ERROR);
                 }
             }
         });
@@ -176,7 +175,7 @@ public class MainController implements Initializable {
                 Stage stage = new Stage();
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_principal.fxml"));
-                    Scene scene = new Scene(root, 730, 450);
+                    Scene scene = new Scene(root, 730, 600);
                     scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
                     Stage primaryStage = new Stage();
                     primaryStage.setScene(scene);
@@ -227,7 +226,7 @@ public class MainController implements Initializable {
                         + "\n Raiz: sqrt()"
                         + "\n Los signos de agrupacion aceptados son: (), {}, []"
                         + "\n Además se soporta la multiplicación implícita";
-                showHelpMessage(help + "\n" + information, 700, 450);
+                MyUtils.showHelpMessage(help + "\n" + information, 700, 450);
             }
         });
 
@@ -238,7 +237,7 @@ public class MainController implements Initializable {
                         "\nLos datos que se requieren son: F1(x,y), F2(x,y) y para cada una sus respectivas " +
                         "\nderivadas parciales respecto de x e y. Así como el punto inicial x, el punto inicial" +
                         "\ny, y el error permitido";
-                showHelpMessage(help, 600, 250);
+                MyUtils.showHelpMessage(help, 600, 250);
             }
         });
 
@@ -301,12 +300,12 @@ public class MainController implements Initializable {
                         txtAreaProcedure.appendText("\n\nX = "+format.format(results[0]));
                         txtAreaProcedure.appendText("\nY = "+format.format(results[1]));
                     } else {
-                        showMessage("No debes dejar datos en blanco.",
+                        MyUtils.showMessage("No debes dejar datos en blanco.",
                                 "Error", null, Alert.AlertType.ERROR);
                     }
 
                 } catch (NumberFormatException ex) {
-                    showMessage("Hubo un error al ingresar datos. Por favor asegurate que estan correctos",
+                    MyUtils.showMessage("Hubo un error al ingresar datos. Por favor asegurate que estan correctos",
                             "Error", null, Alert.AlertType.ERROR);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -351,43 +350,11 @@ public class MainController implements Initializable {
                     Tooltip.install(data.getNode(), new Tooltip("X: " + formatter.format(data.getXValue()) + " Y: " + formatter.format(data.getYValue())));
 
         } catch (Exception ex) {
-            showMessage("",
+            MyUtils.showMessage("",
                     "Error", "Por favor revisa la ayuda acerca de como ingresar la funcion", Alert.AlertType.ERROR);
         }
     }
-
-    private void showMessage(String message, String title, String header, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(message);
-        alert.show();
-    }
-
-    private void showHelpMessage(String helpMessage, int width, int heigth) {
-        VBox root = new VBox();
-        root.setAlignment(Pos.CENTER);
-        root.setSpacing(15);
-        root.getStyleClass().setAll("alert", "alert-info");
-
-        Label lblInfo = new Label(helpMessage);
-        final Button btnAcept = new Button("Aceptar");
-        btnAcept.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                ((Stage) btnAcept.getScene().getWindow()).close();
-            }
-        });
-
-        root.getChildren().addAll(lblInfo, btnAcept);
-        Scene scene = new Scene(root, width, heigth);
-        scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
-
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-    }
-
+    
     /**
      * Guarda una funcion
      *
@@ -457,7 +424,7 @@ public class MainController implements Initializable {
 
 
             if (type != FileFunction.BeanFunction.NEWTON_RAPHSON_MULTIVARIABLE) {
-                showMessage("Estas en Ecuaciones No lineales e intentas abrir otro tipo de archivo ",
+                MyUtils.showMessage("Estas en Ecuaciones No lineales e intentas abrir otro tipo de archivo ",
                         "Error al abrir el archivo", null, Alert.AlertType.WARNING);
                 return;
             }

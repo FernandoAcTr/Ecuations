@@ -16,16 +16,16 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PrincipalController implements Initializable {
+public class PrincipalController implements Initializable, EventHandler<MouseEvent>{
 
     @FXML
     Text descLinearSystem, descCloseMethods, descOpenMethods;
 
     @FXML
-    Text descNoLinearSystem;
+    Text descNoLinearSystem, descLinearRegresion;
 
     @FXML
-    private Label lblinearEcuations, lblNoLinearEcuations, closeMethods, openMethods;
+    private Label lblinearEcuations, lblNoLinearEcuations, closeMethods, openMethods, lbllinearRegresion;
 
     @FXML
     private MenuItem mnuAbout, mnuClose;
@@ -51,6 +51,11 @@ public class PrincipalController implements Initializable {
                 "la solución \nde ecuaciones por métodos abiertos";
         descOpenMethods.setText(openMessage);
 
+        String linearRegresionMessage = "En este apartado usted encontrará las" +
+                "\nherramientas necesarias para la solución de " +
+                "\nun modelo de regresión lineal.";
+        descLinearRegresion.setText(linearRegresionMessage);
+
 
         mnuAbout.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -72,29 +77,28 @@ public class PrincipalController implements Initializable {
             }
         });
 
-        lblinearEcuations.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                showLinearWindow();
-            }
-        });
+        lblinearEcuations.setOnMouseClicked(this);
 
-        closeMethods.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                showCloseMethods();
-            }
-        });
+        closeMethods.setOnMouseClicked(this);
 
-        openMethods.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                showOpenMethods();
-            }
-        });
+        openMethods.setOnMouseClicked(this);
 
-        lblNoLinearEcuations.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                showNoLinearSystem();
-            }
-        });
+        lblNoLinearEcuations.setOnMouseClicked(this);
+
+        lbllinearRegresion.setOnMouseClicked(this);
+    }
+
+    public void handle(MouseEvent event) {
+        if(event.getSource() == lblinearEcuations)
+            showLinearWindow();
+        else if(event.getSource() == closeMethods)
+            showCloseMethods();
+        else if(event.getSource() == openMethods)
+            showOpenMethods();
+        else if(event.getSource() == lblNoLinearEcuations)
+            showNoLinearSystem();
+        else if(event.getSource() == lbllinearRegresion)
+            showLinearRegresion();
     }
 
     private void showLinearWindow() {
@@ -167,6 +171,27 @@ public class PrincipalController implements Initializable {
             scene.getStylesheets().add("/css/jfoenix-fonts.css");
             Stage primaryStage = new Stage();
             primaryStage.setTitle("Sistemas de ecuaciones no lineales: Metodo Newton-Raphson Multivariable");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+            ((Stage)lblinearEcuations.getParent().getScene().getWindow()).close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showLinearRegresion(){
+        Parent root = null;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("regresionlineal_res/layout_main.fxml"));
+        try {
+            root = loader.load();
+            Scene scene = new Scene(root, 900, 600);
+            scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
+            scene.getStylesheets().add("/css/jfoenix-design.css");
+            scene.getStylesheets().add("/css/jfoenix-fonts.css");
+            scene.getStylesheets().add("/regresionlineal_res/tablecss.css");
+            Stage primaryStage = new Stage();
+            primaryStage.setTitle("Regresión Lineal");
             primaryStage.setScene(scene);
             primaryStage.show();
 

@@ -1,7 +1,5 @@
 package ecuationsolutions.model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
 
@@ -10,8 +8,6 @@ public class GraphicData {
     public GraphicData() {
 
     }
-
-
 
     public XYChart.Series getSerie(String serieName, double xValues[], double yValues[]){
 

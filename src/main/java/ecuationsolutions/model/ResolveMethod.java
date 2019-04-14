@@ -1,22 +1,20 @@
 package ecuationsolutions.model;
 
-import java.text.DecimalFormat;
+import utils.MyUtils;
 
 public class ResolveMethod {
 
     private double errorPermited;
     private double Xr;
     private String procedure;
-    private Function function;
-    DecimalFormat formatter;
+    private Function function;   
 
     public ResolveMethod() {
-        formatter = new DecimalFormat("0.000000");
+        
     }
 
     public ResolveMethod(Function function) {
         this.function = function;
-        formatter = new DecimalFormat("0.000000");
     }
 
     /**
@@ -206,13 +204,13 @@ public class ResolveMethod {
      * Concatena al procedimiento un renglon más del procedimiento, para metodos cerrados
      */
     private void concatCloseProcedure(int i,double pointA, double pointB, double funA, double funB, double Xr, double funXr, double error){
-        String a = formatter.format(pointA);
-        String b = formatter.format(pointB);
-        String fa = formatter.format(funA);
-        String fb = formatter.format(funB);
-        String xr = formatter.format(Xr);
-        String fxr = formatter.format(funXr);
-        String err = (i>1) ? formatter.format(error) : "------";
+        String a = MyUtils.format(pointA);
+        String b = MyUtils.format(pointB);
+        String fa = MyUtils.format(funA);
+        String fb = MyUtils.format(funB);
+        String xr = MyUtils.format(Xr);
+        String fxr = MyUtils.format(funXr);
+        String err = (i>1) ? MyUtils.format(error) : "------";
 
         String lineProcedure = String.format("%-3s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s",i, a, b, fa,
                 fb, xr, fxr, err);
@@ -223,9 +221,9 @@ public class ResolveMethod {
      * Concatena al procedimiento un renglon más del procedimiento, para el metodo de punto fijo
      */
     private void concatFixedPointProcedure(int i, double pointC, double Xr, double error){
-        String c = formatter.format(pointC);
-        String xr = formatter.format(Xr);
-        String err = formatter.format(error);
+        String c = MyUtils.format(pointC);
+        String xr = MyUtils.format(Xr);
+        String err = MyUtils.format(error);
 
         String lineProcedure = String.format("%-8s\t%-16s\t%-16s\t%-16s",i, c, xr, err);
         procedure += "\n"+lineProcedure;
@@ -235,11 +233,11 @@ public class ResolveMethod {
      * Concatena al procedimiento un renglon más del procedimiento, para el metodo de Newthon-Rapson
      */
     private void concatNewtonProcedure(int i, double pointC, double valueF,double valueFPrime, double Xr, double error){
-        String c = formatter.format(pointC);
-        String f = formatter.format(valueF);
-        String df = formatter.format(valueF);
-        String xr = formatter.format(Xr);
-        String err = formatter.format(error);
+        String c = MyUtils.format(pointC);
+        String f = MyUtils.format(valueF);
+        String df = MyUtils.format(valueF);
+        String xr = MyUtils.format(Xr);
+        String err = MyUtils.format(error);
 
         String lineProcedure = String.format("%-8s\t%-19s\t%-19s\t%-19s\t%-19s\t%-19s",i, c, f, df, xr,err);
         procedure += "\n"+lineProcedure;
@@ -249,12 +247,12 @@ public class ResolveMethod {
      * Concatena al procedimiento un renglon más del procedimiento, para el metodo de la secante
      */
     private void concatSecantMethod(int i, double pointA, double pointB, double valueForA, double valueForB, double Xr, double error){
-        String a = formatter.format(pointA);
-        String b = formatter.format(pointB);
-        String valA = formatter.format(valueForA);
-        String valB = formatter.format(valueForB);
-        String xr = formatter.format(Xr);
-        String err = formatter.format(error);
+        String a = MyUtils.format(pointA);
+        String b = MyUtils.format(pointB);
+        String valA = MyUtils.format(valueForA);
+        String valB = MyUtils.format(valueForB);
+        String xr = MyUtils.format(Xr);
+        String err = MyUtils.format(error);
 
         String lineProcedure = String.format("%-3s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t",i, a, b, valA,
                 valB, xr, err);
@@ -266,7 +264,7 @@ public class ResolveMethod {
     }
 
     public String toStringRoot(double root){
-        return formatter.format(root);
+        return MyUtils.format(root);
     }
 
     public String getProcedure(){

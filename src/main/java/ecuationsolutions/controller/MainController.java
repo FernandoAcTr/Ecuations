@@ -7,13 +7,11 @@ import ecuationsolutions.model.GraphicData;
 import ecuationsolutions.model.ResolveMethod;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -24,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import utils.MyUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -146,7 +145,7 @@ public class MainController implements Initializable {
                 Stage stage = new Stage();
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_principal.fxml"));
-                    Scene scene = new Scene(root, 730, 450);
+                    Scene scene = new Scene(root, 730,600);
                     scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
                     Stage primaryStage = new Stage();
                     primaryStage.setScene(scene);
@@ -219,7 +218,7 @@ public class MainController implements Initializable {
                         + "\n Raiz: sqrt()"
                         + "\n Los signos de agrupacion aceptados son: (), {}, []"
                         + "\n Además se soporta la multiplicación implícita";
-                showHelpMessage(help + "\n" + information, 700, 300);
+                MyUtils.showHelpMessage(help + "\n" + information, 700, 300);
             }
         });
 
@@ -233,7 +232,7 @@ public class MainController implements Initializable {
                         "\ndicho método en específico en el panel inferior a la caja de texto de la función. " +
                         "\nUna vez haya llenado correctamente la información deberá dar click en el botón resolver." +
                         "\nNota: No es necesario graficar para resolver la ecuación";
-                showHelpMessage(help, 750, 200);
+                MyUtils.showHelpMessage(help, 750, 200);
             }
         });
 
@@ -286,10 +285,7 @@ public class MainController implements Initializable {
             to = Double.parseDouble(txtTo.getText());
             increment = Math.abs(from - to) / 800;
         } catch (NumberFormatException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Ingresa correctamente el intervalo");
-            alert.show();
+            MyUtils.showMessage("Ingresa correctamente el intervalo", "Error", null, Alert.AlertType.ERROR);
             return;
         }
 
@@ -309,7 +305,7 @@ public class MainController implements Initializable {
                     Tooltip.install(data.getNode(), new Tooltip("X: " + formatter.format(data.getXValue()) + " Y: " + formatter.format(data.getYValue())));
 
         } catch (Exception ex) {
-            showMessage("",
+            MyUtils.showMessage("",
                     "Error", "Por favor revisa la ayuda acerca de como ingresar la funcion", Alert.AlertType.ERROR);
         }
     }
@@ -331,7 +327,7 @@ public class MainController implements Initializable {
             txtAreaProcedure.appendText("\nRaíz: " + resolveMethod.toStringRoot(resolveMethod.getRoot()));
             resolveMethod.restartProcedure();
         } catch (NumberFormatException e) {
-            showMessage("Asegurate de ingresar: punto A, punto B, Error", "Error", "", Alert.AlertType.WARNING);
+            MyUtils.showMessage("Asegurate de ingresar: punto A, punto B, Error", "Error", "", Alert.AlertType.WARNING);
         }
     }
 
@@ -351,7 +347,7 @@ public class MainController implements Initializable {
             txtAreaProcedure.appendText("\nRaíz: " + resolveMethod.toStringRoot(resolveMethod.getRoot()));
             resolveMethod.restartProcedure();
         } catch (NumberFormatException e) {
-            showMessage("Asegurate de ingresar: punto A, punto B, Error", "Error", "", Alert.AlertType.WARNING);
+            MyUtils.showMessage("Asegurate de ingresar: punto A, punto B, Error", "Error", "", Alert.AlertType.WARNING);
         }
     }
 
@@ -373,7 +369,7 @@ public class MainController implements Initializable {
             resolveMethod.restartProcedure();
 
         } catch (NumberFormatException e) {
-            showMessage("Asegurate de ingresar: Funcion g(x), punto A, Error", "Error", "", Alert.AlertType.WARNING);
+            MyUtils.showMessage("Asegurate de ingresar: Funcion g(x), punto A, Error", "Error", "", Alert.AlertType.WARNING);
         }
     }
 
@@ -395,7 +391,7 @@ public class MainController implements Initializable {
             resolveMethod.restartProcedure();
 
         } catch (NumberFormatException e) {
-            showMessage("Asegurate de ingresar: Funcion g(x), punto A, Error", "Error", "", Alert.AlertType.WARNING);
+            MyUtils.showMessage("Asegurate de ingresar: Funcion g(x), punto A, Error", "Error", "", Alert.AlertType.WARNING);
         }
     }
 
@@ -415,32 +411,8 @@ public class MainController implements Initializable {
             txtAreaProcedure.appendText("\nRaíz: " + resolveMethod.toStringRoot(resolveMethod.getRoot()));
             resolveMethod.restartProcedure();
         } catch (NumberFormatException e) {
-            showMessage("Asegurate de ingresar: punto A, punto B, Error", "Error", "", Alert.AlertType.WARNING);
+            MyUtils.showMessage("Asegurate de ingresar: punto A, punto B, Error", "Error", "", Alert.AlertType.WARNING);
         }
-    }
-
-    private void showHelpMessage(String helpMessage, int width, int heigth) {
-        VBox root = new VBox();
-        root.setAlignment(Pos.CENTER);
-        root.setSpacing(15);
-        root.getStyleClass().setAll("alert", "alert-info");
-
-        Label lblInfo = new Label(helpMessage);
-        final Button btnAcept = new Button("Aceptar");
-        btnAcept.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                ((Stage) btnAcept.getScene().getWindow()).close();
-            }
-        });
-
-        root.getChildren().addAll(lblInfo, btnAcept);
-        Scene scene = new Scene(root, width, heigth);
-        scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
-
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
 
     private void btnResolveAction() {
@@ -557,14 +529,14 @@ public class MainController implements Initializable {
 
             if (typeMthods == 0) {
                 if (type != FileFunction.BeanFunction.BISECCION && type != FileFunction.BeanFunction.FALSE_RULE) {
-                    showMessage("Estas en métodos cerrados e intentas abrir un archivo " +
+                    MyUtils.showMessage("Estas en métodos cerrados e intentas abrir un archivo " +
                             "de métodos abiertos", "Error al abrir el archivo", null, Alert.AlertType.WARNING);
                     return;
                 }
             } else {
                 if (type != FileFunction.BeanFunction.PUNTO_FIJO && type != FileFunction.BeanFunction.NEWTON &&
                         type != FileFunction.BeanFunction.SECANT) {
-                    showMessage("Estas en métodos abiertos e intentas abrir un archivo " +
+                    MyUtils.showMessage("Estas en métodos abiertos e intentas abrir un archivo " +
                             "de métodos cerrados", "Error al abrir el archivo", null, Alert.AlertType.WARNING);
                     return;
                 }
@@ -620,14 +592,6 @@ public class MainController implements Initializable {
                 refactorFile = new File(file.getPath() + ".func");
 
         return refactorFile;
-    }
-
-    private void showMessage(String message, String title, String header, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(message);
-        alert.show();
     }
 
     private void buildClosedPane() {

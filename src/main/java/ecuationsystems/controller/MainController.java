@@ -1,8 +1,7 @@
 package ecuationsystems.controller;
 
 import com.jfoenix.controls.JFXTabPane;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import ecuationsystems.model.ResolvMethods;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -10,8 +9,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -19,14 +16,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import ecuationsystems.model.ResolvMethods;
+import utils.MyUtils;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -60,13 +54,11 @@ public class MainController implements Initializable {
 
     int numVariables;
     ResolvMethods solver;
-    DecimalFormat formatter;
 
     public void initialize(URL location, ResourceBundle resources) {
         initGUI();
         initData();
         solver = new ResolvMethods();
-        formatter = new DecimalFormat("0.00");
     }
 
     public void initGUI() {
@@ -105,7 +97,7 @@ public class MainController implements Initializable {
                 Stage stage = new Stage();
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_principal.fxml"));
-                    Scene scene = new Scene(root, 730, 450);
+                    Scene scene = new Scene(root, 730, 600);
                     scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
                     Stage primaryStage = new Stage();
                     primaryStage.setScene(scene);
@@ -123,7 +115,7 @@ public class MainController implements Initializable {
             public void handle(ActionEvent event) {
                 String help = "Usted debe seleccionar el método por el cual desea resolver el sistema de ecuaciones" +
                         "\nen el combo box. De lo contrario no podrá realizar ninguna acción";
-                showHelpMessage(help, 700, 150);
+                MyUtils.showHelpMessage(help, 700, 150);
             }
         });
 
@@ -135,7 +127,7 @@ public class MainController implements Initializable {
                         "\ndebe ingresar los coeficientes de las variables del sistema a resolver." +
                         "\nSi desea limpiar las cajas de texto totalmente basta con dar click nuevamente en" +
                         "\nel boton Generar Matriz.";
-                showHelpMessage(help, 730, 150);
+                MyUtils.showHelpMessage(help, 730, 150);
 
             }
         });
@@ -145,7 +137,7 @@ public class MainController implements Initializable {
                 String help = "Cuando la matriz este completamente llena (ninguna caja de texto debe estar vacía)" +
                         "\nDebe dar click en el botón \"Resolver\" y la pantalla cambiará de pestaña en donde se " +
                         "\nse mostrará la solución del sistema de ecuaciones.";
-                showHelpMessage(help, 730, 200);
+                MyUtils.showHelpMessage(help, 730, 200);
             }
         });
 
@@ -391,7 +383,7 @@ public class MainController implements Initializable {
 
     private void printResults(double[] results) {
         for (int i = 0; i < results.length; i++)
-            textAreaSolution.appendText("X" + (i + 1) + " = " + formatter.format(results[i]) + "\n");
+            textAreaSolution.appendText("X" + (i + 1) + " = " + MyUtils.format(results[i]) + "\n");
     }
 
     private void showAlert(String title, String message) {
@@ -408,27 +400,5 @@ public class MainController implements Initializable {
         }
     };
 
-    private void showHelpMessage(String helpMessage, int width, int heigth) {
-        VBox root = new VBox();
-        root.setAlignment(Pos.CENTER);
-        root.setSpacing(15);
-        root.getStyleClass().setAll("alert", "alert-info");
-
-        Label lblInfo = new Label(helpMessage);
-        final Button btnAcept = new Button("Aceptar");
-        btnAcept.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                ((Stage) btnAcept.getScene().getWindow()).close();
-            }
-        });
-
-        root.getChildren().addAll(lblInfo, btnAcept);
-        Scene scene = new Scene(root, width, heigth);
-        scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
-
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-    }
+    
 }

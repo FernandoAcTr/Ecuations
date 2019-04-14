@@ -6,10 +6,12 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_principal.fxml"));
-        Scene scene = new Scene(root, 730, 450);
+        Scene scene = new Scene(root, 730,600);
         scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
         primaryStage.setTitle("Metodos Cerrados");
         primaryStage.setScene(scene);
