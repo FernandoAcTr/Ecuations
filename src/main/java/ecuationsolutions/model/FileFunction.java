@@ -55,11 +55,9 @@ public class FileFunction {
             beanFunction.typeMethod == BeanFunction.SECANT){
                 randomFile.writeUTF(beanFunction.pointB);
                 randomFile.writeUTF(beanFunction.error);
-                randomFile.writeUTF(beanFunction.procedure);
             }else if (beanFunction.typeMethod == BeanFunction.PUNTO_FIJO || beanFunction.typeMethod == BeanFunction.NEWTON){
                 randomFile.writeUTF(beanFunction.error);
                 randomFile.writeUTF(beanFunction.extraFunction);
-                randomFile.writeUTF(beanFunction.procedure);
             }
 
         } catch (IOException e) {
@@ -82,13 +80,11 @@ public class FileFunction {
             if(type == BeanFunction.BISECCION || type == BeanFunction.FALSE_RULE || type == BeanFunction.SECANT){
                 String pointB = randomFile.readUTF();
                 String error = randomFile.readUTF();
-                String procedure = randomFile.readUTF();
-                bean = new BeanFunction(type, function,from,to,pointA,pointB,error,procedure);
+                bean = new BeanFunction(type, function,from,to,pointA,pointB,error);
             }else if(type == BeanFunction.PUNTO_FIJO || type == BeanFunction.NEWTON){
                 String error = randomFile.readUTF();
                 String extraFun = randomFile.readUTF();
-                String procedure = randomFile.readUTF();
-                bean = new BeanFunction(type, function,from,to,pointA,error,procedure);
+                bean = new BeanFunction(type, function,from,to,pointA,error);
                 bean.setExtraFunction(extraFun);
             }
 
@@ -121,7 +117,6 @@ public class FileFunction {
         private String to;
         private String pointA;
         private String pointB;
-        private String procedure;
         private String error;
         private String extraFunction;
 
@@ -133,24 +128,22 @@ public class FileFunction {
         public static final byte SECANT = 4;
 
         public BeanFunction(byte typeMethod, String function, String from, String to, String pointA,
-                            String pointB, String procedure, String error) {
+                            String pointB, String error) {
             this.typeMethod = typeMethod;
             this.function = function;
             this.from = from;
             this.to = to;
             this.pointA = pointA;
             this.pointB = pointB;
-            this.procedure = procedure;
             this.error = error;
         }
 
-        public BeanFunction(byte typeMethod, String function, String from, String to, String pointA, String error, String procedure) {
+        public BeanFunction(byte typeMethod, String function, String from, String to, String pointA, String error) {
             this.typeMethod = typeMethod;
             this.function = function;
             this.from = from;
             this.to = to;
             this.pointA = pointA;
-            this.procedure = procedure;
             this.error = error;
         }
 
@@ -172,10 +165,6 @@ public class FileFunction {
 
         public String getPointB() {
             return pointB;
-        }
-
-        public String getProcedure() {
-            return procedure;
         }
 
         public String getError() {

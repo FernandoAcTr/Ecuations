@@ -1,20 +1,23 @@
 package ecuationsolutions.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import utils.MyUtils;
 
 public class ResolveMethod {
 
     private double errorPermited;
     private double Xr;
-    private String procedure;
+    private ObservableList<ValuesBean> listValues;
     private Function function;   
 
     public ResolveMethod() {
-        
+        listValues = FXCollections.observableArrayList();
     }
 
     public ResolveMethod(Function function) {
         this.function = function;
+        listValues = FXCollections.observableArrayList();
     }
 
     /**
@@ -212,9 +215,17 @@ public class ResolveMethod {
         String fxr = MyUtils.format(funXr);
         String err = (i>1) ? MyUtils.format(error) : "------";
 
-        String lineProcedure = String.format("%-3s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s",i, a, b, fa,
-                fb, xr, fxr, err);
-        procedure += "\n"+lineProcedure;
+        ValuesBean values = new ValuesBean();
+        values.setValue1(i+"");
+        values.setValue2(a);
+        values.setValue3(b);
+        values.setValue4(fa);
+        values.setValue5(fb);
+        values.setValue6(xr);
+        values.setValue7(fxr);
+        values.setValue8(err);
+
+        listValues.add(values);
     }
 
     /**
@@ -225,8 +236,13 @@ public class ResolveMethod {
         String xr = MyUtils.format(Xr);
         String err = MyUtils.format(error);
 
-        String lineProcedure = String.format("%-8s\t%-16s\t%-16s\t%-16s",i, c, xr, err);
-        procedure += "\n"+lineProcedure;
+        ValuesBean values = new ValuesBean();
+        values.setValue1(i+"");
+        values.setValue2(c);
+        values.setValue3(xr);
+        values.setValue4(err);
+
+        listValues.add(values);
     }
 
     /**
@@ -239,8 +255,15 @@ public class ResolveMethod {
         String xr = MyUtils.format(Xr);
         String err = MyUtils.format(error);
 
-        String lineProcedure = String.format("%-8s\t%-19s\t%-19s\t%-19s\t%-19s\t%-19s",i, c, f, df, xr,err);
-        procedure += "\n"+lineProcedure;
+        ValuesBean values = new ValuesBean();
+        values.setValue1(i+"");
+        values.setValue2(c);
+        values.setValue3(f);
+        values.setValue4(df);
+        values.setValue5(xr);
+        values.setValue6(err);
+
+        listValues.add(values);
     }
 
     /**
@@ -254,9 +277,16 @@ public class ResolveMethod {
         String xr = MyUtils.format(Xr);
         String err = MyUtils.format(error);
 
-        String lineProcedure = String.format("%-3s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t",i, a, b, valA,
-                valB, xr, err);
-        procedure += "\n"+lineProcedure;
+        ValuesBean values = new ValuesBean();
+        values.setValue1(i+"");
+        values.setValue2(a);
+        values.setValue3(b);
+        values.setValue4(valA);
+        values.setValue5(valB);
+        values.setValue6(xr);
+        values.setValue7(err);
+
+        listValues.add(values);
     }
 
     public double getRoot(){
@@ -267,8 +297,8 @@ public class ResolveMethod {
         return MyUtils.format(root);
     }
 
-    public String getProcedure(){
-        return procedure;
+    public ObservableList<ValuesBean> getProcedure(){
+        return listValues;
     }
 
     public void setErrorPermited(double errorPermited) {
@@ -279,26 +309,7 @@ public class ResolveMethod {
         this.function = function;
     }
 
-    public void initCloseProcedure(){
-        procedure = String.format("%-6s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s","No", "a", "b", "f(a)",
-                "f(b)", "Xr", "f(Xr)", "error");
-    }
-
-    public void initFixedPointProcedure(){
-        procedure = String.format("%-6s\t%-16s\t%-16s\t%-16s","No", "Xo", "Xi", "error");
-    }
-
-    public void initNewtonProcedure(){
-        procedure = String.format("%-6s\t%-25s\t%-25s\t%-25s\t%-25s\t%-25s","No", "Xi", "f(Xi)", "f'(Xi)", "Xr", "error");
-    }
-
-    public void initSecantProcedure(){
-        procedure = String.format("%-6s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t","No", "a", "b", "f(a)",
-                "f(b)", "Xr", "error");
-    }
-
     public void restartProcedure() {
-        procedure = String.format("%-6s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s","No", "a", "b", "f(a)",
-                "f(b)", "Xr", "f(Xr)", "error");
+        listValues.clear();
     }
 }

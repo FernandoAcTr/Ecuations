@@ -1,12 +1,10 @@
 package ecuationsolutions.controller;
 
 import com.jfoenix.controls.JFXTabPane;
-import ecuationsolutions.model.FileFunction;
-import ecuationsolutions.model.Function;
-import ecuationsolutions.model.GraphicData;
-import ecuationsolutions.model.ResolveMethod;
+import ecuationsolutions.model.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,11 +15,13 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import utils.MyUtils;
 
 import java.io.File;
@@ -49,7 +49,7 @@ public class MainController implements Initializable {
     private Label lblMethod;
 
     @FXML
-    private TextArea txtAreaProcedure;
+    private TableView<ValuesBean> tableViewProcedure;
 
     @FXML
     private MenuItem mnuClose;
@@ -93,7 +93,10 @@ public class MainController implements Initializable {
     FileFunction fileFunction;
     FileChooser fileChooser;
 
-    private static int typeMthods = 0;
+    public static final int CLOSE_METHODS = 0;
+    public static final int OPEN_METHODS = 1;
+
+    private static int typeMthods;
 
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -109,7 +112,7 @@ public class MainController implements Initializable {
         fileChooser.setInitialFileName("*.func");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Function File", "*.func"));
 
-        if (typeMthods == 0) {
+        if (typeMthods == CLOSE_METHODS) {
             cmbMethod.getItems().add("Bisección");
             cmbMethod.getItems().add("Regla Falsa");
         } else {
@@ -119,10 +122,10 @@ public class MainController implements Initializable {
         }
 
         try {
-            paneCloseMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution_res/fxml/layout_closed_method.fxml"));
-            paneNewtonMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution_res/fxml/layout_newton_method.fxml"));
-            paneFixedPointMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution_res/fxml/layout_fixedpoint_method.fxml"));
-            paneSecantMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution_res/fxml/layout_secant_method.fxml"));
+            paneCloseMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution_res/layout_closed_method.fxml"));
+            paneNewtonMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution_res/layout_newton_method.fxml"));
+            paneFixedPointMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution_res/layout_fixedpoint_method.fxml"));
+            paneSecantMethod = FXMLLoader.load(getClass().getResource("/ecuationsolution_res/layout_secant_method.fxml"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -142,7 +145,6 @@ public class MainController implements Initializable {
 
         mnuClose.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Stage stage = new Stage();
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_principal.fxml"));
                     Scene scene = new Scene(root, 730,600);
@@ -195,6 +197,7 @@ public class MainController implements Initializable {
 
         mnuOpen.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                cleanAll();
                 mnuOpenAction((Stage) btnShowGraphic.getScene().getWindow());
             }
         });
@@ -242,24 +245,33 @@ public class MainController implements Initializable {
             }
         });
 
-        if (typeMthods == 0)
+        if (typeMthods == CLOSE_METHODS) {
             buildClosedPane();
-        else
-            buildFixedPointPane();
+            setColumnsCloseMethods();
+        }
+        else {
+            buildFixedPointPane(); //el primero en el comboBox de metodos abiertos
+            setColumnsFixedPoints();
+        }
 
 
         cmbMethod.valueProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue.equalsIgnoreCase("Bisección") || newValue.equalsIgnoreCase("Regla Falsa"))
-                    buildClosedPane();
-                else if (newValue.equalsIgnoreCase("Punto Fijo"))
-                    buildFixedPointPane();
-                else if (newValue.equalsIgnoreCase("Newton-Raphson"))
-                    buildNewtonPane();
-                else if (newValue.equalsIgnoreCase("Método de la secante"))
-                    buildSecantPane();
-
-                txtAreaProcedure.clear();
+                switch (typeMthods){
+                    case OPEN_METHODS:
+                        if (cmbMethod.getSelectionModel().getSelectedIndex() == 0) {
+                            buildFixedPointPane();
+                            setColumnsFixedPoints();
+                        }
+                        else if (cmbMethod.getSelectionModel().getSelectedIndex() == 1) {
+                           buildNewtonPane();
+                           setColumnsNewtonRaphson();
+                        }
+                        else if (cmbMethod.getSelectionModel().getSelectedIndex() == 2) {
+                            buildSecantPane();
+                            setColumnsSecant();
+                        }
+                }
             }
         });
 
@@ -319,13 +331,12 @@ public class MainController implements Initializable {
             double error = Double.parseDouble(txtError.getText());
             Function function = new Function(def);
 
-            resolveMethod.initCloseProcedure();
             resolveMethod.setErrorPermited(error);
             resolveMethod.setFunction(function);
             resolveMethod.resolveByBiseccion(pointA, pointB);
-            txtAreaProcedure.setText(resolveMethod.getProcedure());
-            txtAreaProcedure.appendText("\nRaíz: " + resolveMethod.toStringRoot(resolveMethod.getRoot()));
-            resolveMethod.restartProcedure();
+            ObservableList listValues = resolveMethod.getProcedure();
+            tableViewProcedure.setItems(listValues);
+
         } catch (NumberFormatException e) {
             MyUtils.showMessage("Asegurate de ingresar: punto A, punto B, Error", "Error", "", Alert.AlertType.WARNING);
         }
@@ -339,13 +350,12 @@ public class MainController implements Initializable {
             double error = Double.parseDouble(txtError.getText());
             Function function = new Function(def);
 
-            resolveMethod.initCloseProcedure();
             resolveMethod.setErrorPermited(error);
             resolveMethod.setFunction(function);
             resolveMethod.resolveByFalseRule(pointA, pointB);
-            txtAreaProcedure.setText(resolveMethod.getProcedure());
-            txtAreaProcedure.appendText("\nRaíz: " + resolveMethod.toStringRoot(resolveMethod.getRoot()));
-            resolveMethod.restartProcedure();
+            ObservableList listValues = resolveMethod.getProcedure();
+            tableViewProcedure.setItems(listValues);
+
         } catch (NumberFormatException e) {
             MyUtils.showMessage("Asegurate de ingresar: punto A, punto B, Error", "Error", "", Alert.AlertType.WARNING);
         }
@@ -360,13 +370,11 @@ public class MainController implements Initializable {
             Function function = new Function(def);
             Function gFunction = new Function(gFunc);
 
-            resolveMethod.initFixedPointProcedure();
             resolveMethod.setErrorPermited(error);
             resolveMethod.setFunction(function);
             resolveMethod.resolveByFixedPoint(gFunction, pointX);
-            txtAreaProcedure.setText(resolveMethod.getProcedure());
-            txtAreaProcedure.appendText("\nRaíz: " + resolveMethod.toStringRoot(resolveMethod.getRoot()));
-            resolveMethod.restartProcedure();
+            ObservableList listValues = resolveMethod.getProcedure();
+            tableViewProcedure.setItems(listValues);
 
         } catch (NumberFormatException e) {
             MyUtils.showMessage("Asegurate de ingresar: Funcion g(x), punto A, Error", "Error", "", Alert.AlertType.WARNING);
@@ -382,13 +390,11 @@ public class MainController implements Initializable {
             Function function = new Function(def);
             Function dFunction = new Function(dFunc);
 
-            resolveMethod.initNewtonProcedure();
             resolveMethod.setErrorPermited(error);
             resolveMethod.setFunction(function);
             resolveMethod.resolveByNewtonRaphson(dFunction, pointX);
-            txtAreaProcedure.setText(resolveMethod.getProcedure());
-            txtAreaProcedure.appendText("\nRaíz: " + resolveMethod.toStringRoot(resolveMethod.getRoot()));
-            resolveMethod.restartProcedure();
+            ObservableList listValues = resolveMethod.getProcedure();
+            tableViewProcedure.setItems(listValues);
 
         } catch (NumberFormatException e) {
             MyUtils.showMessage("Asegurate de ingresar: Funcion g(x), punto A, Error", "Error", "", Alert.AlertType.WARNING);
@@ -403,20 +409,21 @@ public class MainController implements Initializable {
             double error = Double.parseDouble(txtError.getText());
             Function function = new Function(def);
 
-            resolveMethod.initSecantProcedure();
             resolveMethod.setErrorPermited(error);
             resolveMethod.setFunction(function);
             resolveMethod.resolveBySecant(pointA, pointB);
-            txtAreaProcedure.setText(resolveMethod.getProcedure());
-            txtAreaProcedure.appendText("\nRaíz: " + resolveMethod.toStringRoot(resolveMethod.getRoot()));
-            resolveMethod.restartProcedure();
+            ObservableList listValues = resolveMethod.getProcedure();
+            tableViewProcedure.setItems(listValues);
+
         } catch (NumberFormatException e) {
             MyUtils.showMessage("Asegurate de ingresar: punto A, punto B, Error", "Error", "", Alert.AlertType.WARNING);
         }
     }
 
     private void btnResolveAction() {
-        if (typeMthods == 0) {
+        resolveMethod.restartProcedure();
+
+        if (typeMthods == CLOSE_METHODS) {
             if (cmbMethod.getSelectionModel().getSelectedIndex() == 0)
                 biseccionAction();
             else if (cmbMethod.getSelectionModel().getSelectedIndex() == 1)
@@ -432,7 +439,6 @@ public class MainController implements Initializable {
     }
 
     private void cleanAll() {
-        txtAreaProcedure.setText("");
         txtError.setText("");
         txtFrom.setText("");
         txtFunction.setText("");
@@ -446,6 +452,7 @@ public class MainController implements Initializable {
         lineChart.getData().clear();
         tabPane.getSelectionModel().selectFirst();
         fileFunction.restartFile();
+        resolveMethod.restartProcedure();
         ((Stage) txtFunctionMain.getParent().getScene().getWindow()).setTitle("Nuevo Documento");
     }
 
@@ -472,8 +479,7 @@ public class MainController implements Initializable {
             String a = txtPointA.getText() != null ? txtPointA.getText() : "";
             String b = txtPointB.getText() != null ? txtPointB.getText() : "";
             String e = txtError.getText() != null ? txtError.getText() : "";
-            String p = txtAreaProcedure.getText() != null ? txtAreaProcedure.getText() : "";
-            beanFunction = new FileFunction.BeanFunction(typeMethod, f, from, to, a, b, e, p);
+            beanFunction = new FileFunction.BeanFunction(typeMethod, f, from, to, a, b, e);
 
         } else if (typeMethod == FileFunction.BeanFunction.PUNTO_FIJO) {
 
@@ -482,9 +488,8 @@ public class MainController implements Initializable {
             String to = txtTo.getText() != null ? txtTo.getText() : "";
             String a = txtPointAOpen.getText() != null ? txtPointAOpen.getText() : "";
             String e = txtError.getText() != null ? txtError.getText() : "";
-            String p = txtAreaProcedure.getText() != null ? txtAreaProcedure.getText() : "";
             String gFun = txtGFunction.getText() != null ? txtGFunction.getText() : "";
-            beanFunction = new FileFunction.BeanFunction(typeMethod, f, from, to, a, e, p);
+            beanFunction = new FileFunction.BeanFunction(typeMethod, f, from, to, a, e);
             beanFunction.setExtraFunction(gFun);
 
         } else if (typeMethod == FileFunction.BeanFunction.NEWTON) {
@@ -493,9 +498,8 @@ public class MainController implements Initializable {
             String to = txtTo.getText() != null ? txtTo.getText() : "";
             String a = txtPointAOpen.getText() != null ? txtPointAOpen.getText() : "";
             String e = txtError.getText() != null ? txtError.getText() : "";
-            String p = txtAreaProcedure.getText() != null ? txtAreaProcedure.getText() : "";
             String dFun = txtDerived.getText() != null ? txtDerived.getText() : "";
-            beanFunction = new FileFunction.BeanFunction(typeMethod, f, from, to, a, e, p);
+            beanFunction = new FileFunction.BeanFunction(typeMethod, f, from, to, a, e);
             beanFunction.setExtraFunction(dFun);
         }
 
@@ -522,7 +526,9 @@ public class MainController implements Initializable {
     private void mnuOpenAction(Stage stage) {
         fileChooser.setTitle("Open");
         File file = fileChooser.showOpenDialog(stage);
+
         if (file != null) {
+
             fileFunction.openFile(file);
             FileFunction.BeanFunction bean = fileFunction.readFunction();
             byte type = bean.getTypeMethod();
@@ -552,20 +558,17 @@ public class MainController implements Initializable {
                 txtPointA.setText(bean.getPointA());
                 txtPointB.setText(bean.getPointB());
                 txtError.setText(bean.getError());
-                txtAreaProcedure.setText(bean.getProcedure());
 
             } else if (type == FileFunction.BeanFunction.PUNTO_FIJO) {
                 buildFixedPointPane();
                 txtPointAOpen.setText(bean.getPointA());
                 txtError.setText(bean.getError());
-                txtAreaProcedure.setText(bean.getProcedure());
                 txtGFunction.setText(bean.getExtraFunction());
 
             } else if (type == FileFunction.BeanFunction.NEWTON) {
                 buildNewtonPane();
                 txtPointAOpen.setText(bean.getPointA());
                 txtError.setText(bean.getError());
-                txtAreaProcedure.setText(bean.getProcedure());
                 txtDerived.setText(bean.getExtraFunction());
 
             } else if (type == FileFunction.BeanFunction.SECANT) {
@@ -573,10 +576,9 @@ public class MainController implements Initializable {
                 txtPointA.setText(bean.getPointA());
                 txtPointB.setText(bean.getPointB());
                 txtError.setText(bean.getError());
-                txtAreaProcedure.setText(bean.getProcedure());
             }
 
-            if(typeMthods != 0)
+            if(typeMthods != CLOSE_METHODS)
                 type -= 2;
 
             cmbMethod.getSelectionModel().select(type);
@@ -629,5 +631,103 @@ public class MainController implements Initializable {
         lblMethod.setText("Métodos Abiertos");
         txtPointA.requestFocus();
     }
+
+    public void setColumnsCloseMethods(){
+        TableColumn<ValuesBean, String> colValue1 = new TableColumn<ValuesBean, String>("No.");
+        TableColumn<ValuesBean, String> colValue2 = new TableColumn<ValuesBean, String>("a");
+        TableColumn<ValuesBean, String> colValue3 = new TableColumn<ValuesBean, String>("b");
+        TableColumn<ValuesBean, String> colValue4 = new TableColumn<ValuesBean, String>("f(a)");
+        TableColumn<ValuesBean, String> colValue5 = new TableColumn<ValuesBean, String>("f(b)");
+        TableColumn<ValuesBean, String> colValue6 = new TableColumn<ValuesBean, String>("Xr");
+        TableColumn<ValuesBean, String> colValue7 = new TableColumn<ValuesBean, String>("f(Xr)");
+        TableColumn<ValuesBean, String> colValue8 = new TableColumn<ValuesBean, String>("Error");
+
+        colValue1.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value1"));
+        colValue2.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value2"));
+        colValue3.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value3"));
+        colValue4.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value4"));
+        colValue5.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value5"));
+        colValue6.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value6"));
+        colValue7.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value7"));
+        colValue8.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value8"));
+
+        tableViewProcedure.getColumns().clear();
+        tableViewProcedure.getColumns().addAll(colValue1, colValue2, colValue3, colValue4, colValue5, colValue6, colValue7, colValue8);
+
+        resizeColumns();
+        colValue1.setPrefWidth(45);
+    }
+
+    public void setColumnsFixedPoints(){
+        TableColumn<ValuesBean, String> colValue1 = new TableColumn<ValuesBean, String>("No.");
+        TableColumn<ValuesBean, String> colValue2 = new TableColumn<ValuesBean, String>("Xo");
+        TableColumn<ValuesBean, String> colValue3 = new TableColumn<ValuesBean, String>("Xi");
+        TableColumn<ValuesBean, String> colValue4 = new TableColumn<ValuesBean, String>("Error");
+
+        colValue1.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value1"));
+        colValue2.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value2"));
+        colValue3.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value3"));
+        colValue4.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value4"));
+
+        tableViewProcedure.getColumns().clear();
+        tableViewProcedure.getColumns().addAll(colValue1, colValue2, colValue3, colValue4);
+
+        resizeColumns();
+        colValue1.setPrefWidth(45);
+    }
+
+    public void setColumnsNewtonRaphson(){
+        TableColumn<ValuesBean, String> colValue1 = new TableColumn<ValuesBean, String>("No.");
+        TableColumn<ValuesBean, String> colValue2 = new TableColumn<ValuesBean, String>("Xi");
+        TableColumn<ValuesBean, String> colValue3 = new TableColumn<ValuesBean, String>("F(Xi)");
+        TableColumn<ValuesBean, String> colValue4 = new TableColumn<ValuesBean, String>("F'(xi)");
+        TableColumn<ValuesBean, String> colValue5 = new TableColumn<ValuesBean, String>("Xr");
+        TableColumn<ValuesBean, String> colValue6 = new TableColumn<ValuesBean, String>("Error");
+
+        colValue1.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value1"));
+        colValue2.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value2"));
+        colValue3.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value3"));
+        colValue4.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value4"));
+        colValue5.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value5"));
+        colValue6.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value6"));
+
+        tableViewProcedure.getColumns().clear();
+        tableViewProcedure.getColumns().addAll(colValue1, colValue2, colValue3, colValue4, colValue5, colValue6);
+
+        resizeColumns();
+        colValue1.setPrefWidth(45);
+    }
+
+    public void setColumnsSecant(){
+        TableColumn<ValuesBean, String> colValue1 = new TableColumn<ValuesBean, String>("No.");
+        TableColumn<ValuesBean, String> colValue2 = new TableColumn<ValuesBean, String>("a");
+        TableColumn<ValuesBean, String> colValue3 = new TableColumn<ValuesBean, String>("b");
+        TableColumn<ValuesBean, String> colValue4 = new TableColumn<ValuesBean, String>("f(a)");
+        TableColumn<ValuesBean, String> colValue5 = new TableColumn<ValuesBean, String>("f(b)");
+        TableColumn<ValuesBean, String> colValue6 = new TableColumn<ValuesBean, String>("Xr");
+        TableColumn<ValuesBean, String> colValue7 = new TableColumn<ValuesBean, String>("Error");
+
+        colValue1.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value1"));
+        colValue2.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value2"));
+        colValue3.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value3"));
+        colValue4.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value4"));
+        colValue5.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value5"));
+        colValue6.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value6"));
+        colValue7.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value7"));
+
+        tableViewProcedure.getColumns().clear();
+        tableViewProcedure.getColumns().addAll(colValue1, colValue2, colValue3, colValue4, colValue5, colValue6, colValue7);
+
+        resizeColumns();
+        colValue1.setPrefWidth(45);
+    }
+
+    private void resizeColumns(){
+        for (TableColumn t : tableViewProcedure.getColumns())
+            t.setPrefWidth(105);
+    }
+
+
+
 
 }

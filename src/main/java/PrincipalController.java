@@ -123,8 +123,8 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
     private void showCloseMethods(){
         Parent root = null;
         try {
-            MainController.changeTypeMethods(0);
-            root = FXMLLoader.load(getClass().getResource("ecuationsolution_res/fxml/layout_main.fxml"));
+            MainController.changeTypeMethods(MainController.CLOSE_METHODS);
+            root = FXMLLoader.load(getClass().getResource("ecuationsolution_res/layout_main.fxml"));
             Scene scene = new Scene(root, 780, 600);
             scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
             scene.getStylesheets().add("/css/jfoenix-design.css");
@@ -143,8 +143,8 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
     private void showOpenMethods(){
         Parent root = null;
         try {
-            MainController.changeTypeMethods(1);
-            root = FXMLLoader.load(getClass().getResource("ecuationsolution_res/fxml/layout_main.fxml"));
+            MainController.changeTypeMethods(MainController.OPEN_METHODS);
+            root = FXMLLoader.load(getClass().getResource("ecuationsolution_res/layout_main.fxml"));
             Scene scene = new Scene(root, 780, 600);
             scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
             scene.getStylesheets().add("/css/jfoenix-design.css");

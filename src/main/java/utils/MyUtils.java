@@ -14,7 +14,7 @@ import java.text.DecimalFormat;
 
 public class MyUtils {
 
-    private static DecimalFormat formatter = new DecimalFormat("##.000000");
+    private static DecimalFormat formatter = new DecimalFormat("#0.000000");
 
     public static void showHelpMessage(String helpMessage, int width, int heigth) {
         VBox root = new VBox();
