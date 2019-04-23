@@ -165,13 +165,15 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
         FXMLLoader loader = new FXMLLoader(getClass().getResource("nolinearsystem_res/layout_main.fxml"));
         try {
             root = loader.load();
-            Scene scene = new Scene(root, 780, 600);
+            Scene scene = new Scene(root, 780, 700);
             scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
             scene.getStylesheets().add("/css/jfoenix-design.css");
             scene.getStylesheets().add("/css/jfoenix-fonts.css");
+            scene.getStylesheets().add("src/main/resources/nolinearsystem_res/table_styles.css");
             Stage primaryStage = new Stage();
             primaryStage.setTitle("Sistemas de ecuaciones no lineales: Metodo Newton-Raphson Multivariable");
             primaryStage.setScene(scene);
+            primaryStage.setMaximized(true);
             primaryStage.show();
 
             ((Stage)lblinearEcuations.getParent().getScene().getWindow()).close();

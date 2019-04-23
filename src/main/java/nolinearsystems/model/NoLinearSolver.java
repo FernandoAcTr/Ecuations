@@ -1,5 +1,8 @@
 package nolinearsystems.model;
 
+import ecuationsolutions.model.ValuesBean;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import utils.MyUtils;
 
 public class NoLinearSolver {
@@ -8,7 +11,7 @@ public class NoLinearSolver {
     private Function F1x, F1y;
     private Function F2x, F2y;
     private double errorPermited;
-    private String procedure;
+    private ObservableList<ValuesBean> listValues;
 
     public NoLinearSolver(String f1, String f2, String f1x, String f1y, String f2x, String f2y, double errorPermited) {
         F1 = new Function(f1);
@@ -18,8 +21,7 @@ public class NoLinearSolver {
         F2x = new Function(f2x);
         F2y = new Function(f2y);
         this.errorPermited = errorPermited;
-        procedure = String.format("%-6s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t\t%-16s",
-                "No.", "x", "y", "f1", "f2", "f1x", "f1y", "f2x", "f2y", "Δx", "Δy", "Xi+1", "Yi+1", "ep1", "ep2");
+        listValues = FXCollections.observableArrayList();
     }
 
     /**
@@ -77,18 +79,27 @@ public class NoLinearSolver {
         String sEp1 = MyUtils.format(ep1);
         String sEp2 = MyUtils.format(ep2);
 
-        String line;
-        if(iteration < 2)
-        line = String.format("%-6s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s",
-                iteration, sX, sY, sF1, sF2, sF1x, sF1y, sF2x, sF2y, sDeltaX, sDeltaY, sNextX, sNextY, sEp1, sEp2);
-        else
-            line = String.format("%-6s\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t\t%-16s\t%-16s\t%-16s\t\t%-16s\t%-16s\t%-16s\t%-16s\t%-16s\t%-8s",
-                    iteration, sX, sY, sF1, sF2, sF1x, sF1y, sF2x, sF2y, sDeltaX, sDeltaY, sNextX, sNextY, sEp1, sEp2);
+        ValuesBean values = new ValuesBean();
+        values.setValue1(iteration+"");
+        values.setValue2(sX);
+        values.setValue3(sY);
+        values.setValue4(sF1);
+        values.setValue5(sF2);
+        values.setValue6(sF1x);
+        values.setValue7(sF1y);
+        values.setValue8(sF2x);
+        values.setValue9(sF2y);
+        values.setValue10(sDeltaX);
+        values.setValue11(sDeltaY);
+        values.setValue12(sNextX);
+        values.setValue13(sNextY);
+        values.setValue14(sEp1);
+        values.setValue15(sEp2);
 
-        procedure += "\n"+line;
+        listValues.add(values);
     }
 
-    public String getProcedure() {
-        return procedure;
+    public ObservableList<ValuesBean> getProcedure() {
+        return listValues;
     }
 }

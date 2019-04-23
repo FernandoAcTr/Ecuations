@@ -132,7 +132,7 @@ public class MainController implements Initializable {
 
         mnuHowFillData.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                String help = "Usted debe selccionar cuántos datos va a grafica y posteriormente" +
+                String help = "Usted debe selccionar cuántos datos va a graficar y posteriormente" +
                         "\ndar click en el botón \"Generar\", inmediatamente notará que la" +
                         "\ntabla se habilita. Debe entonces llenar los campos de las columnas" +
                         "\nX e Y con los puntos que desea graficar." +

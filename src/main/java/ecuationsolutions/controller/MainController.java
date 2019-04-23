@@ -204,7 +204,7 @@ public class MainController implements Initializable {
 
         mnuHowGraphic.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                String help = "Posicionados en la pestaña gáfica:" +
+                String help = "Posicionados en la pestaña gráfica:" +
                         "\nUsted debe de ingresar la función que desea graficar y el intervalo numérico en el cuál se graficará"
                         + "\nposteriormente debe dar click en el botón graficar.";
                 String information = "Para las funcioes se aceptan los siguientes simbolos: "

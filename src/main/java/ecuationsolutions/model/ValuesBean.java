@@ -11,6 +11,11 @@ public class ValuesBean {
     private String value8;
     private String value9;
     private String value10;
+    private String value11;
+    private String value12;
+    private String value13;
+    private String value14;
+    private String value15;
 
     public ValuesBean() {
     }
@@ -93,5 +98,45 @@ public class ValuesBean {
 
     public void setValue10(String value10) {
         this.value10 = value10;
+    }
+
+    public String getValue11() {
+        return value11;
+    }
+
+    public void setValue11(String value11) {
+        this.value11 = value11;
+    }
+
+    public String getValue12() {
+        return value12;
+    }
+
+    public void setValue12(String value12) {
+        this.value12 = value12;
+    }
+
+    public String getValue13() {
+        return value13;
+    }
+
+    public void setValue13(String value13) {
+        this.value13 = value13;
+    }
+
+    public String getValue14() {
+        return value14;
+    }
+
+    public void setValue14(String value14) {
+        this.value14 = value14;
+    }
+
+    public String getValue15() {
+        return value15;
+    }
+
+    public void setValue15(String value15) {
+        this.value15 = value15;
     }
 }

@@ -127,7 +127,7 @@ public class MainController implements Initializable {
                         "\ndebe ingresar los coeficientes de las variables del sistema a resolver." +
                         "\nSi desea limpiar las cajas de texto totalmente basta con dar click nuevamente en" +
                         "\nel boton Generar Matriz.";
-                MyUtils.showHelpMessage(help, 730, 150);
+                MyUtils.showHelpMessage(help, 730, 210);
 
             }
         });

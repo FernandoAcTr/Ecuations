@@ -3,6 +3,8 @@ package nolinearsystems.controller;
 import com.jfoenix.controls.JFXTabPane;
 import ecuationsolutions.model.Function;
 import ecuationsolutions.model.GraphicData;
+import ecuationsolutions.model.ValuesBean;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,9 +13,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -84,12 +86,6 @@ public class MainController implements Initializable {
     private LineChart<?, ?> lineChart;
 
     @FXML
-    private NumberAxis xAxis;
-
-    @FXML
-    private NumberAxis yAxis;
-
-    @FXML
     private TextField txtF1;
 
     @FXML
@@ -117,7 +113,7 @@ public class MainController implements Initializable {
     private TextField txtEP;
 
     @FXML
-    private TextArea txtAreaProcedure;
+    private TableView<ValuesBean> tableViewProcedure;
 
     @FXML
     private Button btnResolve;
@@ -139,6 +135,7 @@ public class MainController implements Initializable {
     }
 
     private void initComponents() {
+        setColumns();
 
         btnShowGraphic.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -172,7 +169,6 @@ public class MainController implements Initializable {
 
         mnuClose.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Stage stage = new Stage();
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_principal.fxml"));
                     Scene scene = new Scene(root, 730, 600);
@@ -205,7 +201,7 @@ public class MainController implements Initializable {
 
         mnuHowGraphic.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                String help = "Posicionados en la pestaña gáfica:" +
+                String help = "Posicionados en la pestaña gráfica:" +
                         "\nUsted debe de ingresar las funciones que desea graficar y el intervalo numérico en el cuál se graficará cada una"
                         + "\nposteriormente debe dar click en el botón graficar." +
                         "\nEs usual que ambas funciones se deseen graficar en el mismo intervalo, por tanto el segundo intervalo." +
@@ -296,9 +292,8 @@ public class MainController implements Initializable {
                     if (verifyData(f1, f2, f1x, f1y, f2x, f2y)) {
                         solver = new NoLinearSolver(f1, f2, f1x, f1y, f2x, f2y, error);
                         double[] results = solver.resolvByNewton_Raphson_Multivariable(x, y);
-                        txtAreaProcedure.setText(solver.getProcedure());
-                        txtAreaProcedure.appendText("\n\nX = "+format.format(results[0]));
-                        txtAreaProcedure.appendText("\nY = "+format.format(results[1]));
+                        ObservableList list = solver.getProcedure();
+                        tableViewProcedure.setItems(list);
                     } else {
                         MyUtils.showMessage("No debes dejar datos en blanco.",
                                 "Error", null, Alert.AlertType.ERROR);
@@ -354,7 +349,7 @@ public class MainController implements Initializable {
                     "Error", "Por favor revisa la ayuda acerca de como ingresar la funcion", Alert.AlertType.ERROR);
         }
     }
-    
+
     /**
      * Guarda una funcion
      *
@@ -470,6 +465,52 @@ public class MainController implements Initializable {
         txtF1.requestFocus();
         tabPane.getSelectionModel().select(1);
         ((Stage) txtFunction.getParent().getScene().getWindow()).setTitle("New Document");
+    }
+
+    public void setColumns(){
+        TableColumn<ValuesBean, String> colValue1 = new TableColumn<ValuesBean, String>("No.");
+        TableColumn<ValuesBean, String> colValue2 = new TableColumn<ValuesBean, String>("X");
+        TableColumn<ValuesBean, String> colValue3 = new TableColumn<ValuesBean, String>("Y");
+        TableColumn<ValuesBean, String> colValue4 = new TableColumn<ValuesBean, String>("F1");
+        TableColumn<ValuesBean, String> colValue5 = new TableColumn<ValuesBean, String>("F2");
+        TableColumn<ValuesBean, String> colValue6 = new TableColumn<ValuesBean, String>("F1x");
+        TableColumn<ValuesBean, String> colValue7 = new TableColumn<ValuesBean, String>("F1y");
+        TableColumn<ValuesBean, String> colValue8 = new TableColumn<ValuesBean, String>("F2x");
+        TableColumn<ValuesBean, String> colValue9 = new TableColumn<ValuesBean, String>("F2y");
+        TableColumn<ValuesBean, String> colValue10 = new TableColumn<ValuesBean, String>("ΔX");
+        TableColumn<ValuesBean, String> colValue11 = new TableColumn<ValuesBean, String>("ΔY");
+        TableColumn<ValuesBean, String> colValue12 = new TableColumn<ValuesBean, String>("Xi+1");
+        TableColumn<ValuesBean, String> colValue13 = new TableColumn<ValuesBean, String>("Yi+1");
+        TableColumn<ValuesBean, String> colValue14 = new TableColumn<ValuesBean, String>("Ep1");
+        TableColumn<ValuesBean, String> colValue15 = new TableColumn<ValuesBean, String>("Ep2");
+
+        colValue1.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value1"));
+        colValue2.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value2"));
+        colValue3.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value3"));
+        colValue4.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value4"));
+        colValue5.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value5"));
+        colValue6.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value6"));
+        colValue7.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value7"));
+        colValue8.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value8"));
+        colValue9.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value9"));
+        colValue10.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value10"));
+        colValue11.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value11"));
+        colValue12.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value12"));
+        colValue13.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value13"));
+        colValue14.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value14"));
+        colValue15.setCellValueFactory(new PropertyValueFactory<ValuesBean, String>("value15"));
+
+        tableViewProcedure.getColumns().clear();
+        tableViewProcedure.getColumns().addAll(colValue1, colValue2, colValue3, colValue4, colValue5, colValue6, colValue7, colValue8,
+                colValue9,colValue10,colValue11,colValue12,colValue13,colValue14,colValue15);
+
+        resizeColumns();
+        colValue1.setPrefWidth(45);
+    }
+
+    private void resizeColumns(){
+        for (TableColumn t : tableViewProcedure.getColumns())
+            t.setPrefWidth(105);
     }
 
 }
