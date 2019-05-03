@@ -2,7 +2,7 @@ package ecuationsystems.model;
 
 import java.text.DecimalFormat;
 
-public class ResolvMethods {
+public class SystemSolver {
     private double[][] matrix;
     private int numVariables;
     private DecimalFormat formatter;
@@ -10,7 +10,7 @@ public class ResolvMethods {
     private String separator;
     private double errorPermited;
 
-    public ResolvMethods() {
+    public SystemSolver() {
         procedure = "";
         separator = "";
         formatter = new DecimalFormat("0.00");
@@ -42,7 +42,7 @@ public class ResolvMethods {
      * ------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    public boolean resolvByGauss() {
+    public boolean solveByGauss() {
         int indexPivot, row, col;
         double pivot, factor;
 
@@ -121,7 +121,7 @@ public class ResolvMethods {
      * ------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    public boolean resolvByGauss_Jordan() {
+    public boolean solveByGauss_Jordan() {
         int indexPivot, row, col;
         double pivot, factor;
 
@@ -194,7 +194,7 @@ public class ResolvMethods {
      * ------------------------------------------------------------------------------------------------------------------------------------------
      */
 
-    public double[] resolvByJacobi() {
+    public double[] solveByJacobi() {
 
         String tempExpresion;
         MultiVariableFuntion[] functions = new MultiVariableFuntion[numVariables];
@@ -251,7 +251,7 @@ public class ResolvMethods {
             }
 
         } catch (Exception ex) {
-            System.out.println("Error en resolvByJacobi");
+            System.out.println("Error en solveByJacobi");
             ex.printStackTrace();
         }
 
@@ -392,7 +392,7 @@ public class ResolvMethods {
             }
 
         } catch (Exception ex) {
-            System.out.println("Error en resolvByJacobi");
+            System.out.println("Error en solveByJacobi");
             ex.printStackTrace();
         }
 

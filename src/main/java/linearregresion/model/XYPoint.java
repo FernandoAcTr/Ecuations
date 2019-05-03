@@ -1,4 +1,4 @@
-package regresionlineal.model;
+package linearregresion.model;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -39,6 +39,9 @@ public class XYPoint implements EventHandler<KeyEvent> {
                 else {        //unfocused
                     if (txtPointX.getText().length() > 0)
                         x = Float.valueOf(txtPointX.getText());
+                    else
+                        txtPointX.setText("0");
+
                     tableView.refresh();
                 }
 
@@ -53,6 +56,9 @@ public class XYPoint implements EventHandler<KeyEvent> {
                 else {        //unfocused
                     if (txtPointY.getText().length() > 0)
                         y = Float.valueOf(txtPointY.getText());
+                    else
+                        txtPointY.setText("0");
+
                     tableView.refresh();
                 }
 

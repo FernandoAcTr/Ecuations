@@ -21,7 +21,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import utils.MyUtils;
 
 import java.io.File;
@@ -89,7 +88,7 @@ public class MainController implements Initializable {
 
     private HBox paneCloseMethod, paneNewtonMethod, paneFixedPointMethod, paneSecantMethod;
 
-    ResolveMethod resolveMethod;
+    EcuationSolver ecuationSolver;
     FileFunction fileFunction;
     FileChooser fileChooser;
 
@@ -106,7 +105,7 @@ public class MainController implements Initializable {
     }
 
     private void initData() {
-        resolveMethod = new ResolveMethod();
+        ecuationSolver = new EcuationSolver();
         fileFunction = new FileFunction();
         fileChooser = new FileChooser();
         fileChooser.setInitialFileName("*.func");
@@ -136,7 +135,7 @@ public class MainController implements Initializable {
     }
 
     private void initGUI() {
-
+        tableViewProcedure.setFocusTraversable(false);
         btnShowGraphic.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 showGraphic();
@@ -331,10 +330,10 @@ public class MainController implements Initializable {
             double error = Double.parseDouble(txtError.getText());
             Function function = new Function(def);
 
-            resolveMethod.setErrorPermited(error);
-            resolveMethod.setFunction(function);
-            resolveMethod.resolveByBiseccion(pointA, pointB);
-            ObservableList listValues = resolveMethod.getProcedure();
+            ecuationSolver.setErrorPermited(error);
+            ecuationSolver.setFunction(function);
+            ecuationSolver.resolveByBiseccion(pointA, pointB);
+            ObservableList listValues = ecuationSolver.getProcedure();
             tableViewProcedure.setItems(listValues);
 
         } catch (NumberFormatException e) {
@@ -350,10 +349,10 @@ public class MainController implements Initializable {
             double error = Double.parseDouble(txtError.getText());
             Function function = new Function(def);
 
-            resolveMethod.setErrorPermited(error);
-            resolveMethod.setFunction(function);
-            resolveMethod.resolveByFalseRule(pointA, pointB);
-            ObservableList listValues = resolveMethod.getProcedure();
+            ecuationSolver.setErrorPermited(error);
+            ecuationSolver.setFunction(function);
+            ecuationSolver.resolveByFalseRule(pointA, pointB);
+            ObservableList listValues = ecuationSolver.getProcedure();
             tableViewProcedure.setItems(listValues);
 
         } catch (NumberFormatException e) {
@@ -370,10 +369,10 @@ public class MainController implements Initializable {
             Function function = new Function(def);
             Function gFunction = new Function(gFunc);
 
-            resolveMethod.setErrorPermited(error);
-            resolveMethod.setFunction(function);
-            resolveMethod.resolveByFixedPoint(gFunction, pointX);
-            ObservableList listValues = resolveMethod.getProcedure();
+            ecuationSolver.setErrorPermited(error);
+            ecuationSolver.setFunction(function);
+            ecuationSolver.resolveByFixedPoint(gFunction, pointX);
+            ObservableList listValues = ecuationSolver.getProcedure();
             tableViewProcedure.setItems(listValues);
 
         } catch (NumberFormatException e) {
@@ -390,10 +389,10 @@ public class MainController implements Initializable {
             Function function = new Function(def);
             Function dFunction = new Function(dFunc);
 
-            resolveMethod.setErrorPermited(error);
-            resolveMethod.setFunction(function);
-            resolveMethod.resolveByNewtonRaphson(dFunction, pointX);
-            ObservableList listValues = resolveMethod.getProcedure();
+            ecuationSolver.setErrorPermited(error);
+            ecuationSolver.setFunction(function);
+            ecuationSolver.resolveByNewtonRaphson(dFunction, pointX);
+            ObservableList listValues = ecuationSolver.getProcedure();
             tableViewProcedure.setItems(listValues);
 
         } catch (NumberFormatException e) {
@@ -409,10 +408,10 @@ public class MainController implements Initializable {
             double error = Double.parseDouble(txtError.getText());
             Function function = new Function(def);
 
-            resolveMethod.setErrorPermited(error);
-            resolveMethod.setFunction(function);
-            resolveMethod.resolveBySecant(pointA, pointB);
-            ObservableList listValues = resolveMethod.getProcedure();
+            ecuationSolver.setErrorPermited(error);
+            ecuationSolver.setFunction(function);
+            ecuationSolver.resolveBySecant(pointA, pointB);
+            ObservableList listValues = ecuationSolver.getProcedure();
             tableViewProcedure.setItems(listValues);
 
         } catch (NumberFormatException e) {
@@ -421,7 +420,7 @@ public class MainController implements Initializable {
     }
 
     private void btnResolveAction() {
-        resolveMethod.restartProcedure();
+        ecuationSolver.restartProcedure();
 
         if (typeMthods == CLOSE_METHODS) {
             if (cmbMethod.getSelectionModel().getSelectedIndex() == 0)
@@ -452,7 +451,7 @@ public class MainController implements Initializable {
         lineChart.getData().clear();
         tabPane.getSelectionModel().selectFirst();
         fileFunction.restartFile();
-        resolveMethod.restartProcedure();
+        ecuationSolver.restartProcedure();
         ((Stage) txtFunctionMain.getParent().getScene().getWindow()).setTitle("Nuevo Documento");
     }
 

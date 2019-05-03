@@ -111,6 +111,18 @@
 
             </Panel>
 
+            <Panel styleClass="panel-primary" HBox.hgrow="ALWAYS">
+
+                <heading>
+                    <Label fx:id="lblPolynomialRegresion" text="Regresión Polinomial"/>
+                </heading>
+
+                <body>
+                    <Text fx:id="descPolynomialRegresion" styleClass="text-info"/>
+                </body>
+
+            </Panel>
+
         </HBox>
 
         <padding>

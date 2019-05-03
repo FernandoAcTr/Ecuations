@@ -1,7 +1,7 @@
 package ecuationsystems.controller;
 
 import com.jfoenix.controls.JFXTabPane;
-import ecuationsystems.model.ResolvMethods;
+import ecuationsystems.model.SystemSolver;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -53,12 +53,12 @@ public class MainController implements Initializable {
     MenuItem mnuHowSelectMethod, mnuHowResolv, mnuHowFillData;
 
     int numVariables;
-    ResolvMethods solver;
+    SystemSolver solver;
 
     public void initialize(URL location, ResourceBundle resources) {
         initGUI();
         initData();
-        solver = new ResolvMethods();
+        solver = new SystemSolver();
     }
 
     public void initGUI() {
@@ -298,33 +298,33 @@ public class MainController implements Initializable {
         solver.setNumVariables(numVariables);
 
         if (type == 0)
-            resolvGaussAction();
+            solveGaussAction();
 
         else if (type == 1)
-            resolvGaussJordanAction();
+            solveGaussJordanAction();
 
         else if (type == 2)
             if (txtError.getText().length() == 0) {
                 showAlert("Advertencia", "Asegurate de ingresar el error permitido");
                 return;
             } else
-                resolvJacobiAction(Double.parseDouble(txtError.getText()));
+                solveJacobiAction(Double.parseDouble(txtError.getText()));
 
         else if (type == 3)
             if (txtError.getText().length() == 0) {
                 showAlert("Advertencia", "Asegurate de ingresar el error permitido");
                 return;
             } else
-                resolveGaussSeidelAction(Double.parseDouble(txtError.getText()));
+                solveGaussSeidelAction(Double.parseDouble(txtError.getText()));
 
 
         tabPane.getSelectionModel().selectNext();
     }
 
-    private void resolvGaussAction() {
+    private void solveGaussAction() {
         double results[];
 
-        boolean status = solver.resolvByGauss();
+        boolean status = solver.solveByGauss();
         results = solver.getGaussResults();
 
         textAreaSolution.clear();
@@ -339,10 +339,10 @@ public class MainController implements Initializable {
         }
     }
 
-    private void resolvGaussJordanAction() {
+    private void solveGaussJordanAction() {
         double results[];
 
-        boolean status = solver.resolvByGauss_Jordan();
+        boolean status = solver.solveByGauss_Jordan();
         results = solver.getGaussJordanResults();
 
         textAreaSolution.clear();
@@ -358,10 +358,10 @@ public class MainController implements Initializable {
 
     }
 
-    private void resolvJacobiAction(double error) {
+    private void solveJacobiAction(double error) {
 
         solver.setErrorPermited(error);
-        double results[] = solver.resolvByJacobi();
+        double results[] = solver.solveByJacobi();
 
         textAreaSolution.clear();
         textAreaSolution.setText(solver.getProcedure());
@@ -370,7 +370,7 @@ public class MainController implements Initializable {
         printResults(results);
     }
 
-    private void resolveGaussSeidelAction(double error) {
+    private void solveGaussSeidelAction(double error) {
 
         solver.setErrorPermited(error);
         double results[] = solver.resolvByGauss_Seidel();

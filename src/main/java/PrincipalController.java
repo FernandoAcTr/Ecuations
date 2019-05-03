@@ -22,10 +22,10 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
     Text descLinearSystem, descCloseMethods, descOpenMethods;
 
     @FXML
-    Text descNoLinearSystem, descLinearRegresion;
+    Text descNoLinearSystem, descLinearRegresion, descPolynomialRegresion;
 
     @FXML
-    private Label lblinearEcuations, lblNoLinearEcuations, closeMethods, openMethods, lbllinearRegresion;
+    private Label lblinearEcuations, lblNoLinearEcuations, closeMethods, openMethods, lbllinearRegresion,  lblPolynomialRegresion;
 
     @FXML
     private MenuItem mnuAbout, mnuClose;
@@ -55,6 +55,12 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
                 "\nherramientas necesarias para la solución de " +
                 "\nun modelo de regresión lineal.";
         descLinearRegresion.setText(linearRegresionMessage);
+
+        String polynomialRegresionMessage = "En este apartado usted encontrará las" +
+                "\nherramientas necesarias para la solución de " +
+                "\nun modelo de regresión polinomial de hasta " +
+                "\ngrado n = 10.";
+        descPolynomialRegresion.setText(polynomialRegresionMessage);
 
 
         mnuAbout.setOnAction(new EventHandler<ActionEvent>() {
@@ -86,9 +92,13 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
         lblNoLinearEcuations.setOnMouseClicked(this);
 
         lbllinearRegresion.setOnMouseClicked(this);
+
+        lblPolynomialRegresion.setOnMouseClicked(this);
     }
 
     public void handle(MouseEvent event) {
+
+
         if(event.getSource() == lblinearEcuations)
             showLinearWindow();
         else if(event.getSource() == closeMethods)
@@ -99,10 +109,12 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
             showNoLinearSystem();
         else if(event.getSource() == lbllinearRegresion)
             showLinearRegresion();
+        else if(event.getSource() == lblPolynomialRegresion)
+            showPolynomialRegresion();
     }
 
     private void showLinearWindow() {
-        Parent root = null;
+        Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("ecuationsystem_res/fxml/main_layout.fxml"));
             Scene scene = new Scene(root, 780, 340);
@@ -121,7 +133,7 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
     }
 
     private void showCloseMethods(){
-        Parent root = null;
+        Parent root;
         try {
             MainController.changeTypeMethods(MainController.CLOSE_METHODS);
             root = FXMLLoader.load(getClass().getResource("ecuationsolution_res/layout_main.fxml"));
@@ -141,7 +153,7 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
     }
 
     private void showOpenMethods(){
-        Parent root = null;
+        Parent root;
         try {
             MainController.changeTypeMethods(MainController.OPEN_METHODS);
             root = FXMLLoader.load(getClass().getResource("ecuationsolution_res/layout_main.fxml"));
@@ -161,7 +173,7 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
     }
 
     private void showNoLinearSystem(){
-        Parent root = null;
+        Parent root;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("nolinearsystem_res/layout_main.fxml"));
         try {
             root = loader.load();
@@ -183,18 +195,38 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
     }
 
     private void showLinearRegresion(){
-        Parent root = null;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("regresionlineal_res/layout_main.fxml"));
+        Parent root;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("linearregresion_res/layout_main.fxml"));
+        try {
+            root = loader.load();
+            Scene scene = new Scene(root, 1050, 600);
+            scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
+            scene.getStylesheets().add("/css/jfoenix-design.css");
+            scene.getStylesheets().add("/css/jfoenix-fonts.css");
+            Stage primaryStage = new Stage();
+            primaryStage.setTitle("Regresión Lineal");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+            ((Stage)lblinearEcuations.getParent().getScene().getWindow()).close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showPolynomialRegresion(){
+        Parent root;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("polynomialregresion_res/layout_main.fxml"));
         try {
             root = loader.load();
             Scene scene = new Scene(root, 900, 600);
             scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
             scene.getStylesheets().add("/css/jfoenix-design.css");
             scene.getStylesheets().add("/css/jfoenix-fonts.css");
-            scene.getStylesheets().add("/regresionlineal_res/tablecss.css");
             Stage primaryStage = new Stage();
             primaryStage.setTitle("Regresión Lineal");
             primaryStage.setScene(scene);
+            primaryStage.setMaximized(true);
             primaryStage.show();
 
             ((Stage)lblinearEcuations.getParent().getScene().getWindow()).close();

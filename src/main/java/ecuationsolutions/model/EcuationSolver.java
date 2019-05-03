@@ -4,18 +4,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import utils.MyUtils;
 
-public class ResolveMethod {
+public class EcuationSolver {
 
     private double errorPermited;
     private double Xr;
     private ObservableList<ValuesBean> listValues;
     private Function function;   
 
-    public ResolveMethod() {
+    public EcuationSolver() {
         listValues = FXCollections.observableArrayList();
     }
 
-    public ResolveMethod(Function function) {
+    public EcuationSolver(Function function) {
         this.function = function;
         listValues = FXCollections.observableArrayList();
     }

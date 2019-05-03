@@ -1,4 +1,4 @@
-package regresionlineal.controller;
+package linearregresion.controller;
 
 import com.jfoenix.controls.JFXTabPane;
 import ecuationsolutions.model.Function;
@@ -9,17 +9,15 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import regresionlineal.model.Summation;
-import regresionlineal.model.XYPoint;
+import linearregresion.model.Summation;
+import linearregresion.model.XYPoint;
 import utils.MyUtils;
 
 import java.io.IOException;
@@ -52,7 +50,6 @@ public class MainController implements Initializable {
 
     private ObservableList<XYPoint> listPoints;
     private Summation summation;
-    private DecimalFormat formatter;
 
     public void initialize(URL location, ResourceBundle resources) {
         initData();
@@ -61,12 +58,12 @@ public class MainController implements Initializable {
 
     private void initData() {
         listPoints = FXCollections.observableArrayList();
-        formatter = new DecimalFormat("##.000000");
     }
 
     private void initComponents() {
         spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(2, Integer.MAX_VALUE));
         tablePoints.setDisable(true);
+        tablePoints.setFocusTraversable(false);
         btnSolve.setDisable(true);
         tabPane.getTabs().get(1).setDisable(true);
 
@@ -93,7 +90,6 @@ public class MainController implements Initializable {
 
         mnuClose.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Stage stage = new Stage();
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_principal.fxml"));
                     Scene scene = new Scene(root, 730, 600);
@@ -210,12 +206,12 @@ public class MainController implements Initializable {
         float a1, a0;
         summation = new Summation(listPoints);
 
-        lblXSum.setText(formatter.format(summation.getXSum()));
-        lblYSum.setText(formatter.format(summation.getYSum()));
-        lblSquareXSum.setText(formatter.format(summation.getSquareXSum()));
-        lblXYSum.setText(formatter.format(summation.getXYSum()));
-        lblXm.setText(formatter.format(summation.getXm()));
-        lblYm.setText(formatter.format(summation.getYm()));
+        lblXSum.setText(MyUtils.format(summation.getXSum()));
+        lblYSum.setText(MyUtils.format(summation.getYSum()));
+        lblSquareXSum.setText(MyUtils.format(summation.getSquareXSum()));
+        lblXYSum.setText(MyUtils.format(summation.getXYSum()));
+        lblXm.setText(MyUtils.format(summation.getXm()));
+        lblYm.setText(MyUtils.format(summation.getYm()));
 
         a1 = summation.getA1();
         a0 = summation.getA0();
@@ -235,7 +231,7 @@ public class MainController implements Initializable {
         lblSrSum.setText(summation.getSRSum() + "");
         lblStSum.setText(summation.getSTSum() + "");
 
-        lblR.setText(formatter.format(summation.getR()) + "");
+        lblR.setText(MyUtils.format(summation.getR()) + "");
     }
 
     private void showGraphic() throws Exception {

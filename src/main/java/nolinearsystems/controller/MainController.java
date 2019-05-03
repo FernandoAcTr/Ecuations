@@ -135,6 +135,7 @@ public class MainController implements Initializable {
     }
 
     private void initComponents() {
+        tableViewProcedure.setFocusTraversable(false);
         setColumns();
 
         btnShowGraphic.setOnAction(new EventHandler<ActionEvent>() {

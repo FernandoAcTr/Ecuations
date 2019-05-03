@@ -67,6 +67,16 @@ public class Function {
         return range;
     }
 
+    public double[] generateRange(double from, double to, int numOfPonints){
+        double increment = (Math.abs(to-from))/numOfPonints;
+        double range[] = new double[numOfPonints];
+        for (int i = 0; i < numOfPonints; i++) {
+            range[i] = from;
+            from += increment;
+        }
+        return range;
+    }
+
     public String getFunction() {
         return function;
     }

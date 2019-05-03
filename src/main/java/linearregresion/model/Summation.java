@@ -1,4 +1,4 @@
-package regresionlineal.model;
+package linearregresion.model;
 
 import java.util.List;
 
