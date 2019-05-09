@@ -45,7 +45,7 @@ public class MainController implements Initializable {
     private TextField txtTo;
 
     @FXML
-    private Label lblMethod;
+    private Label lblMethod, lblXr;
 
     @FXML
     private TableView<ValuesBean> tableViewProcedure;
@@ -162,15 +162,7 @@ public class MainController implements Initializable {
 
         mnuAbout.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Stage stage = new Stage();
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_about.fxml"));
-                    Scene scene = new Scene(root, 420, 360);
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                MyUtils.showAbouWindow();
             }
         });
 
@@ -240,7 +232,7 @@ public class MainController implements Initializable {
 
         btnResolve.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                btnResolveAction();
+                btnSolveAction();
             }
         });
 
@@ -271,6 +263,8 @@ public class MainController implements Initializable {
                             setColumnsSecant();
                         }
                 }
+                ecuationSolver.restartProcedure();
+                lblXr.setText("");
             }
         });
 
@@ -419,7 +413,7 @@ public class MainController implements Initializable {
         }
     }
 
-    private void btnResolveAction() {
+    private void btnSolveAction() {
         ecuationSolver.restartProcedure();
 
         if (typeMthods == CLOSE_METHODS) {
@@ -435,6 +429,8 @@ public class MainController implements Initializable {
             else if (cmbMethod.getSelectionModel().getSelectedIndex() == 2)
                 secantAction();
         }
+
+        lblXr.setText("Xr = "+MyUtils.format(ecuationSolver.getRoot()));
     }
 
     private void cleanAll() {
@@ -444,7 +440,7 @@ public class MainController implements Initializable {
         txtFunctionMain.setText("");
         txtTo.setText("");
         if (txtPointA != null) txtPointA.setText("");
-        if (txtPointB != null) txtPointA.setText("");
+        if (txtPointB != null) txtPointB.setText("");
         if (txtPointAOpen != null) txtPointAOpen.setText("");
         if (txtDerived != null) txtDerived.setText("");
         if (txtGFunction != null) txtGFunction.setText("");
@@ -453,6 +449,7 @@ public class MainController implements Initializable {
         fileFunction.restartFile();
         ecuationSolver.restartProcedure();
         ((Stage) txtFunctionMain.getParent().getScene().getWindow()).setTitle("Nuevo Documento");
+        lblXr.setText("");
     }
 
     /**

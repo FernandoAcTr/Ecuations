@@ -31,7 +31,7 @@ public class NoLinearSolver {
      * @return Arreglo con resultados para x y para y
      * @throws Exception
      */
-    public double[] resolvByNewton_Raphson_Multivariable(double x, double y) throws Exception {
+    public double[] solveByNewton_Raphson_Multivariable(double x, double y) throws Exception {
         int iteration = 0;
         double valF1, valF2, valF1x, valF1y, valF2x, valF2y, valDeltaX, valDeltaY, valNextX, valNextY, valEp1, valEp2;
         do {

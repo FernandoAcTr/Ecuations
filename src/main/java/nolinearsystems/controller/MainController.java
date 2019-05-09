@@ -50,7 +50,7 @@ public class MainController implements Initializable {
     private MenuItem mnuHowGraphic;
 
     @FXML
-    private MenuItem mnuHowResolv;
+    private MenuItem mnuHowSolve;
 
     @FXML
     private MenuItem mnuAbout;
@@ -116,7 +116,10 @@ public class MainController implements Initializable {
     private TableView<ValuesBean> tableViewProcedure;
 
     @FXML
-    private Button btnResolve;
+    private Button btnSolve;
+
+    @FXML
+    private Label lblX, lblY;
 
     private NoLinearSolver solver;
     FileFunction fileFunction;
@@ -188,15 +191,7 @@ public class MainController implements Initializable {
 
         mnuAbout.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Stage stage = new Stage();
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_about.fxml"));
-                    Scene scene = new Scene(root, 420, 360);
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+               MyUtils.showAbouWindow();
             }
         });
 
@@ -227,7 +222,7 @@ public class MainController implements Initializable {
             }
         });
 
-        mnuHowResolv.setOnAction(new EventHandler<ActionEvent>() {
+        mnuHowSolve.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 String help = "Posicionado en la pestaña Métodos de Solución:"
                         + "\nUsted debe ingresar los datos en todas las cajas de texto que aparecen en el panel. " +
@@ -276,7 +271,7 @@ public class MainController implements Initializable {
             }
         });
 
-        btnResolve.setOnAction(new EventHandler<ActionEvent>() {
+        btnSolve.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 String f1 = txtF1.getText();
                 String f2 = txtF2.getText();
@@ -284,7 +279,6 @@ public class MainController implements Initializable {
                 String f1y = txtF1y.getText();
                 String f2x = txtF2x.getText();
                 String f2y = txtF2y.getText();
-                DecimalFormat format = new DecimalFormat("##.000000");
                 try {
                     double x = Double.parseDouble(txtX.getText());
                     double y = Double.parseDouble(txtY.getText());
@@ -292,7 +286,9 @@ public class MainController implements Initializable {
 
                     if (verifyData(f1, f2, f1x, f1y, f2x, f2y)) {
                         solver = new NoLinearSolver(f1, f2, f1x, f1y, f2x, f2y, error);
-                        double[] results = solver.resolvByNewton_Raphson_Multivariable(x, y);
+                        double[] results = solver.solveByNewton_Raphson_Multivariable(x, y);
+                        lblX.setText("x = "+ MyUtils.format(results[0]));
+                        lblY.setText("y = "+ MyUtils.format(results[1]));
                         ObservableList list = solver.getProcedure();
                         tableViewProcedure.setItems(list);
                     } else {
@@ -465,6 +461,9 @@ public class MainController implements Initializable {
         lineChart.getData().clear();
         txtF1.requestFocus();
         tabPane.getSelectionModel().select(1);
+        lblX.setText("");
+        lblY.setText("");
+        tableViewProcedure.getItems().clear();
         ((Stage) txtFunction.getParent().getScene().getWindow()).setTitle("New Document");
     }
 

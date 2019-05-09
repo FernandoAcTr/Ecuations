@@ -23,7 +23,7 @@
 
                 <MenuItem fx:id="mnuHowSelectMethod" text="¿Cómo seleccionar el método?"/>
                 <MenuItem fx:id="mnuHowFillData" text="¿Cómo ingresar la matriz?"/>
-                <MenuItem fx:id="mnuHowResolv" text="¿Cómo resolver el sistema?"/>
+                <MenuItem fx:id="mnuHowSolve" text="¿Cómo resolver el sistema?"/>
 
             </Menu>
             <SeparatorMenuItem/>
@@ -54,7 +54,7 @@
                             </graphic>
                         </Button>
 
-                        <Button fx:id="btnResolve" text="Resolver" styleClass="btn, btn-success">
+                        <Button fx:id="btnSolve" text="Resolver" styleClass="btn, btn-success">
                             <graphic>
                                 <FontAwesomeIconView glyphName="CALCULATOR" size="25" fill="white"/>
                             </graphic>

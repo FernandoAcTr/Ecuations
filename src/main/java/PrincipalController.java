@@ -11,6 +11,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import utils.MyUtils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -65,7 +66,7 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
 
         mnuAbout.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Stage stage = new Stage();
+                /*Stage stage = new Stage();
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_about.fxml"));
                     Scene scene = new Scene(root, 420, 360);
@@ -73,7 +74,8 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
                     stage.show();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }*/
+                MyUtils.showAbouWindow();
             }
         });
 
@@ -137,7 +139,7 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
         try {
             MainController.changeTypeMethods(MainController.CLOSE_METHODS);
             root = FXMLLoader.load(getClass().getResource("ecuationsolution_res/layout_main.fxml"));
-            Scene scene = new Scene(root, 780, 600);
+            Scene scene = new Scene(root, 780, 670);
             scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
             scene.getStylesheets().add("/css/jfoenix-design.css");
             scene.getStylesheets().add("/css/jfoenix-fonts.css");
@@ -157,7 +159,7 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
         try {
             MainController.changeTypeMethods(MainController.OPEN_METHODS);
             root = FXMLLoader.load(getClass().getResource("ecuationsolution_res/layout_main.fxml"));
-            Scene scene = new Scene(root, 780, 600);
+            Scene scene = new Scene(root, 780, 670);
             scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
             scene.getStylesheets().add("/css/jfoenix-design.css");
             scene.getStylesheets().add("/css/jfoenix-fonts.css");
@@ -177,7 +179,7 @@ public class PrincipalController implements Initializable, EventHandler<MouseEve
         FXMLLoader loader = new FXMLLoader(getClass().getResource("nolinearsystem_res/layout_main.fxml"));
         try {
             root = loader.load();
-            Scene scene = new Scene(root, 780, 700);
+            Scene scene = new Scene(root, 780, 750);
             scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
             scene.getStylesheets().add("/css/jfoenix-design.css");
             scene.getStylesheets().add("/css/jfoenix-fonts.css");

@@ -49,7 +49,7 @@ public class MainController implements Initializable {
     private Label lblYm, lblR;
 
     @FXML
-    private MenuItem mnuClose, mnuNew, mnuAbout, mnuHowFillData, mnuHowResolv, mnuGrade, mnuHowConfigure;
+    private MenuItem mnuClose, mnuNew, mnuAbout, mnuHowFillData, mnuHowSolve, mnuGrade, mnuHowConfigure;
 
     @FXML
     private JFXTabPane tabPane;
@@ -146,15 +146,7 @@ public class MainController implements Initializable {
 
         mnuAbout.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Stage stage = new Stage();
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_about.fxml"));
-                    Scene scene = new Scene(root, 420, 360);
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+              MyUtils.showAbouWindow();
             }
         });
 
@@ -171,7 +163,7 @@ public class MainController implements Initializable {
             }
         });
 
-        mnuHowResolv.setOnAction(new EventHandler<ActionEvent>() {
+        mnuHowSolve.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 String help = "Cuando tenga la tabla debidamente llena con información" +
                         "\nde click en el botón \"Resolver\". Inmediatamente se habilitará" +

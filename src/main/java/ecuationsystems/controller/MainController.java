@@ -29,7 +29,7 @@ public class MainController implements Initializable {
     GridPane paneTable;
 
     @FXML
-    Button btnNumVariables, btnResolve, btnFillViwtZero;
+    Button btnNumVariables, btnSolve, btnFillViwtZero;
 
     @FXML
     Spinner<Integer> spinNumVariable;
@@ -50,7 +50,7 @@ public class MainController implements Initializable {
     TextField txtError;
 
     @FXML
-    MenuItem mnuHowSelectMethod, mnuHowResolv, mnuHowFillData;
+    MenuItem mnuHowSelectMethod, mnuHowSolve, mnuHowFillData, mnuAbout;
 
     int numVariables;
     SystemSolver solver;
@@ -65,7 +65,7 @@ public class MainController implements Initializable {
         paneTable.setVisible(false);
         btnNumVariables.setDisable(true);
         spinNumVariable.setDisable(true);
-        btnResolve.setDisable(true);
+        btnSolve.setDisable(true);
         btnFillViwtZero.setDisable(true);
         txtError.setVisible(false);
 
@@ -85,7 +85,7 @@ public class MainController implements Initializable {
                 numVariables = spinNumVariable.getValue();
                 setNumVariables(numVariables);
                 paneTable.setVisible(true);
-                btnResolve.setDisable(false);
+                btnSolve.setDisable(false);
                 btnFillViwtZero.setDisable(false);
                 textAreaSolution.clear();
                 tabPane.getTabs().get(1).setDisable(true);
@@ -103,7 +103,7 @@ public class MainController implements Initializable {
                     primaryStage.setScene(scene);
                     primaryStage.show();
 
-                    ((Stage) btnResolve.getParent().getScene().getWindow()).close();
+                    ((Stage) btnSolve.getParent().getScene().getWindow()).close();
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -132,7 +132,7 @@ public class MainController implements Initializable {
             }
         });
 
-        mnuHowResolv.setOnAction(new EventHandler<ActionEvent>() {
+        mnuHowSolve.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 String help = "Cuando la matriz este completamente llena (ninguna caja de texto debe estar vacía)" +
                         "\nDebe dar click en el botón \"Resolver\" y la pantalla cambiará de pestaña en donde se " +
@@ -141,7 +141,14 @@ public class MainController implements Initializable {
             }
         });
 
-        btnResolve.setOnAction(new EventHandler<ActionEvent>() {
+        mnuAbout.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                MyUtils.showAbouWindow();
+            }
+        });
+
+        btnSolve.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (verifyData()) {
                     btnResolveAction(cmbProcedure.getSelectionModel().getSelectedIndex());

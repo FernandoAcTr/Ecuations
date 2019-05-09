@@ -25,6 +25,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.text.Font?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0"
       prefWidth="706.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="nolinearsystems.controller.MainController"
@@ -48,7 +49,7 @@
 
                 <Menu text="Ayuda">
                     <MenuItem fx:id="mnuHowGraphic" text="¿Cómo graficar?"/>
-                    <MenuItem fx:id="mnuHowResolv" text="¿Cómo Resolver la ecuación?"/>
+                    <MenuItem fx:id="mnuHowSolve" text="¿Cómo Resolver la ecuación?"/>
 
                 </Menu>
 
@@ -340,7 +341,7 @@
                                 </padding>
                             </Label>
 
-                            <Button fx:id="btnResolve" text="Resolver">
+                            <Button fx:id="btnSolve" text="Resolver">
                                 <styleClass>
                                     <String fx:value="btn"/>
                                     <String fx:value="btn-success"/>
@@ -350,6 +351,22 @@
                         </HBox>
 
                         <TableView fx:id="tableViewProcedure" prefWidth="686.0" VBox.vgrow="ALWAYS"/>
+
+                        <HBox alignment="TOP_CENTER" prefHeight="40" spacing="20">
+                            <Label fx:id="lblX">
+                                <font>
+                                    <Font size="15"/>
+                                </font>
+                            </Label>
+                            <Label fx:id="lblY">
+                                <font>
+                                    <Font size="15"/>
+                                </font>
+                            </Label>
+                            <padding>
+                                <Insets top="5"/>
+                            </padding>
+                        </HBox>
 
                         <padding>
                             <Insets top="10.0"/>

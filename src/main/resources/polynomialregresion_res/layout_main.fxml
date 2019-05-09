@@ -26,7 +26,7 @@
         <Menu text="Ayuda">
             <Menu text="Ayuda">
                 <MenuItem fx:id="mnuHowFillData" text="¿Cómo llenar la tabla?"/>
-                <MenuItem fx:id="mnuHowResolv" text="¿Cómo resolver el modelo?"/>
+                <MenuItem fx:id="mnuHowSolve" text="¿Cómo resolver el modelo?"/>
                 <MenuItem fx:id="mnuHowConfigure" text="¿Cómo ingresar el grado?"/>
             </Menu>
             <SeparatorMenuItem/>

@@ -2,6 +2,7 @@ package utils;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 public class MyUtils {
@@ -84,5 +86,18 @@ public class MyUtils {
             }
         });
 
+    }
+
+    public static void showAbouWindow(){
+        Stage stage = new Stage();
+        try {
+            Parent root = FXMLLoader.load(MyUtils.class.getResource("/common_res/layout_about.fxml"));
+            Scene scene = new Scene(root, 420, 360);
+            scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
