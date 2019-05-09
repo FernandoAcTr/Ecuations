@@ -39,7 +39,7 @@ public class MainController implements Initializable {
     private Label lblXm, lblYm, lblXSum, lblYSum, lblXYSum, lblSquareXSum, lblSrSum, lblStSum, lblEcuation, lblR;
 
     @FXML
-    private MenuItem mnuClose, mnuNew, mnuAbout, mnuHowFillData, mnuHowSolve;
+    private MenuItem mnuNew, mnuAbout, mnuHowFillData, mnuHowSolve;
 
     @FXML
     private JFXTabPane tabPane;
@@ -82,24 +82,6 @@ public class MainController implements Initializable {
                     showGraphic();
                     tabPane.getTabs().get(1).setDisable(false);
                 } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        mnuClose.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_principal.fxml"));
-                    Scene scene = new Scene(root, 730, 600);
-                    scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
-                    Stage primaryStage = new Stage();
-                    primaryStage.setScene(scene);
-                    primaryStage.show();
-
-                    ((Stage) btnSolve.getParent().getScene().getWindow()).close();
-
-                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }

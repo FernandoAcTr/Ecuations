@@ -49,7 +49,7 @@ public class MainController implements Initializable {
     private Label lblYm, lblR;
 
     @FXML
-    private MenuItem mnuClose, mnuNew, mnuAbout, mnuHowFillData, mnuHowSolve, mnuGrade, mnuHowConfigure;
+    private MenuItem mnuNew, mnuAbout, mnuHowFillData, mnuHowSolve, mnuGrade, mnuHowConfigure;
 
     @FXML
     private JFXTabPane tabPane;
@@ -107,24 +107,6 @@ public class MainController implements Initializable {
                     tabPane.getTabs().get(1).setDisable(false);
                     lineChart.setTitle("Ajuste de polinomio de grado "+grade);
                 } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        mnuClose.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_principal.fxml"));
-                    Scene scene = new Scene(root, 730, 600);
-                    scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
-                    Stage primaryStage = new Stage();
-                    primaryStage.setScene(scene);
-                    primaryStage.show();
-
-                    ((Stage) btnSolve.getParent().getScene().getWindow()).close();
-
-                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }

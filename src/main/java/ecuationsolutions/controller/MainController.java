@@ -51,9 +51,6 @@ public class MainController implements Initializable {
     private TableView<ValuesBean> tableViewProcedure;
 
     @FXML
-    private MenuItem mnuClose;
-
-    @FXML
     private MenuItem mnuAbout;
 
     @FXML
@@ -139,24 +136,6 @@ public class MainController implements Initializable {
         btnShowGraphic.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 showGraphic();
-            }
-        });
-
-        mnuClose.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_principal.fxml"));
-                    Scene scene = new Scene(root, 730,600);
-                    scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
-                    Stage primaryStage = new Stage();
-                    primaryStage.setScene(scene);
-                    primaryStage.show();
-
-                    ((Stage) btnResolve.getParent().getScene().getWindow()).close();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         });
 

@@ -10,13 +10,12 @@
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import javafx.scene.text.Text?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300" minWidth="600" prefHeight="293.0"
-      prefWidth="358.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="ecuationsystems.controller.MainController">
+      prefWidth="358.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
 
     <MenuBar styleClass="menu-item">
-        <Menu text="Archivo">
-            <MenuItem fx:id="mnuClose" text="Regresar"/>
-        </Menu>
+        <!--<Menu text="Archivo">-->
+            <!--<MenuItem fx:id="mnuClose" text="Regresar"/>-->
+        <!--</Menu>-->
 
         <Menu text="Ayuda">
             <Menu text="Ayuda">

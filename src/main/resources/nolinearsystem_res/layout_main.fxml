@@ -28,8 +28,7 @@
 <?import javafx.scene.text.Font?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0"
       prefWidth="706.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="nolinearsystems.controller.MainController"
-      stylesheets="/nolinearsystem_res/table_styles.css">
+      stylesheets="/nolinearsystem_res/table_style.css">
 
     <children>
 
@@ -42,7 +41,7 @@
                 <MenuItem fx:id="mnuSave" text="Guardar"/>
                 <MenuItem fx:id="mnuSaveAs" text="Guardar como..."/>
                 <SeparatorMenuItem/>
-                <MenuItem fx:id="mnuClose" text="Regresar"/>
+                <!--<MenuItem fx:id="mnuClose" text="Regresar"/>-->
             </Menu>
 
             <Menu text="Ayuda">
@@ -350,7 +349,7 @@
 
                         </HBox>
 
-                        <TableView fx:id="tableViewProcedure" prefWidth="686.0" VBox.vgrow="ALWAYS"/>
+                        <TableView fx:id="tableViewProcedure" prefWidth="686.0" prefHeight="350"/>
 
                         <HBox alignment="TOP_CENTER" prefHeight="40" spacing="20">
                             <Label fx:id="lblX">

@@ -23,8 +23,7 @@
 
 <VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="570.0" prefWidth="706.0" stylesheets="/ecuationsolution_res/table_styles.css"
-      xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="ecuationsolutions.controller.MainController">
+      xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
     <children>
 
         <MenuBar styleClass="menu-item">
@@ -36,7 +35,7 @@
                 <MenuItem fx:id="mnuSave" text="Guardar"/>
                 <MenuItem fx:id="mnuSaveAs" text="Guardar como..."/>
                 <SeparatorMenuItem/>
-                <MenuItem fx:id="mnuClose" text="Regresar"/>
+                <!--<MenuItem fx:id="mnuClose" text="Regresar"/>-->
             </Menu>
 
             <Menu text="Ayuda">

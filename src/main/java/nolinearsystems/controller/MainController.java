@@ -44,9 +44,6 @@ public class MainController implements Initializable {
     private MenuItem mnuSaveAs;
 
     @FXML
-    private MenuItem mnuClose;
-
-    @FXML
     private MenuItem mnuHowGraphic;
 
     @FXML
@@ -167,24 +164,6 @@ public class MainController implements Initializable {
                     showGraphic(function, from, to, false);
                 } catch (NumberFormatException ex) {
                     MyUtils.showMessage("Ingresa correctamente el intervalo", "Error", null, Alert.AlertType.ERROR);
-                }
-            }
-        });
-
-        mnuClose.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/common_res/layout_principal.fxml"));
-                    Scene scene = new Scene(root, 730, 600);
-                    scene.getStylesheets().add("/org/kordamp/bootstrapfx/bootstrapfx.css");
-                    Stage primaryStage = new Stage();
-                    primaryStage.setScene(scene);
-                    primaryStage.show();
-
-                    ((Stage) btnShowGraphic.getParent().getScene().getWindow()).close();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         });

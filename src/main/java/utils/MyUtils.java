@@ -46,7 +46,7 @@ public class MyUtils {
         stage.setScene(scene);
         stage.setResizable(false);
 
-        undecorateWindow(stage, root);
+        undecorateWindow(stage, root, false);
 
         stage.show();
     }
@@ -67,7 +67,7 @@ public class MyUtils {
         return formatter.format(num);
     }
 
-    public static void undecorateWindow(final Stage stage, Parent root){
+    public static void undecorateWindow(final Stage stage, Parent root, boolean enableFullScreen){
         stage.initStyle(StageStyle.UNDECORATED);
 
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -85,6 +85,17 @@ public class MyUtils {
                 stage.setY(event.getScreenY() - yOffset);
             }
         });
+
+        if(enableFullScreen) {
+            stage.setFullScreen(enableFullScreen);
+            root.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.getClickCount() == 2)
+                        stage.setFullScreen(!stage.isFullScreen());
+                }
+            });
+        }
 
     }
 

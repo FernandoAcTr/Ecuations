@@ -8,14 +8,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <VBox xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="polynomialregresion.controller.MainController"
       stylesheets="/polynomialregresion_res/tablecss.css">
 
     <MenuBar styleClass="menu-item">
         <Menu text="Archivo">
             <MenuItem fx:id="mnuNew" text="Nuevo"/>
             <SeparatorMenuItem/>
-            <MenuItem fx:id="mnuClose" text="Regresar"/>
+            <!--<MenuItem fx:id="mnuClose" text="Regresar"/>-->
         </Menu>
 
         <Menu text="Configurar">

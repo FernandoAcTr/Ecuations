@@ -1,0 +1,36 @@
+/*-----------------------------genericos-----------------------------------*/
+
+.toolbar{
+    -fx-background-color: cornflowerblue;
+}
+
+.jfx-hamburger-icon StackPane{
+    -fx-background-color : white;
+    -fx-background-radius : 5px;
+}
+
+.lbl{
+    -fx-text-fill: white;
+}
+
+.lbl-info{
+    -fx-font-weight: bold;
+}
+
+.lbl-h1{
+    -fx-font-size: 20;
+}
+
+.pane-trasparent{
+    -fx-background-color: transparent;
+}
+
+.pane-default{
+    -fx-background-color: #404040;
+}
+
+.divider{
+    -fx-pref-height: 5;
+    -fx-background-color: #000000;
+    -fx-border-color: #000000;
+}
