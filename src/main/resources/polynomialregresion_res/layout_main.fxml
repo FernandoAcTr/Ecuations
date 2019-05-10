@@ -13,7 +13,6 @@
     <MenuBar styleClass="menu-item">
         <Menu text="Archivo">
             <MenuItem fx:id="mnuNew" text="Nuevo"/>
-            <SeparatorMenuItem/>
             <!--<MenuItem fx:id="mnuClose" text="Regresar"/>-->
         </Menu>
 

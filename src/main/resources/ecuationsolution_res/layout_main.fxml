@@ -34,7 +34,6 @@
                 <SeparatorMenuItem/>
                 <MenuItem fx:id="mnuSave" text="Guardar"/>
                 <MenuItem fx:id="mnuSaveAs" text="Guardar como..."/>
-                <SeparatorMenuItem/>
                 <!--<MenuItem fx:id="mnuClose" text="Regresar"/>-->
             </Menu>
 

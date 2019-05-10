@@ -10,43 +10,43 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox styleClass="rootpane" stylesheets="@sidemenu.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefWidth="220.0" styleClass="rootpane" stylesheets="@sidemenu.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="205.0">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="220.0">
          <children>
-            <VBox layoutX="29.0" layoutY="161.0" prefHeight="345.0" prefWidth="205.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
+            <VBox layoutX="29.0" layoutY="161.0" prefHeight="345.0" prefWidth="210.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
                <children>
-                  <JFXButton fx:id="btnCloseMethods" alignment="BOTTOM_LEFT" prefHeight="35.0" prefWidth="200.0" styleClass="side_item" text="Métodos Cerrados">
+                  <JFXButton fx:id="btnCloseMethods" alignment="BOTTOM_LEFT" prefHeight="35.0" prefWidth="210.0" styleClass="side_item" text="Métodos Cerrados">
                      <graphic>
                         <MaterialDesignIconView glyphName="LOCK_OUTLINE" size="25" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="btnOpenMethods" layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="200.0" styleClass="side_item" text="Métodos Abiertos">
+                  <JFXButton fx:id="btnOpenMethods" layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="210.0" styleClass="side_item" text="Métodos Abiertos">
                      <graphic>
                         <MaterialDesignIconView glyphName="LOCK_OPEN" size="25" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="btnLinearSystem" layoutX="10.0" layoutY="45.0" prefHeight="35.0" prefWidth="200.0" styleClass="side_item" text="Ecuaciones Lineales">
+                  <JFXButton fx:id="btnLinearSystem" layoutX="10.0" layoutY="45.0" prefHeight="35.0" prefWidth="210.0" styleClass="side_item" text="Ecuaciones Lineales">
                      <graphic>
                         <FontAwesomeIconView glyphName="LINE_CHART" size="25" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="btnNoLinearSystem" layoutX="10.0" layoutY="104.0" prefHeight="35.0" prefWidth="205.0" styleClass="side_item" text="Ecuaciones No Lineales">
+                  <JFXButton fx:id="btnNoLinearSystem" layoutX="10.0" layoutY="104.0" prefHeight="35.0" prefWidth="210.0" styleClass="side_item" text="Ecuaciones No Lineales">
                      <graphic>
                         <FontAwesomeIconView glyphName="STUMBLEUPON" size="25" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="btnLinearRegresion" layoutX="10.0" layoutY="143.0" prefHeight="35.0" prefWidth="200.0" styleClass="side_item" text="Regresion Lineal">
+                  <JFXButton fx:id="btnLinearRegresion" layoutX="10.0" layoutY="143.0" prefHeight="35.0" prefWidth="210.0" styleClass="side_item" text="Regresion Lineal">
                      <graphic>
                         <MaterialDesignIconView glyphName="TRENDING_UP" size="25" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="btnPolynomial" layoutX="10.0" layoutY="184.0" prefHeight="35.0" prefWidth="200.0" styleClass="side_item" text="Regresion Polinomial">
+                  <JFXButton fx:id="btnPolynomial" layoutX="10.0" layoutY="184.0" prefHeight="35.0" prefWidth="210.0" styleClass="side_item" text="Regresion Polinomial">
                      <graphic>
                         <MaterialIconView glyphName="GESTURE" size="25" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="btnExit" layoutX="10.0" layoutY="104.0" prefHeight="35.0" prefWidth="200.0" styleClass="side_item" text="Exit">
+                  <JFXButton fx:id="btnExit" layoutX="10.0" layoutY="104.0" prefHeight="35.0" prefWidth="210.0" styleClass="side_item" text="Exit">
                      <graphic>
                         <FontAwesomeIconView glyphName="CLOSE" size="25" />
                      </graphic>
@@ -56,7 +56,7 @@
                   <Insets top="10.0" />
                </padding>
             </VBox>
-            <ImageView fitHeight="129.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fitHeight="137.0" fitWidth="220.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="0.0">
                <image>
                   <Image url="@sidewallper.jpeg" />
                </image>

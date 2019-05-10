@@ -19,6 +19,7 @@ public class Main extends Application {
         scene.getStylesheets().add("/css/jfoenix-design.css");
         scene.getStylesheets().add("/css/jfoenix-fonts.css");
         primaryStage.setScene(scene);
+
         primaryStage.show();
     }
 

@@ -4,6 +4,8 @@
     -fx-content-display: left;
     -fx-border-width: 0 0 1 0;
     -fx-border-color: #ababab;
+    -fx-pref-width: 220;
+    -fx-pref-height: 35;
 }
 
 .side_item:hover{

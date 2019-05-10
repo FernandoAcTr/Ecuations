@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -68,7 +69,7 @@ public class MyUtils {
     }
 
     public static void undecorateWindow(final Stage stage, Parent root, boolean enableFullScreen){
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.UNIFIED);
 
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
 
@@ -87,7 +88,7 @@ public class MyUtils {
         });
 
         if(enableFullScreen) {
-            stage.setFullScreen(enableFullScreen);
+            stage.setFullScreen(true);
             root.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
