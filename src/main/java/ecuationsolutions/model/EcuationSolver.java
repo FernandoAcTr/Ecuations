@@ -21,9 +21,30 @@ public class EcuationSolver {
     }
 
     /**
+     * Verifica que exista un cambio de signo en la evualacion para punto A y punto B
+     * @return true si existe cambio de signo.
+     */
+    public boolean verifyCloseMethods(double pointA, double pointB){
+        try {
+            double x1 = function.evaluateFrom(pointA);
+            double x2 = function.evaluateFrom(pointB);
+
+            if(x1 > 0 && x2 < 0)
+                return true;
+            else if(x2 > 0 && x1 < 0)
+                return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    /**
      * Resuelve la funcion por medio del metodo de biseccion
      */
-    public void resolveByBiseccion(double pointA, double pointB){
+    public void solveByBiseccion(double pointA, double pointB){
         double error = Double.POSITIVE_INFINITY;
         int i = 1;
         double funA, funB, funXr;
@@ -67,7 +88,7 @@ public class EcuationSolver {
     /**
      * Resuelve la funcion cpor el metodo de falsa regla
      */
-    public void resolveByFalseRule(double pointA, double pointB){
+    public void solveByFalseRule(double pointA, double pointB){
         double error = Double.POSITIVE_INFINITY;
         int i = 1;
         double funA, funB, funXr;
@@ -113,7 +134,7 @@ public class EcuationSolver {
      * @param gFunction funcion g(x)
      * @param pointC punto X arbitrario inicial para comenzar a evaluar
      */
-    public void resolveByFixedPoint(Function gFunction, double pointC){
+    public void solveByFixedPoint(Function gFunction, double pointC){
 
         double error;
         int i = 1;
@@ -146,7 +167,7 @@ public class EcuationSolver {
      * @param dFunction la derivada de la funcion
      * @param pointC punto X arbitrario para comenzae a evaluar
      */
-    public void resolveByNewtonRaphson(Function dFunction, double pointC){
+    public void solveByNewtonRaphson(Function dFunction, double pointC){
 
         double error;
         int i = 1;
@@ -178,7 +199,7 @@ public class EcuationSolver {
     }
 
 
-    public void resolveBySecant(double a, double b){
+    public void solveBySecant(double a, double b){
         double error;
         int i = 1;
         double valueForA, valueForB;
@@ -291,10 +312,6 @@ public class EcuationSolver {
 
     public double getRoot(){
         return Xr;
-    }
-
-    public String toStringRoot(double root){
-        return MyUtils.format(root);
     }
 
     public ObservableList<ValuesBean> getProcedure(){

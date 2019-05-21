@@ -10,8 +10,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
@@ -36,7 +34,7 @@ public class MainController implements Initializable {
     private TextField txtFunction, txtFunctionMain;
 
     @FXML
-    private Button btnShowGraphic, btnResolve;
+    private Button btnShowGraphic, btnSolve;
 
     @FXML
     private TextField txtFrom;
@@ -95,10 +93,8 @@ public class MainController implements Initializable {
     private static int typeMthods;
 
     public void initialize(URL location, ResourceBundle resources) {
-
         initData();
         initGUI();
-
     }
 
     private void initData() {
@@ -209,7 +205,7 @@ public class MainController implements Initializable {
             }
         });
 
-        btnResolve.setOnAction(new EventHandler<ActionEvent>() {
+        btnSolve.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 btnSolveAction();
             }
@@ -218,8 +214,7 @@ public class MainController implements Initializable {
         if (typeMthods == CLOSE_METHODS) {
             buildClosedPane();
             setColumnsCloseMethods();
-        }
-        else {
+        } else {
             buildFixedPointPane(); //el primero en el comboBox de metodos abiertos
             setColumnsFixedPoints();
         }
@@ -227,17 +222,15 @@ public class MainController implements Initializable {
 
         cmbMethod.valueProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                switch (typeMthods){
+                switch (typeMthods) {
                     case OPEN_METHODS:
                         if (cmbMethod.getSelectionModel().getSelectedIndex() == 0) {
                             buildFixedPointPane();
                             setColumnsFixedPoints();
-                        }
-                        else if (cmbMethod.getSelectionModel().getSelectedIndex() == 1) {
-                           buildNewtonPane();
-                           setColumnsNewtonRaphson();
-                        }
-                        else if (cmbMethod.getSelectionModel().getSelectedIndex() == 2) {
+                        } else if (cmbMethod.getSelectionModel().getSelectedIndex() == 1) {
+                            buildNewtonPane();
+                            setColumnsNewtonRaphson();
+                        } else if (cmbMethod.getSelectionModel().getSelectedIndex() == 2) {
                             buildSecantPane();
                             setColumnsSecant();
                         }
@@ -305,7 +298,7 @@ public class MainController implements Initializable {
 
             ecuationSolver.setErrorPermited(error);
             ecuationSolver.setFunction(function);
-            ecuationSolver.resolveByBiseccion(pointA, pointB);
+            ecuationSolver.solveByBiseccion(pointA, pointB);
             ObservableList listValues = ecuationSolver.getProcedure();
             tableViewProcedure.setItems(listValues);
 
@@ -324,7 +317,7 @@ public class MainController implements Initializable {
 
             ecuationSolver.setErrorPermited(error);
             ecuationSolver.setFunction(function);
-            ecuationSolver.resolveByFalseRule(pointA, pointB);
+            ecuationSolver.solveByFalseRule(pointA, pointB);
             ObservableList listValues = ecuationSolver.getProcedure();
             tableViewProcedure.setItems(listValues);
 
@@ -344,7 +337,7 @@ public class MainController implements Initializable {
 
             ecuationSolver.setErrorPermited(error);
             ecuationSolver.setFunction(function);
-            ecuationSolver.resolveByFixedPoint(gFunction, pointX);
+            ecuationSolver.solveByFixedPoint(gFunction, pointX);
             ObservableList listValues = ecuationSolver.getProcedure();
             tableViewProcedure.setItems(listValues);
 
@@ -364,7 +357,7 @@ public class MainController implements Initializable {
 
             ecuationSolver.setErrorPermited(error);
             ecuationSolver.setFunction(function);
-            ecuationSolver.resolveByNewtonRaphson(dFunction, pointX);
+            ecuationSolver.solveByNewtonRaphson(dFunction, pointX);
             ObservableList listValues = ecuationSolver.getProcedure();
             tableViewProcedure.setItems(listValues);
 
@@ -383,7 +376,7 @@ public class MainController implements Initializable {
 
             ecuationSolver.setErrorPermited(error);
             ecuationSolver.setFunction(function);
-            ecuationSolver.resolveBySecant(pointA, pointB);
+            ecuationSolver.solveBySecant(pointA, pointB);
             ObservableList listValues = ecuationSolver.getProcedure();
             tableViewProcedure.setItems(listValues);
 
@@ -396,10 +389,13 @@ public class MainController implements Initializable {
         ecuationSolver.restartProcedure();
 
         if (typeMthods == CLOSE_METHODS) {
-            if (cmbMethod.getSelectionModel().getSelectedIndex() == 0)
-                biseccionAction();
-            else if (cmbMethod.getSelectionModel().getSelectedIndex() == 1)
-                falseRuleAction();
+            if (verifyPoints()) {
+                if (cmbMethod.getSelectionModel().getSelectedIndex() == 0)
+                    biseccionAction();
+                else if (cmbMethod.getSelectionModel().getSelectedIndex() == 1)
+                    falseRuleAction();
+            } else
+                MyUtils.showMessage("Entre esos puntos no existe raiz", "Error", null, Alert.AlertType.WARNING);
         } else {
             if (cmbMethod.getSelectionModel().getSelectedIndex() == 0)
                 fixedPointAction();
@@ -409,7 +405,15 @@ public class MainController implements Initializable {
                 secantAction();
         }
 
-        lblXr.setText("Xr = "+MyUtils.format(ecuationSolver.getRoot()));
+        lblXr.setText("Xr = " + MyUtils.format(ecuationSolver.getRoot()));
+    }
+
+    private boolean verifyPoints(){
+        double a = Double.parseDouble(txtPointA.getText());
+        double b = Double.parseDouble(txtPointB.getText());
+        String def = txtFunctionMain.getText().trim();
+        ecuationSolver.setFunction(new Function(def));
+        return ecuationSolver.verifyCloseMethods(a,b);
     }
 
     private void cleanAll() {
@@ -553,7 +557,7 @@ public class MainController implements Initializable {
                 txtError.setText(bean.getError());
             }
 
-            if(typeMthods != CLOSE_METHODS)
+            if (typeMthods != CLOSE_METHODS)
                 type -= 2;
 
             cmbMethod.getSelectionModel().select(type);
@@ -607,7 +611,7 @@ public class MainController implements Initializable {
         txtPointA.requestFocus();
     }
 
-    public void setColumnsCloseMethods(){
+    public void setColumnsCloseMethods() {
         TableColumn<ValuesBean, String> colValue1 = new TableColumn<ValuesBean, String>("No.");
         TableColumn<ValuesBean, String> colValue2 = new TableColumn<ValuesBean, String>("a");
         TableColumn<ValuesBean, String> colValue3 = new TableColumn<ValuesBean, String>("b");
@@ -633,7 +637,7 @@ public class MainController implements Initializable {
         colValue1.setPrefWidth(45);
     }
 
-    public void setColumnsFixedPoints(){
+    public void setColumnsFixedPoints() {
         TableColumn<ValuesBean, String> colValue1 = new TableColumn<ValuesBean, String>("No.");
         TableColumn<ValuesBean, String> colValue2 = new TableColumn<ValuesBean, String>("Xo");
         TableColumn<ValuesBean, String> colValue3 = new TableColumn<ValuesBean, String>("Xi");
@@ -651,7 +655,7 @@ public class MainController implements Initializable {
         colValue1.setPrefWidth(45);
     }
 
-    public void setColumnsNewtonRaphson(){
+    public void setColumnsNewtonRaphson() {
         TableColumn<ValuesBean, String> colValue1 = new TableColumn<ValuesBean, String>("No.");
         TableColumn<ValuesBean, String> colValue2 = new TableColumn<ValuesBean, String>("Xi");
         TableColumn<ValuesBean, String> colValue3 = new TableColumn<ValuesBean, String>("F(Xi)");
@@ -673,7 +677,7 @@ public class MainController implements Initializable {
         colValue1.setPrefWidth(45);
     }
 
-    public void setColumnsSecant(){
+    public void setColumnsSecant() {
         TableColumn<ValuesBean, String> colValue1 = new TableColumn<ValuesBean, String>("No.");
         TableColumn<ValuesBean, String> colValue2 = new TableColumn<ValuesBean, String>("a");
         TableColumn<ValuesBean, String> colValue3 = new TableColumn<ValuesBean, String>("b");
@@ -697,12 +701,10 @@ public class MainController implements Initializable {
         colValue1.setPrefWidth(45);
     }
 
-    private void resizeColumns(){
+    private void resizeColumns() {
         for (TableColumn t : tableViewProcedure.getColumns())
             t.setPrefWidth(105);
     }
-
-
 
 
 }

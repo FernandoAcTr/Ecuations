@@ -20,4 +20,6 @@ Proyecto en donde se encuentran los algoritmos siguientes:
 	1. Regresion Lineal
 	2. Regresion Polinomial 
 
+Se hace uso del concepto de TableView Dinamica
+
 Realizados para la materia de Métodos Numericos

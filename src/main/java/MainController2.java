@@ -1,5 +1,6 @@
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.events.JFXDrawerEvent;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
 import ecuationsolutions.controller.MainController;
@@ -16,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,10 +58,12 @@ public class MainController2 implements Initializable, SideMenuController.onItem
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private void initHamburguer(){
         HamburgerNextArrowBasicTransition transition = new HamburgerNextArrowBasicTransition(hamburguer);
+
         transition.setRate(-1);
         hamburguer.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
