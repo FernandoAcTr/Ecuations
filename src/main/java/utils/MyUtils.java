@@ -69,7 +69,7 @@ public class MyUtils {
     }
 
     public static void undecorateWindow(final Stage stage, Parent root, boolean enableFullScreen){
-        stage.initStyle(StageStyle.UNIFIED);
+        stage.initStyle(StageStyle.UNDECORATED);
 
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
 

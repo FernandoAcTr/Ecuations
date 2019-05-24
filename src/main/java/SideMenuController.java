@@ -31,6 +31,9 @@ public class SideMenuController implements Initializable {
     private JFXButton btnPolynomial;
 
     @FXML
+    private JFXButton btnMultiple;
+
+    @FXML
     private JFXButton btnExit;
 
 
@@ -93,6 +96,13 @@ public class SideMenuController implements Initializable {
                 System.exit(0);
             }
         });
+
+        btnMultiple.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                itemClick.onMultipleRegresionClick();
+            }
+        });
     }
 
     public interface onItemClick{
@@ -102,5 +112,6 @@ public class SideMenuController implements Initializable {
         void onNoLinearSystemClick();
         void onLinearRegresionClick();
         void onPolynomialRegresionClick();
+        void onMultipleRegresionClick();
     }
 }

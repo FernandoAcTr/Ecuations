@@ -369,7 +369,7 @@ public class MainController implements Initializable {
     private void showDialogGrade() {
         final Dialog<Integer> dialog = new Dialog<Integer>();
         dialog.setTitle("Grado");
-        dialog.setContentText("Seleecciona el grado del polinomio");
+        dialog.setContentText("Selecciona el grado del polinomio");
 
         final Spinner<Integer> spinner = new Spinner();
         final ButtonType buttonOk = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);

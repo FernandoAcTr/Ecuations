@@ -88,19 +88,19 @@ public class XYPoint implements EventHandler<KeyEvent> {
     //----------------------------------metodos que son para la TableView
 
     public String getXY() {
-        return (x * y == 0) ? "" : MyUtils.format(x * y);
+        return (x * y == 0) ? "0" : MyUtils.format(x * y);
     }
 
     public String getSquareX() {
-       return (x == 0) ?  "" : MyUtils.format(x * x);
+       return (x == 0) ?  "0" : MyUtils.format(x * x);
     }
 
     public String getSR() {
-        return SR == 0 ? "" : MyUtils.format(SR);
+        return SR == 0 ? "0" : MyUtils.format(SR);
     }
 
     public String getST() {
-        return ST == 0 ? "" : MyUtils.format(ST);
+        return ST == 0 ? "0" : MyUtils.format(ST);
     }
 
     //-----------------------------------------------

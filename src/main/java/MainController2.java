@@ -1,7 +1,5 @@
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.controls.events.JFXDrawerEvent;
-import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
 import com.jfoenix.transitions.hamburger.HamburgerNextArrowBasicTransition;
 import ecuationsolutions.controller.MainController;
 import javafx.event.EventHandler;
@@ -9,15 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -184,6 +175,25 @@ public class MainController2 implements Initializable, SideMenuController.onItem
         FXMLLoader loader = new FXMLLoader(getClass().getResource("polynomialregresion_res/layout_main.fxml"));
         try {
             polynomialregresion.controller.MainController controller = new polynomialregresion.controller.MainController();
+            loader.setController(controller);
+
+            loader.setController(controller);
+            root = loader.load();
+
+            paneContent.getChildren().setAll(root);
+            attachToRoot(root);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onMultipleRegresionClick() {
+        Parent root;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("multiplyregresion_res/layout_main.fxml"));
+        try {
+            multiplyregresion.controller.MainController controller = new multiplyregresion.controller.MainController();
             loader.setController(controller);
 
             loader.setController(controller);
