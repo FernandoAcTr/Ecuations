@@ -34,6 +34,9 @@ public class SideMenuController implements Initializable {
     private JFXButton btnMultiple;
 
     @FXML
+    private JFXButton btnInterpolation;
+
+    @FXML
     private JFXButton btnExit;
 
 
@@ -48,61 +51,23 @@ public class SideMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        btnOpenMethods.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                itemClick.onOpenMethodClick();
-            }
-        });
+        btnOpenMethods.setOnAction(event -> itemClick.onOpenMethodClick());
 
-        btnCloseMethods.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                itemClick.onCloseMethodClick();
-            }
-        });
+        btnCloseMethods.setOnAction(event -> itemClick.onCloseMethodClick());
 
-        btnLinearRegresion.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                itemClick.onLinearRegresionClick();
-            }
-        });
+        btnLinearRegresion.setOnAction(event -> itemClick.onLinearRegresionClick());
 
-        btnPolynomial.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                itemClick.onPolynomialRegresionClick();
-            }
-        });
+        btnPolynomial.setOnAction(event -> itemClick.onPolynomialRegresionClick());
 
-        btnLinearSystem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                itemClick.onLinearSystemClick();
-            }
-        });
+        btnLinearSystem.setOnAction(event -> itemClick.onLinearSystemClick());
 
-        btnNoLinearSystem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                itemClick.onNoLinearSystemClick();
-            }
-        });
+        btnNoLinearSystem.setOnAction(event -> itemClick.onNoLinearSystemClick());
 
-        btnExit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.exit(0);
-            }
-        });
+        btnExit.setOnAction(event -> System.exit(0));
 
-        btnMultiple.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                itemClick.onMultipleRegresionClick();
-            }
-        });
+        btnMultiple.setOnAction(event -> itemClick.onMultipleRegresionClick());
+
+        btnInterpolation.setOnAction(event -> itemClick.onInterpolationClick());
     }
 
     public interface onItemClick{
@@ -113,5 +78,6 @@ public class SideMenuController implements Initializable {
         void onLinearRegresionClick();
         void onPolynomialRegresionClick();
         void onMultipleRegresionClick();
+        void onInterpolationClick();
     }
 }

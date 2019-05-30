@@ -11,7 +11,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         //Parent root = FXMLLoader.load(getClass().getResource("/common_res/main_window1.fxml"));
 
-        Parent root = FXMLLoader.load(getClass().getResource("/common_res/main_window2.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/common_res/main_window.fxml"));
         MyUtils.undecorateWindow(primaryStage, root, true);
 
         Scene scene = new Scene(root, 730,600);

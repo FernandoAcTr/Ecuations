@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainController2 implements Initializable, SideMenuController.onItemClick {
+public class MainWindowController implements Initializable, SideMenuController.onItemClick {
 
     @FXML
     private JFXHamburger hamburguer;
@@ -79,8 +79,8 @@ public class MainController2 implements Initializable, SideMenuController.onItem
         Parent root;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ecuationsolution_res/layout_main.fxml"));
         try {
-            MainController controller = new MainController();
-            MainController.changeTypeMethods(MainController.CLOSE_METHODS);
+            ecuationsolutions.controller.MainController controller = new ecuationsolutions.controller.MainController();
+            ecuationsolutions.controller.MainController.changeTypeMethods(ecuationsolutions.controller.MainController.CLOSE_METHODS);
 
             loader.setController(controller);
             root = loader.load();
@@ -98,8 +98,8 @@ public class MainController2 implements Initializable, SideMenuController.onItem
         Parent root;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ecuationsolution_res/layout_main.fxml"));
         try {
-            MainController controller = new MainController();
-            MainController.changeTypeMethods(MainController.OPEN_METHODS);
+            ecuationsolutions.controller.MainController controller = new ecuationsolutions.controller.MainController();
+            ecuationsolutions.controller.MainController.changeTypeMethods(ecuationsolutions.controller.MainController.OPEN_METHODS);
 
             loader.setController(controller);
             root = loader.load();
@@ -194,6 +194,25 @@ public class MainController2 implements Initializable, SideMenuController.onItem
         FXMLLoader loader = new FXMLLoader(getClass().getResource("multiplyregresion_res/layout_main.fxml"));
         try {
             multiplyregresion.controller.MainController controller = new multiplyregresion.controller.MainController();
+            loader.setController(controller);
+
+            loader.setController(controller);
+            root = loader.load();
+
+            paneContent.getChildren().setAll(root);
+            attachToRoot(root);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onInterpolationClick() {
+        Parent root;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("interpolation_res/layout_main.fxml"));
+        try {
+            interpolation.controller.MainController controller = new interpolation.controller.MainController();
             loader.setController(controller);
 
             loader.setController(controller);

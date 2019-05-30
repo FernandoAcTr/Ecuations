@@ -51,6 +51,11 @@
                         <MaterialDesignIconView glyphName="CHECKBOX_MULTIPLE_BLANK" size="25" />
                      </graphic>
                   </JFXButton>
+                  <JFXButton fx:id="btnInterpolation" prefHeight="35.0" prefWidth="210.0" styleClass="side_item" text="Interpolación">
+                     <graphic>
+                        <MaterialDesignIconView glyphName="VECTOR_POLYLINE" size="25" />
+                     </graphic>
+                  </JFXButton>
                   <JFXButton fx:id="btnExit" layoutX="10.0" layoutY="104.0" prefHeight="35.0" prefWidth="210.0" styleClass="side_item" text="Exit">
                      <graphic>
                         <FontAwesomeIconView glyphName="CLOSE" size="25" />
