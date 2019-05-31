@@ -1,6 +1,7 @@
 package interpolation.model;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -16,12 +17,13 @@ public class InterpolationPoint implements EventHandler<KeyEvent> {
 
     private final int LINEAR_INTERPOLATION = 0;
     private final int SQUARE_INTERPOLATION = 1;
+    private final int DIFFERENCE_INTERPOLATION = 2;
 
-    private int index, typeInterpolation;
+    private int index, typeInterpolation, grade;
     private float x, y;
     private List<XYPoint> listPoints;
 
-    public InterpolationPoint(int index, TableView tableView, List<XYPoint> listPoints, int typeInterpolation) {
+    public InterpolationPoint(int index, TableView tableView, List<XYPoint> listPoints, int typeInterpolation, int grade) {
         txtValueFor = new TextField();
         txtValueFor.setOnKeyTyped(this);
 
@@ -34,15 +36,17 @@ public class InterpolationPoint implements EventHandler<KeyEvent> {
         this.index = index;
         this.typeInterpolation = typeInterpolation;
         this.listPoints = listPoints;
+        this.grade = grade;
         initTextField(tableView);
     }
 
     private void initTextField(final TableView tableView) {
 
         txtValueFor.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) //focused
+            if (newValue) { //focused
                 tableView.getSelectionModel().select(index);
-            else {        //unfocused
+                txtValueFor.setStyle(null);
+            } else {        //unfocused
                 if (txtValueFor.getText().length() > 0)
                     x = Float.valueOf(txtValueFor.getText());
 
@@ -55,19 +59,34 @@ public class InterpolationPoint implements EventHandler<KeyEvent> {
         txtInterpolation.setOnKeyTyped(this);
     }
 
-    public void interpolate(){
-        if(txtValueFor.getText().length() == 0)
+    public void interpolate() {
+        if (txtValueFor.getText().length() == 0)
             txtValueFor.setStyle("-fx-border-color: red; -fx-background-color: rgba(255, 0, 0, 0.2)");
-        else {
+        else if (Float.parseFloat(txtValueFor.getText()) < listPoints.get(0).getX() ||
+                Float.parseFloat(txtValueFor.getText()) > listPoints.get(listPoints.size() - 1).getX()) {
+            MyUtils.showMessage("El punto no esta contenido en el intervalo de puntos", "Error", null, Alert.AlertType.WARNING);
+            txtValueFor.setStyle("-fx-border-color: red; -fx-background-color: rgba(255, 0, 0, 0.2)");
+        } else {
             Interpolator interpolator = new Interpolator();
             float v;
             switch (typeInterpolation) {
+
                 case LINEAR_INTERPOLATION:
                     v = interpolator.getLinearInterpolation(listPoints.get(0), listPoints.get(1), Float.valueOf(txtValueFor.getText()));
                     txtInterpolation.setText(MyUtils.format(v));
                     break;
+
                 case SQUARE_INTERPOLATION:
                     v = interpolator.getSquareInterpolation(listPoints.get(0), listPoints.get(1), listPoints.get(2), Float.valueOf(txtValueFor.getText()));
+                    txtInterpolation.setText(MyUtils.format(v));
+                    break;
+
+                case DIFFERENCE_INTERPOLATION:
+                    XYPoint[] points = new XYPoint[listPoints.size()];
+                    for (int i = 0, j = listPoints.size() - 1; i < listPoints.size(); i++, j--)
+                        points[i] = listPoints.get(j);
+
+                    v = interpolator.getDiffInterpolation(points, grade, Float.valueOf(txtValueFor.getText()));
                     txtInterpolation.setText(MyUtils.format(v));
             }
         }

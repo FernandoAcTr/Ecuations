@@ -43,7 +43,7 @@
          <children>
             <HBox alignment="CENTER" spacing="20.0">
                <children>
-                  <JFXComboBox fx:id="cmbType" prefHeight="26.0" prefWidth="292.0" promptText="Tipo" />
+                  <JFXComboBox fx:id="cmbType" prefHeight="26.0" prefWidth="315.0" promptText="Tipo" />
                   <Button fx:id="btnAddRow" contentDisplay="GRAPHIC_ONLY" text="Resolver">
                      <graphic>
                         <MaterialIconView glyphName="ADD" size="25" />

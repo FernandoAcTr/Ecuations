@@ -7,10 +7,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
@@ -19,7 +16,6 @@ import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import utils.MyUtils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -129,7 +125,7 @@ public class MainController implements Initializable {
         btnSolve.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (verifyData()) {
-                    btnResolveAction(cmbProcedure.getSelectionModel().getSelectedIndex());
+                    btnSolveAction(cmbProcedure.getSelectionModel().getSelectedIndex());
                     tabPane.getTabs().get(1).setDisable(false);
                 }
             }
@@ -275,7 +271,7 @@ public class MainController implements Initializable {
             }
     }
 
-    private void btnResolveAction(int type) {
+    private void btnSolveAction(int type) {
         double data[][];
 
         data = getTableData();

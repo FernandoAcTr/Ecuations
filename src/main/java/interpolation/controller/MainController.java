@@ -14,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import utils.MyUtils;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable, EventHandler<KeyEvent> {
@@ -46,9 +47,11 @@ public class MainController implements Initializable, EventHandler<KeyEvent> {
 
     private final int LINEAR_INTERPOLATION = 0;
     private final int SQUARE_INTERPOLATION = 1;
+    private final int DIFFERENCE_INTERPOLATION = 2;
 
     private ObservableList<XYPoint> listPoints;
     private int currentType = LINEAR_INTERPOLATION;
+    int grade = 3; //solo se usa para diferencias divididas y lagrange
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -85,7 +88,8 @@ public class MainController implements Initializable, EventHandler<KeyEvent> {
             MyUtils.showHelpMessage(help, 570, 160);
         });
 
-        cmbType.getItems().addAll("Interpolación Lineal", "Interpolación Cuadrática");
+        cmbType.getItems().addAll("Interpolación Lineal", "Interpolación Cuadrática",
+                "Interpolación por Diferencias Divididas");
 
         cmbType.valueProperty().addListener((observable, oldValue, newValue) -> {
             tableInterpolation.setDisable(false);
@@ -149,7 +153,7 @@ public class MainController implements Initializable, EventHandler<KeyEvent> {
 
     private void addInterpolationRow(){
         int index = tableInterpolation.getItems().size();
-        tableInterpolation.getItems().add(new InterpolationPoint(index, tableInterpolation, listPoints, currentType));
+        tableInterpolation.getItems().add(new InterpolationPoint(index, tableInterpolation, listPoints, currentType, grade));
     }
 
     private void changeNumRows(){
@@ -162,6 +166,12 @@ public class MainController implements Initializable, EventHandler<KeyEvent> {
             case SQUARE_INTERPOLATION:
                 currentType = SQUARE_INTERPOLATION;
                 generateRows(3);
+                break;
+
+            case DIFFERENCE_INTERPOLATION:
+                currentType = DIFFERENCE_INTERPOLATION;
+                grade = showDialogGrade(3);
+                generateRows(grade+1);
         }
 
         tableInterpolation.getItems().clear();
@@ -179,5 +189,33 @@ public class MainController implements Initializable, EventHandler<KeyEvent> {
     public void handle(KeyEvent event) {
         if (Character.isLetter(event.getCharacter().charAt(0)))
             event.consume();
+    }
+
+    private int showDialogGrade(int defaultGrade) {
+        final Dialog<Integer> dialog = new Dialog<Integer>();
+        dialog.setTitle("Grado");
+        dialog.setContentText("Selecciona el grado del método");
+
+        final Spinner<Integer> spinner = new Spinner();
+        final ButtonType buttonOk = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
+
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 10));
+        spinner.getValueFactory().setValue(defaultGrade);
+        dialog.getDialogPane().setContent(spinner);
+        dialog.getDialogPane().getButtonTypes().addAll(buttonOk, ButtonType.CANCEL);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == buttonOk) {
+                return spinner.getValue();
+            }
+            return null;
+        });
+
+        Optional<Integer> result = dialog.showAndWait();
+
+        if (result.isPresent())
+            return result.get();
+
+        return defaultGrade;
     }
 }
