@@ -61,4 +61,34 @@ public class Interpolator {
                     - getDiff_b_coefficient(Xn, startIndex + 1, endIndex, sizeDiff - 1)) / (Xn[startIndex].getX() - Xn[endIndex].getX());
         }
     }
+
+    /**
+     * Regresa una interpolacion por el metodo de Lagrange
+     * @param Xn arreglo de puntos con el formato [X0, X1, X2...Xn]
+     * @return
+     */
+    public float getLagrangeInterpolation(XYPoint[] Xn, float valueFor){
+        float product;
+        float denominator;
+        float sum = 0;
+        float aux;
+
+        for (int i = 0; i < Xn.length; i++) {
+
+            product = 1;
+            denominator = 1;
+
+            for (int j = 0; j < Xn.length; j++) {
+                if( j != i) {
+                    product *= (valueFor - Xn[j].getX());
+                    denominator *= (Xn[i].getX() - Xn[j].getX());
+                }
+            }
+
+            aux = product / denominator;
+            sum += aux * Xn[i].getY();
+        }
+
+        return sum;
+    }
 }

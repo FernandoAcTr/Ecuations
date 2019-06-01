@@ -34,7 +34,7 @@ public class MainController implements Initializable, EventHandler<KeyEvent> {
     private JFXComboBox<String> cmbType;
 
     @FXML
-    private Button btnAddRow;
+    private Button btnAddRow, btnChangeGrade;
 
     @FXML
     private SplitPane splitPane;
@@ -48,6 +48,7 @@ public class MainController implements Initializable, EventHandler<KeyEvent> {
     private final int LINEAR_INTERPOLATION = 0;
     private final int SQUARE_INTERPOLATION = 1;
     private final int DIFFERENCE_INTERPOLATION = 2;
+    private final int LAGRANGE_INTERPOLATION = 3;
 
     private ObservableList<XYPoint> listPoints;
     private int currentType = LINEAR_INTERPOLATION;
@@ -69,6 +70,7 @@ public class MainController implements Initializable, EventHandler<KeyEvent> {
         tablePoints.setFocusTraversable(false);
         tableInterpolation.setDisable(true);
         tableInterpolation.setFocusTraversable(false);
+        btnChangeGrade.setVisible(false);
 
         mnuNew.setOnAction(event -> clearAll());
 
@@ -89,7 +91,7 @@ public class MainController implements Initializable, EventHandler<KeyEvent> {
         });
 
         cmbType.getItems().addAll("Interpolación Lineal", "Interpolación Cuadrática",
-                "Interpolación por Diferencias Divididas");
+                "Interpolación por Diferencias Divididas", "Interpolación de Lagrange");
 
         cmbType.valueProperty().addListener((observable, oldValue, newValue) -> {
             tableInterpolation.setDisable(false);
@@ -99,6 +101,13 @@ public class MainController implements Initializable, EventHandler<KeyEvent> {
 
         btnAddRow.setOnAction(event -> addInterpolationRow());
 
+        btnChangeGrade.setOnAction(e ->{
+            grade = showDialogGrade(3);
+            generateRows(grade+1);
+            tableInterpolation.getItems().clear();
+            addInterpolationRow();
+        });
+
         addTablePointsColumns();
         addTableInterpolColumns();
         addInterpolationRow();
@@ -107,7 +116,7 @@ public class MainController implements Initializable, EventHandler<KeyEvent> {
     private void addTablePointsColumns() {
 
         TableColumn<XYPoint, TextField> columnX = new TableColumn<>("X");
-        TableColumn<XYPoint, TextField> columnY = new TableColumn<>("Y");
+        TableColumn<XYPoint, TextField> columnY = new TableColumn<>("f(x)");
 
         columnX.setCellValueFactory(new PropertyValueFactory<>("txtPointX"));
         columnY.setCellValueFactory(new PropertyValueFactory<>("txtPointY"));
@@ -161,16 +170,26 @@ public class MainController implements Initializable, EventHandler<KeyEvent> {
             case LINEAR_INTERPOLATION:
                 currentType = LINEAR_INTERPOLATION;
                 generateRows(2);
+                btnChangeGrade.setVisible(false);
                 break;
 
             case SQUARE_INTERPOLATION:
                 currentType = SQUARE_INTERPOLATION;
                 generateRows(3);
+                btnChangeGrade.setVisible(false);
                 break;
 
             case DIFFERENCE_INTERPOLATION:
                 currentType = DIFFERENCE_INTERPOLATION;
                 grade = showDialogGrade(3);
+                generateRows(grade+1);
+                btnChangeGrade.setVisible(true);
+                break;
+
+            case LAGRANGE_INTERPOLATION:
+                currentType = LAGRANGE_INTERPOLATION;
+                grade = showDialogGrade(3);
+                btnChangeGrade.setVisible(true);
                 generateRows(grade+1);
         }
 
@@ -199,7 +218,7 @@ public class MainController implements Initializable, EventHandler<KeyEvent> {
         final Spinner<Integer> spinner = new Spinner();
         final ButtonType buttonOk = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
 
-        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 10));
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE));
         spinner.getValueFactory().setValue(defaultGrade);
         dialog.getDialogPane().setContent(spinner);
         dialog.getDialogPane().getButtonTypes().addAll(buttonOk, ButtonType.CANCEL);

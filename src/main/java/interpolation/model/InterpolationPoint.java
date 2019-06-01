@@ -18,6 +18,7 @@ public class InterpolationPoint implements EventHandler<KeyEvent> {
     private final int LINEAR_INTERPOLATION = 0;
     private final int SQUARE_INTERPOLATION = 1;
     private final int DIFFERENCE_INTERPOLATION = 2;
+    private final int LAGRANGE_INTERPOLATION = 3;
 
     private int index, typeInterpolation, grade;
     private float x, y;
@@ -87,6 +88,15 @@ public class InterpolationPoint implements EventHandler<KeyEvent> {
                         points[i] = listPoints.get(j);
 
                     v = interpolator.getDiffInterpolation(points, grade, Float.valueOf(txtValueFor.getText()));
+                    txtInterpolation.setText(MyUtils.format(v));
+                    break;
+
+                case LAGRANGE_INTERPOLATION:
+                    XYPoint[] points2 = new XYPoint[listPoints.size()];
+                    for (int i = 0; i < listPoints.size(); i++)
+                        points2[i] = listPoints.get(i);
+
+                    v = interpolator.getLagrangeInterpolation(points2, Float.valueOf(txtValueFor.getText()));
                     txtInterpolation.setText(MyUtils.format(v));
             }
         }

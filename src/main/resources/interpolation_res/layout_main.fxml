@@ -49,6 +49,7 @@
                         <MaterialIconView glyphName="ADD" size="25" />
                      </graphic>
                   </Button>
+                  <Button fx:id="btnChangeGrade" mnemonicParsing="false" text="Cambiar Grado" />
                </children>
             </HBox>
             <BorderPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
